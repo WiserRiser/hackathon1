@@ -207,6 +207,7 @@ const Home: NextPage = () => {
               id="depositAmount"
               name="depositAmount"
               value={deposit}
+              min={0}
               onChange={e => setDeposit(e.target.value)}
             />
           </p>

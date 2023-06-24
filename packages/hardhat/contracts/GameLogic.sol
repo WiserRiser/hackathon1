@@ -60,6 +60,8 @@ contract GameLogic is AccessControl {
     function verifyUserWorldcoinOrb(
         address user
     ) public {
+        //requrire(tx comes from user)
+        //require(Worldcoin claims personhood via orb)
         _setUserVerification(user, 0);
     }
     //Could combine immediately preceding & following functions
@@ -68,12 +70,16 @@ contract GameLogic is AccessControl {
     function verifyUserWorldcoinPhone(
         address user
     ) public {
+        //requrire(tx comes from user)
+        //require(Worldcoin claims personhood via phone)
         _setUserVerification(user, 1);
     }
 
     function verifyUserSismo(
         address user
     ) public {
+        //requrire(tx comes from user)
+        //require(Sismo claims personhood)
         _setUserVerification(user, 2);
     }
 
@@ -81,6 +87,8 @@ contract GameLogic is AccessControl {
         address user,
         uint8 minAge //should be 13 or 18
     ) public {
+        //requrire(tx comes from user)
+        //require(Polygon claims user has over minimum age)
         //TODO: Call Polygon ID on-chain verification for the specified minimum age.
         //Revert/don't reach the below code if that fails.
         if(minAge >= 18) {

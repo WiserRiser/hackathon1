@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { NextPage } from "next";
-import { BugAntIcon, MagnifyingGlassIcon, SparklesIcon, UserGroupIcon } from "@heroicons/react/24/outline";
+import { MagnifyingGlassIcon, PencilSquareIcon, SparklesIcon, UserGroupIcon } from "@heroicons/react/24/outline";
 import { MetaHeader } from "~~/components/MetaHeader";
 import WorldID from "~~/components/WorldID";
 
@@ -16,12 +16,10 @@ const Home: NextPage = () => {
             <span className="block text-4xl font-bold">WiserRiser</span>
           </h1>
           <p className="text-center text-lg">
-            This file is <code className="italic bg-base-300 text-base font-bold">packages/nextjs/pages/index.tsx</code>
+            A hackathon project seeking to scale up community-building moderators&apos; efforts!
           </p>
-          <p className="text-center text-lg">
-            The default master smart contract is{" "}
-            <code className="italic bg-base-300 text-base font-bold">YourContract.sol</code> in{" "}
-            <code className="italic bg-base-300 text-base font-bold">packages/hardhat/contracts</code>
+          <p className="text-center text-lg" style={{ fontStyle: "italic" }}>
+            This is a hackathon project which has not reached maturity for further use.
           </p>
         </div>
 
@@ -36,13 +34,11 @@ const Home: NextPage = () => {
               </p>
             </div>
             <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
-              <BugAntIcon className="h-8 w-8 fill-secondary" />
+              <PencilSquareIcon className="h-8 w-8 fill-secondary" />
               <p>
-                Tinker with your smart contract using the{" "}
-                <Link href="/debug" passHref className="link">
-                  Debug Contract
+                <Link href="/addPost" passHref className="link">
+                  Add a post to an existing community here.
                 </Link>{" "}
-                tab.
               </p>
             </div>
             <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
@@ -58,11 +54,9 @@ const Home: NextPage = () => {
             <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
               <MagnifyingGlassIcon className="h-8 w-8 fill-secondary" />
               <p>
-                Explore your local transactions with the{" "}
-                <Link href="/blockexplorer" passHref className="link">
-                  Block Explorer
+                <Link href="/posts" passHref className="link">
+                  View and vote on an individual post here.
                 </Link>{" "}
-                tab.
               </p>
             </div>
           </div>

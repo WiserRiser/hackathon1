@@ -37,8 +37,12 @@
     "usehooks-ts@^2.7.2": "patch:usehooks-ts@npm:^2.7.2#./.yarn/patches/usehooks-ts-npm-2.7.2-fceffe0e43.patch"
   },
   "dependencies": {
+<<<<<<< HEAD
     "@gelatonetwork/relay-sdk": "^4.0.0",
     "viem": "^1.1.6",
     "wagmi": "^1.2.1"
+=======
+    "ipfs-http-client": "^60.0.1"
+>>>>>>> 290f5a99ce20ebc14f191b2fc7c6d2b9bb491a78
   }
 }

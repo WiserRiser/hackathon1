@@ -24,8 +24,8 @@ contract GameLogic is AccessControl {
 
     function createPost(string memory uri) public {
         // TODO capture nft address here
-        //postAddress[msg.sender] = 
-        PostToken.safeMint(address(this), uri);
+        //postAddress[msg.sender] =
+        //PostToken.safeMint(address(this), uri);
     }
 
     function vote(address _postAddress, int8 votes) public {

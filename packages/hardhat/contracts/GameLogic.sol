@@ -6,6 +6,9 @@ import "./VoteToken.sol";
 import "./PostToken.sol";
 
 contract GameLogic is AccessControl {
+    struct User {
+        uint256 verifications;
+    }
     address public communityTokenAddress;
     address public postTokenAddress;
     address public voteTokenAddress;
@@ -27,7 +30,7 @@ contract GameLogic is AccessControl {
     //but the bitshifting operation produces uint256 in the Solidity compiler
     //so using uint256 at least for now to satisify typechecking,
     //which also gives plenty of room for expansion around how much verification info we store.
-    mapping (address => uint256) public verifications;
+    mapping (address => User) public users;
 
     constructor(address _CommunityToken, address _VoteToken, address _PostToken) {
         _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
@@ -86,7 +89,7 @@ contract GameLogic is AccessControl {
         address user,
         uint8 bit
     ) private {
-        verifications[user] |= (1 << bit);
+        users[user].verifications |= (1 << bit);
     }
 
     function createPost(string memory uri) public {

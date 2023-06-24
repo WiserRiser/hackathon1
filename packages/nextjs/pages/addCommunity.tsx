@@ -7,6 +7,11 @@ import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 
 const Home: NextPage = () => {
   const [newCommunityName, setNewCommunityName] = useState("");
+  const [mod1, setMod1] = useState("");
+  const [mod2, setMod2] = useState("");
+  const [mod3, setMod3] = useState("");
+  const [mod4, setMod4] = useState("");
+  const [mod5, setMod5] = useState("");
 
   const { writeAsync, isLoading } = useScaffoldContractWrite({
     //TODO: Expand to use other parameters, create the multisig that owns the community ERC721,
@@ -64,6 +69,8 @@ const Home: NextPage = () => {
               type="text"
               id="mod1"
               name="mod1"
+              value={mod1}
+              onChange={e => setMod1(e.target.value)}
             />
           </p>
           <p>
@@ -72,6 +79,8 @@ const Home: NextPage = () => {
               type="text"
               id="mod2"
               name="mod2"
+              value={mod2}
+              onChange={e => setMod2(e.target.value)}
             />
           </p>
           <p>
@@ -80,6 +89,8 @@ const Home: NextPage = () => {
               type="text"
               id="mod3"
               name="mod3"
+              value={mod3}
+              onChange={e => setMod3(e.target.value)}
             />
           </p>
           <p>
@@ -88,6 +99,8 @@ const Home: NextPage = () => {
               type="text"
               id="mod4"
               name="mod4"
+              value={mod4}
+              onChange={e => setMod4(e.target.value)}
             />
           </p>
           <p>
@@ -96,6 +109,8 @@ const Home: NextPage = () => {
               type="text"
               id="mod5"
               name="mod5"
+              value={mod5}
+              onChange={e => setMod5(e.target.value)}
             />
           </p>
           <p>

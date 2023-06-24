@@ -40,7 +40,11 @@ contract GameLogic is AccessControl {
     //which also gives plenty of room for expansion around how much verification info we store.
     mapping (address => User) public users;
 
-    constructor(address _CommunityToken, address _VoteToken, address _PostToken) {
+    constructor(
+        address _CommunityToken,
+        address _VoteToken,
+        address _PostToken
+    ) {
         _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
         communityTokenAddress = _CommunityToken;
         postTokenAddress = _PostToken;

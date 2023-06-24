@@ -18,6 +18,7 @@ const Home: NextPage = () => {
   const [rules, setRules] = useState("");
   const [restrictPostingChecked, setRestrictPostingChecked] = useState<boolean>(false);
   const [restrictVotingChecked, setRestrictVotingChecked] = useState<boolean>(false);
+  const [sponsorPosts, setSponsorPosts] = useState<boolean>(false);
   const [gateAddress, setGateAddress] = useState("");
   const [deposit, setDeposit] = useState("1");
 
@@ -201,6 +202,15 @@ const Home: NextPage = () => {
               value={gateAddress}
               onChange={e => setGateAddress(e.target.value)}
             />
+          </p>
+          <p>
+          <input
+            type='checkbox'
+            id='sponsorPosts'
+            name='sponsorPosts'
+            checked={sponsorPosts}
+            onChange={e => setSponsorPosts(e.target.checked)}
+          />{" Sponsor post and comment creation in this community."}
           </p>
           <p>
             {"Network: "}

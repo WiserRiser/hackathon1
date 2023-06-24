@@ -22,10 +22,14 @@ const Home: NextPage = () => {
   });
 
   const submitForm = async function () {
-    //TODO: If the text type is selected, store that in IPFS and convert to IPFS type.
     //TODO: Expand to use other parameters, have the game logic contract mint the ERC721 for the post,
     //and have it transfer that to the parent post or community.
     //Also transfer any associated value to the parent post or community- maybe only with value tokens?
+    let localType = postType;
+    if(localType === 'text') {
+      //TODO: Post to ipfs & get IPFS identifier
+      localType = 'ipfs';
+    }
     if(gameLogicContract === null) {
       throw new Error('gameLogicContract is unexpectedly null.');
     }

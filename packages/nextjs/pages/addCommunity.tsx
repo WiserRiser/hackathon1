@@ -44,7 +44,7 @@ const Home: NextPage = () => {
           multisig which owns the community NFT.
           <p>The group can add/remove members later.</p>
           <p>
-            {" Site: "}
+            {" Site: " /*TODO: Make this a drop-down selectlist from set of available sites*/}
             <input type="radio" id="siteBetterReddit" name="site" value="betterReddit" /> {" Better Reddit "}
             <input type="radio" id="siteGitcoin" name="site" value="gitcoin" /> {" Gitcoin Grants "}
             <input type="radio" id="sitePix" name="site" value="pix" /> {" MegaPixels Photography "}

@@ -3,7 +3,7 @@ import { useState } from "react";
 import type { NextPage } from "next";
 import { ArrowSmallRightIcon } from "@heroicons/react/24/outline";
 import { MetaHeader } from "~~/components/MetaHeader";
-import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
+import { useScaffoldContract } from "~~/hooks/scaffold-eth";
 type POST_TYPE = 'uri' | 'ipfs' | 'text';
 const Home: NextPage = () => {
   const [communityName, setCommunityName] = useState("");
@@ -12,36 +12,20 @@ const Home: NextPage = () => {
   const [postIPFS, setPostIPFS] = useState("");
   const [postText, setPostText] = useState("");
   const [postedValue, setPostedValue] = useState("0");
+  const gameLogicContract = useScaffoldContract({
+    contractName: "YourContract",
+  }).data;
+  const isLoading = false; // TODO
 
-  const { writeAsync, isLoading } = useScaffoldContractWrite({
+  const submitForm = async function () {
     //TODO: If the text type is selected, store that in IPFS and convert to IPFS type.
     //TODO: Expand to use other parameters, have the game logic contract mint the ERC721 for the post,
     //and have it transfer that to the parent post or community.
     //Also transfer any associated value to the parent post or community- maybe only with value tokens?
-    contractName: "YourContract",
-    functionName: "setGreeting", //"createCommunity"
-    args: [
-      postURI
-      /*
-        network,
-        site,
-        newCommunityName,
-        rules,
-        mod1,
-        mod2,
-        mod3,
-        mod4,
-        mod5
-      */
-    ],
-    value: postedValue,
-    onBlockConfirmation: txnReceipt => {
-      console.log("📦 Transaction blockHash", txnReceipt.blockHash);
-    },
-  });
-
-  const submitForm = async function () {
-    writeAsync();
+    if(gameLogicContract === null) {
+      throw new Error('gameLogicContract is unexpectedly null.');
+    }
+    gameLogicContract.setGreeting(postURI).value(postedValue);
   };
 
   return (

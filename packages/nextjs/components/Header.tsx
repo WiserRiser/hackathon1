@@ -2,7 +2,14 @@ import React, { useCallback, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { Bars3Icon, BugAntIcon, MagnifyingGlassIcon, SparklesIcon } from "@heroicons/react/24/outline";
+import {
+  Bars3Icon,
+  BugAntIcon,
+  MagnifyingGlassIcon,
+  PencilSquareIcon,
+  UserGroupIcon,
+  UserIcon,
+} from "@heroicons/react/24/outline";
 import { FaucetButton, RainbowKitCustomConnectButton } from "~~/components/scaffold-eth";
 import { useOutsideClick } from "~~/hooks/scaffold-eth";
 
@@ -40,15 +47,33 @@ export const Header = () => {
         <NavLink href="/">Home</NavLink>
       </li>
       <li>
-        <NavLink href="/debug">
-          <BugAntIcon className="h-4 w-4" />
-          Debug Contracts
+        <NavLink href="/onboarding">
+          <UserIcon className="h-4 w-4" />
+          Sign up
         </NavLink>
       </li>
       <li>
-        <NavLink href="/example-ui">
-          <SparklesIcon className="h-4 w-4" />
-          Example UI
+        <NavLink href="/addCommunity">
+          <UserGroupIcon className="h-4 w-4" />
+          Add community
+        </NavLink>
+      </li>
+      <li>
+        <NavLink href="/addPost">
+          <PencilSquareIcon className="h-4 w-4" />
+          Add post
+        </NavLink>
+      </li>
+      <li>
+        <NavLink href="/posts">
+          <MagnifyingGlassIcon className="h-4 w-4" />
+          View one post
+        </NavLink>
+      </li>
+      <li>
+        <NavLink href="/debug">
+          <BugAntIcon className="h-4 w-4" />
+          Debug Contracts
         </NavLink>
       </li>
       <li>
@@ -87,7 +112,13 @@ export const Header = () => {
         </div>
         <Link href="/" passHref className="hidden lg:flex items-center gap-2 ml-4 mr-6">
           <div className="flex relative w-10 h-10">
-            <Image alt="WiserRiser logo" className="cursor-pointer" fill src="/logo1padded.png" style={{borderRadius: "15%" }} />
+            <Image
+              alt="WiserRiser logo"
+              className="cursor-pointer"
+              fill
+              src="/logo1padded.png"
+              style={{ borderRadius: "15%" }}
+            />
           </div>
           <div className="flex flex-col">
             <span className="font-bold leading-tight">WiserRiser</span>

@@ -6,10 +6,10 @@ const Onboarding = () => {
     <div className="relative  z-10 -mx-4 bg-[radial-gradient(164.75%_100%_at_50%_0%,#334155_0%,#0F172A_48.73%)] px-5 py-10 shadow-lg sm:mx-0 sm:rounded-2xl sm:px-10 max-w-2xl ">
       <h1 className="w-full text-center font-semibold text-2xl">Moderation Onboarding</h1>
       {/* Unique Person */}
-      <h2 className="text-lg">Prove you're a unique person.</h2>
+      <h2 className="text-lg">Prove you&apos;re a unique person.</h2>
       <p className="opacity-20 pb-6 border-b-4 border-indigo-500 text-sm">
-        We only want real human's to vote, this step helps create an equitable market! If you don't have an account, you
-        can select a providers and create one now.
+        We only want real humans to vote, this step helps create an equitable market! If you don&apos;t have an account, you
+        can select a provider and create one now.
       </p>
       <div className="flex w-full justify-center">
         <PersonhoodVerifications />

@@ -6,6 +6,7 @@ import "./VoteToken.sol";
 import "./PostToken.sol";
 
 contract GameLogic is AccessControl {
+    address public communityTokenAddress;
     address public postTokenAddress;
     address public voteTokenAddress;
     // upvote post address => (user address, count)
@@ -16,8 +17,9 @@ contract GameLogic is AccessControl {
     // user address => nft address
     mapping (address => address) public postAddress;
 
-    constructor(address _VoteToken, address _PostToken) {
+    constructor(address _CommunityToken, address _VoteToken, address _PostToken) {
         _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
+        communityTokenAddress = _CommunityToken;
         postTokenAddress = _PostToken;
         voteTokenAddress = _VoteToken;
     }

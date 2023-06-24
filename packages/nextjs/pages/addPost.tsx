@@ -4,6 +4,9 @@ import type { NextPage } from "next";
 import { ArrowSmallRightIcon } from "@heroicons/react/24/outline";
 import { MetaHeader } from "~~/components/MetaHeader";
 import { useScaffoldContract } from "~~/hooks/scaffold-eth";
+import { Signer } from "ethers";
+import { useSigner } from "wagmi";
+
 type POST_TYPE = 'uri' | 'ipfs' | 'text';
 const Home: NextPage = () => {
   const [communityName, setCommunityName] = useState("");
@@ -12,10 +15,11 @@ const Home: NextPage = () => {
   const [postIPFS, setPostIPFS] = useState("");
   const [postText, setPostText] = useState("");
   const [postedValue, setPostedValue] = useState("0");
-  const gameLogicContract = useScaffoldContract({
+  const { data: signer, /*isError,*/ isLoading } = useSigner();
+  const { data: gameLogicContract} = useScaffoldContract({
     contractName: "YourContract",
-  }).data;
-  const isLoading = false; // TODO
+    signerOrProvider: signer as Signer,
+  });
 
   const submitForm = async function () {
     //TODO: If the text type is selected, store that in IPFS and convert to IPFS type.

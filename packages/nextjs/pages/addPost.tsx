@@ -6,6 +6,7 @@ import { MetaHeader } from "~~/components/MetaHeader";
 import { useScaffoldContract } from "~~/hooks/scaffold-eth";
 import { Signer } from "ethers";
 import { useSigner } from "wagmi";
+import ipfsClient from 'ipfs-http-client';
 
 type POST_TYPE = 'uri' | 'ipfs' | 'text';
 const Home: NextPage = () => {
@@ -29,12 +30,11 @@ const Home: NextPage = () => {
     let localType = postType;
     if(localType === 'text') {
       //TODO: Post to ipfs & get IPFS identifier
-    const ipfsClient = require('ipfs-http-client');
     const ipfs = ipfsClient({ host: 'ipfs.infura.io', port: '5001', protocol: 'https' });
 
     const { cid } = await ipfs.add(postText);
     const postCid = cid.toString();
-      
+    console.log('post CID: ' + postCid);
     localType = 'ipfs';
     }
     if(gameLogicContract === null) {

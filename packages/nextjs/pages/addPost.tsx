@@ -34,7 +34,7 @@ const Home: NextPage = () => {
 
     const { cid } = await ipfs.add(postText);
     const postCid = cid.toString();
-      
+    console.log('post CID: ' + postCid);
     localType = 'ipfs';
     }
     if(gameLogicContract === null) {

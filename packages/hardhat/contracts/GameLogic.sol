@@ -13,6 +13,8 @@ contract GameLogic is AccessControl {
     }
 
     event VerificationCompleted(address user, uint8 bit);
+    event DefaultVoteWeightChanged(address user, uint8 defaultVoteWeight);
+    event DonationDefaultSet(address user, bool donatesByDefaultNow);
 
     address public communityTokenAddress;
     address public postTokenAddress;
@@ -104,6 +106,24 @@ contract GameLogic is AccessControl {
     ) private {
         emit VerificationCompleted(user, bit);
         users[user].verifications |= (1 << bit);
+    }
+
+    function setUserDefaultVoteWeight(
+        address user,
+        uint8 defaultVoteWeight
+    ) public {
+        //requrire(tx comes from user)
+        emit DefaultVoteWeightChanged(user, defaultVoteWeight);
+        users[user].defaultVoteWeight = defaultVoteWeight;
+    }
+
+    function setUserDefaultDonate(
+        address user,
+        bool donateWinningsByDefault
+    ) public {
+        //requrire(tx comes from user)
+        emit DonationDefaultSet(user, donateWinningsByDefault);
+        users[user].donateWinningsByDefault = donateWinningsByDefault;
     }
 
     function createPost(string memory uri) public {

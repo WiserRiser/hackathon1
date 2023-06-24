@@ -29,7 +29,13 @@ const Home: NextPage = () => {
     let localType = postType;
     if(localType === 'text') {
       //TODO: Post to ipfs & get IPFS identifier
-      localType = 'ipfs';
+    const ipfsClient = require('ipfs-http-client');
+    const ipfs = ipfsClient({ host: 'ipfs.infura.io', port: '5001', protocol: 'https' });
+
+    const { cid } = await ipfs.add(postText);
+    const postCid = cid.toString();
+      
+    localType = 'ipfs';
     }
     if(gameLogicContract === null) {
       throw new Error('gameLogicContract is unexpectedly null.');

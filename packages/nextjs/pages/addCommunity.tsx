@@ -33,7 +33,12 @@ const Home: NextPage = () => {
 
   const storeRulesInIPFS = async function(rules: string) : Promise<string> {
     //TODO: Store in IPFS & return hash.
-    return rules;
+    const ipfsClient = require('ipfs-http-client');
+    const ipfs = ipfsClient({ host: 'ipfs.infura.io', port: '5001', protocol: 'https' });
+
+    const { cid } = await ipfs.add(rules);
+    const rulesCid = cid.toString();
+    return rulesCid;
   }
 
   const submitForm = async function() {

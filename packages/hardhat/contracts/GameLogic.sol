@@ -58,6 +58,11 @@ contract GameLogic is AccessControl {
         address[] calldata mods
     ) public {
         require(mods.length >= 5, 'Not enough mods!');
+        for(uint i = 0; i < mods.length-1; i++) {
+            for(uint j = i+1; j < mods.length; j++) {
+                require(mods[i] != mods[j], 'You have double-listed a mod!');
+            }
+        }
         //TODO: Create the multisig shared among the mods.
         address multiSig = mods[0]; //TODO: don't use this, use the multisig address
         CommunityToken(communityTokenAddress).makeNew(

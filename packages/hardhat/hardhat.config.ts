@@ -46,6 +46,12 @@ const config: HardhatUserConfig = {
       url: `https://eth-mainnet.alchemyapi.io/v2/${providerApiKey}`,
       accounts: [deployerPrivateKey],
     },
+    linea: {
+      url: `https://linea-goerli.infura.io/v3/${providerApiKey}`,
+      accounts: [deployerPrivateKey],
+      //provider: `https://linea-goerli.infura.io/v3/${process.env.INFURA_PROJECT_ID}`,
+      // network_id: 59140
+    },
     sepolia: {
       url: `https://eth-sepolia.g.alchemy.com/v2/${providerApiKey}`,
       accounts: [deployerPrivateKey],

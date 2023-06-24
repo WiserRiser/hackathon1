@@ -44,6 +44,12 @@ const Home: NextPage = () => {
           multisig which owns the community NFT.
           <p>The group can add/remove members later.</p>
           <p>
+            {" Site: " /*TODO: Make this a drop-down selectlist from set of available sites*/}
+            <input type="radio" id="siteBetterReddit" name="site" value="betterReddit" /> {" Better Reddit "}
+            <input type="radio" id="siteGitcoin" name="site" value="gitcoin" /> {" Gitcoin Grants "}
+            <input type="radio" id="sitePix" name="site" value="pix" /> {" MegaPixels Photography "}
+          </p>
+          <p>
             Community name:{" "}
             <input
               type="text"
@@ -73,8 +79,10 @@ const Home: NextPage = () => {
             <textarea rows={7} cols={100} id="rules" name="rules" />
           </p>
           <p>
-            Network: <input type="radio" id="networkGnosis" name="network" value="gnosis" /> Gnosis{" "}
+            {"Network: "}
+            <input type="radio" id="networkGnosis" name="network" value="gnosis" /> Gnosis{" "}
             <input type="radio" id="networkPolygon" name="network" value="polygon" /> Polygon{" "}
+            <input type="radio" id="networkLinea" name="network" value="linea" /> Linea{" "}
           </p>
           <p>
             Deposit amount (xDAI/MATIC) <input type="text" id="depositAmount" name="depositAmount" />

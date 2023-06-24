@@ -31,6 +31,9 @@ contract GameLogic is AccessControl {
     function vote(address _postAddress, int8 votes) public {
         int8 currentUpVoteCount = upVoteMap[_postAddress][msg.sender];
         int8 currentDownVoteCount = downVoteMap[_postAddress][msg.sender];
+        int8 netCurrentVotes = currentUpVoteCount - currentDownVoteCount;
+        int8 amountCurrentTxAdds = votes - netCurrentVotes;
+        //TODO: Adjust balances per amountCurrentTxAdds.
         if (votes < 0) {
             downVoteMap[_postAddress][msg.sender] = currentDownVoteCount + uint256(-votes);
         } else if (votes > 0) {

@@ -1,6 +1,6 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useDisconnect, useSwitchNetwork } from "wagmi";
-import { ChevronDownIcon } from "@heroicons/react/24/solid";
+import { ArrowLeftOnRectangleIcon, ArrowsRightLeftIcon, ChevronDownIcon } from "@heroicons/react/24/solid";
 import { Balance, BlockieAvatar } from "~~/components/scaffold-eth";
 import { useAutoConnect, useNetworkColor } from "~~/hooks/scaffold-eth";
 import { getTargetNetwork } from "~~/utils/scaffold-eth";

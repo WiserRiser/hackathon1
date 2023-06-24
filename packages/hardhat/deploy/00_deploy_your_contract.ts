@@ -31,6 +31,41 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
     autoMine: true,
   });
 
+  const deployedVoteToken = await deploy("VoteToken", {
+    from: deployer,
+    // Contract constructor arguments
+    args: [42000000], //42MM total supply
+    log: true,
+    // autoMine: can be passed to the deploy function to make the deployment process faster on local networks by
+    // automatically mining the contract deployment transaction. There is no effect on live networks.
+    autoMine: true,
+  });
+
+  const deployedPostToken = await deploy("PostToken", {
+    from: deployer,
+    // Contract constructor arguments
+    args: [],
+    log: true,
+    // autoMine: can be passed to the deploy function to make the deployment process faster on local networks by
+    // automatically mining the contract deployment transaction. There is no effect on live networks.
+    autoMine: true,
+  });
+  //TODO: Make these inputs into game logic deployer
+  console.log('deployed vote token at' + deployedVoteToken.address + ' and post token at ' + deployedPostToken.address);
+/*
+  const deployedGameLogic = await deploy("GameLogic", {
+    from: deployer,
+    // Contract constructor arguments
+    args: [
+      deployedVoteToken.address,
+      deployedPostToken.address
+    ],
+    log: true,
+    // autoMine: can be passed to the deploy function to make the deployment process faster on local networks by
+    // automatically mining the contract deployment transaction. There is no effect on live networks.
+    autoMine: true,
+  });
+*/
   // Get the deployed contract
   // const yourContract = await hre.ethers.getContract("YourContract", deployer);
 };

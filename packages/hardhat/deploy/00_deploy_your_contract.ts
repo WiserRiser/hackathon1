@@ -50,9 +50,7 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
     // automatically mining the contract deployment transaction. There is no effect on live networks.
     autoMine: true,
   });
-  //TODO: Make these inputs into game logic deployer
-  console.log('deployed vote token at' + deployedVoteToken.address + ' and post token at ' + deployedPostToken.address);
-/* Uncomment after GameLogic exists
+
   const deployedGameLogic = await deploy("GameLogic", {
     from: deployer,
     // Contract constructor arguments
@@ -69,7 +67,6 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
   await voteToken.transferOwnership(deployedGameLogic.address);
   const postToken = await hre.ethers.getContractAt(deployedPostToken.abi, deployedPostToken.address, deployer);
   await postToken.transferOwnership(deployedGameLogic.address);
-*/
   // Get the deployed contract
   // const yourContract = await hre.ethers.getContract("YourContract", deployer);
 };

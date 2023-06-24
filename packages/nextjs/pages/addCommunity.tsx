@@ -58,6 +58,7 @@ const Home: NextPage = () => {
           <p>
             Community name:{" "}
             <input
+              style={{ color: "black" }}
               type="text"
               id="communityName"
               name="communityName"
@@ -67,6 +68,7 @@ const Home: NextPage = () => {
           <p>
             Mod team member 1:{" "}
             <input
+              style={{ color: "black" }}
               type="text"
               id="mod1"
               name="mod1"
@@ -77,6 +79,7 @@ const Home: NextPage = () => {
           <p>
             Mod team member 2:{" "}
             <input
+              style={{ color: "black" }}
               type="text"
               id="mod2"
               name="mod2"
@@ -87,6 +90,7 @@ const Home: NextPage = () => {
           <p>
             Mod team member 3:{" "}
             <input
+              style={{ color: "black" }}
               type="text"
               id="mod3"
               name="mod3"
@@ -97,6 +101,7 @@ const Home: NextPage = () => {
           <p>
             Mod team member 4:{" "}
             <input
+              style={{ color: "black" }}
               type="text"
               id="mod4"
               name="mod4"
@@ -107,6 +112,7 @@ const Home: NextPage = () => {
           <p>
             Mod team member 5:{" "}
             <input
+              style={{ color: "black" }}
               type="text"
               id="mod5"
               name="mod5"
@@ -117,7 +123,13 @@ const Home: NextPage = () => {
           <p>
             Community rules (markdown likely to be supported):
             <br />
-            <textarea rows={7} cols={100} id="rules" name="rules" />
+            <textarea
+              rows={7}
+              cols={100}
+              id="rules"
+              name="rules"
+              style={{ color: "black" }}
+          />
           </p>
           <p>
             {"Network: "}
@@ -128,6 +140,7 @@ const Home: NextPage = () => {
           <p>
             Deposit amount (xDAI/MATIC): {" "}
             <input
+              style={{ color: "black" }}
               type="number"
               id="depositAmount"
               name="depositAmount"

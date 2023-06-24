@@ -4,7 +4,7 @@ import type { NextPage } from "next";
 import { ArrowSmallRightIcon } from "@heroicons/react/24/outline";
 import { MetaHeader } from "~~/components/MetaHeader";
 import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
-type SITE = 'betterReddit' | 'gitcoin' | 'pix';
+type SITE = 'betterReddit' | 'qf' | 'pix';
 type NETWORK = 'gnosis' | 'polygon' | 'linea';
 const Home: NextPage = () => {
   const [site, setSite] = useState<SITE>("betterReddit");
@@ -78,12 +78,12 @@ const Home: NextPage = () => {
             /> {" Better Reddit "}
             <input
               type="radio"
-              id="siteGitcoin"
+              id="siteQF"
               name="site"
-              value="gitcoin"
-              checked={site === 'gitcoin'}
-              onChange={() => setSite('gitcoin')}
-            /> {" Gitcoin Grants "}
+              value="qf"
+              checked={site === 'qf'}
+              onChange={() => setSite('qf')}
+            /> {" Quadratic Funding Friends "}
             <input
               type="radio"
               id="sitePix"

@@ -16,6 +16,9 @@ const Home: NextPage = () => {
   const [mod4, setMod4] = useState("");
   const [mod5, setMod5] = useState("");
   const [rules, setRules] = useState("");
+  const [restrictPostingChecked, setRestrictPostingChecked] = useState<boolean>(false);
+  const [restrictVotingChecked, setRestrictVotingChecked] = useState<boolean>(false);
+  const [gateAddress, setGateAddress] = useState("");
   const [deposit, setDeposit] = useState("1");
 
   const { writeAsync, isLoading } = useScaffoldContractWrite({
@@ -173,6 +176,31 @@ const Home: NextPage = () => {
               onChange={e => setRules(e.target.value)}
               style={{ color: "black" }}
           />
+          </p>
+          <p>
+          {"Restrict "}
+          <input
+            type='checkbox'
+            id='restrictPosting'
+            name='restrictPosting'
+            checked={restrictPostingChecked}
+            onChange={e => setRestrictPostingChecked(e.target.checked)}
+          /> {" posting and/or "}
+          <input
+            type='checkbox'
+            id='restrictVoting'
+            name='restrictVoting'
+            checked={restrictVotingChecked}
+            onChange={e => setRestrictVotingChecked(e.target.checked)}
+          />{" voting to holders of tokens in this contract:  "}
+            <input
+              style={{ color: "black", width: "30em" }}
+              type="text"
+              id="gateAddress"
+              name="gateAddress"
+              value={gateAddress}
+              onChange={e => setGateAddress(e.target.value)}
+            />
           </p>
           <p>
             {"Network: "}

@@ -12,6 +12,7 @@ const Home: NextPage = () => {
   const [mod3, setMod3] = useState("");
   const [mod4, setMod4] = useState("");
   const [mod5, setMod5] = useState("");
+  const [rules, setRules] = useState("");
   const [deposit, setDeposit] = useState("1");
 
   const { writeAsync, isLoading } = useScaffoldContractWrite({
@@ -143,6 +144,8 @@ const Home: NextPage = () => {
               cols={100}
               id="rules"
               name="rules"
+              value={rules}
+              onChange={e => setRules(e.target.value)}
               style={{ color: "black" }}
           />
           </p>

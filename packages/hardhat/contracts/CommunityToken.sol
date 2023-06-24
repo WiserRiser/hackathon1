@@ -10,15 +10,48 @@ contract CommunityToken is ERC721, ERC721URIStorage, ERC721Burnable, Ownable {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIdCounter;
 
+    struct Community {
+        uint site;
+        string name;
+        string rules; //IPFS hash
+        bool restrictPosting;
+        bool restrictVoting;
+        bool sponsorPosts;
+        address gateAddress;
+    }
+
+    // The internal ID tracker
+    uint256 private _currentMaxId;
+
+    mapping(uint256 => Community) public details;
+
     constructor() ERC721("CommunityToken", "YUNE") {
         //msg.sender;
     }
 
-    function safeMint(address to, string memory uri) public onlyOwner {
+    function makeNew(
+        address modMultiSig,
+        uint site,
+        string calldata name,
+        string calldata rules, //IPFS hash
+        bool restrictPosting,
+        bool restrictVoting,
+        bool sponsorPosts,
+        address gateAddress
+    ) public onlyOwner {
         uint256 tokenId = _tokenIdCounter.current();
         _tokenIdCounter.increment();
-        _safeMint(to, tokenId);
-        _setTokenURI(tokenId, uri);
+        details[tokenId] = Community(
+            site,
+            name,
+            rules, //IPFS hash
+            restrictPosting,
+            restrictVoting,
+            sponsorPosts,
+            gateAddress
+        );
+        _safeMint(modMultiSig, tokenId);
+        //_setTokenURI(tokenId, uri);
     }
 
     // The following function is an override required by Solidity for ERC721URIStorage.

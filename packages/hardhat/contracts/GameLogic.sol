@@ -2,6 +2,7 @@
 pragma solidity ^0.8.9;
 
 import "@openzeppelin/contracts/access/AccessControl.sol";
+import "./CommunityToken.sol";
 import "./VoteToken.sol";
 import "./PostToken.sol";
 
@@ -48,7 +49,7 @@ contract GameLogic is AccessControl {
 
     function createCommunity(
         uint site,
-        uint name,
+        string calldata name,
         string calldata rules, //IPFS hash
         bool restrictPosting,
         bool restrictVoting,
@@ -56,7 +57,19 @@ contract GameLogic is AccessControl {
         address gateAddress,
         address[] calldata mods
     ) public {
-        //TODO: Mint the ERC721 in the CommunityToken contract and set values.
+        require(mods.length >= 5, 'Not enough mods!');
+        //TODO: Create the multisig shared among the mods.
+        address multiSig = mods[0]; //TODO: don't use this, use the multisig address
+        CommunityToken(communityTokenAddress).makeNew(
+            multiSig,
+            site,
+            name,
+            rules, //IPFS hash
+            restrictPosting,
+            restrictVoting,
+            sponsorPosts,
+            gateAddress
+        );
     }
 
     function verifyUserWorldcoinOrb(

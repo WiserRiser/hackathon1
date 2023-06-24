@@ -24,6 +24,19 @@ contract GameLogic is AccessControl {
         voteTokenAddress = _VoteToken;
     }
 
+    function createCommunity(
+        uint site,
+        uint name,
+        string calldata rules, //IPFS hash
+        bool restrictPosting,
+        bool restrictVoting,
+        bool sponsorPosts,
+        address gateAddress,
+        address[] calldata mods
+    ) public {
+        //TODO: Mint the ERC721 in the CommunityToken contract and set values.
+    }
+
     function createPost(string memory uri) public {
         // TODO capture nft address here
         //postAddress[msg.sender] =

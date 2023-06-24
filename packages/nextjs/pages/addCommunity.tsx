@@ -12,6 +12,7 @@ const Home: NextPage = () => {
   const [mod3, setMod3] = useState("");
   const [mod4, setMod4] = useState("");
   const [mod5, setMod5] = useState("");
+  const [deposit, setDeposit] = useState("1");
 
   const { writeAsync, isLoading } = useScaffoldContractWrite({
     //TODO: Expand to use other parameters, create the multisig that owns the community ERC721,
@@ -125,7 +126,14 @@ const Home: NextPage = () => {
             <input type="radio" id="networkLinea" name="network" value="linea" /> Linea{" "}
           </p>
           <p>
-            Deposit amount (xDAI/MATIC) <input type="text" id="depositAmount" name="depositAmount" />
+            Deposit amount (xDAI/MATIC): {" "}
+            <input
+            type="number"
+            id="depositAmount"
+            name="depositAmount"
+            value={deposit}
+            onChange={e => setDeposit(e.target.value)}
+            />
           </p>
           <button
             className={`btn btn-primary rounded-full capitalize font-normal font-white w-24 flex items-center gap-1 hover:gap-2 transition-all tracking-widest ${

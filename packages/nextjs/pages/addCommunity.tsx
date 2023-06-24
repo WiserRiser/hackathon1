@@ -40,8 +40,9 @@ const Home: NextPage = () => {
           </p>
         </div>
         <div className="flex-grow bg-base-300 w-full mt-16 px-8 py-12">
-          Enter the addresses of the five mod team members here: These will be the co-owners of a Gnosis Safe. The group
-          can add/remove members later.
+          Enter the addresses of the five mod team members here: These will be the co-owners of a Gnosis Safe or similar
+          multisig which owns the community NFT.
+          <p>The group can add/remove members later.</p>
           <p>
             Community name:{" "}
             <input

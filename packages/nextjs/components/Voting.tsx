@@ -27,8 +27,9 @@ const Voting: React.FC<IVoting> = ({ alignment = "col", children }) => {
   const [isDownHovered, setIsDownHovered] = useState(false);
 
   const handleUpvote = () => {
-    if (downvoteBets + upvoteProgress) {
-      setUpvotesClicked(true);
+    upvoteProgress == 0 ? setUpvotesClicked(false) : setUpvotesClicked(true);
+
+    if (downvoteBets + upvoteProgress <= 10) {
       setUpvoteBets(upvoteProgress);
     }
 
@@ -36,8 +37,9 @@ const Voting: React.FC<IVoting> = ({ alignment = "col", children }) => {
   };
 
   const handleDownvote = () => {
+    downvoteProgress == 0 ? setDownvotesClicked(false) : setDownvotesClicked(true);
+
     if (upvoteBets + downvoteProgress <= 10) {
-      setDownvotesClicked(true);
       setDownvoteBets(downvoteProgress);
     }
 
@@ -52,28 +54,37 @@ const Voting: React.FC<IVoting> = ({ alignment = "col", children }) => {
   return (
     <div className="flex flex-row">
       {/* Voting */}
-      <div className={`flex items-center ${alignment == "row" ? "flex-row" : "flex-col"}`}>
+      <div className={`flex relative min-w-[5rem] items-center ${alignment == "row" ? "flex-row" : "flex-col"}`}>
         <div
           className="flex flex-row"
           onMouseEnter={() => setIsUpHovered(true)}
-          onMouseLeave={() => setIsUpHovered(false)}
+          onMouseLeave={() => {
+            setIsUpHovered(false);
+            setUpvoteProgress(upvoteBets);
+          }}
         >
           <div
             className={`flex flex-row ${
-              isUpHovered ? "w-16 py-1 px-2 text-center bg-blue-500 border border-gray-300 rounded-md outline-none" : ""
+              isUpHovered
+                ? "w-16 py-1 px-2 text-center bg-[#6ee7b7] border border-gray-300 rounded-md outline-none -m-2"
+                : ""
             }`}
           >
-            <div className="flex flex-row items-center">
-              <button onClick={handleUpvote}>
+            <div className="relative flex flex-row items-center">
+              <button className={`${isUpHovered ? "hover:scale-[1.15]" : ""}`} onClick={handleUpvote}>
                 <AiOutlineArrowUp size={20} />
               </button>
-              <div className={`text-xs ${upvoteClicked && !isUpHovered ? "" : "hidden"}`}>{upvoteBets}</div>
+              <div className={`text-xs absolute left-6 ${upvoteClicked && !isUpHovered ? "" : "hidden"}`}>
+                {upvoteBets}
+              </div>
             </div>
             <div className={`${isUpHovered ? "" : "hidden"}`}>
               <input
                 type="number"
                 value={upvoteProgress}
                 id="upvote"
+                max={10}
+                min={0}
                 onChange={handleInputChange}
                 className="outline-none bg-inherit w-8"
               />
@@ -82,31 +93,39 @@ const Voting: React.FC<IVoting> = ({ alignment = "col", children }) => {
         </div>
 
         {/* TODO: Add net score parsing here */}
-        <p className="text-sm">NET SCORE: XXXX</p>
+        <p className="text-sm font-semibold">+120</p>
 
+        {/* DOWNVOTE */}
         <div
           className="flex flex-row"
           onMouseEnter={() => setIsDownHovered(true)}
-          onMouseLeave={() => setIsDownHovered(false)}
+          onMouseLeave={() => {
+            setIsDownHovered(false);
+            setDownvoteProgress(downvoteBets);
+          }}
         >
           <div
             className={`flex flex-row ${
               isDownHovered
-                ? "w-16 py-1 px-2 text-center bg-blue-500 border border-gray-300 rounded-md outline-none"
+                ? "w-16 py-1 px-2 text-center bg-[#f87171] border border-gray-300 rounded-md outline-none"
                 : ""
             }`}
           >
-            <div className="flex flex-row items-center">
-              <button onClick={handleDownvote}>
+            <div className="relative flex flex-row items-center">
+              <button className={`${isDownHovered ? "hover:scale-[1.15]" : ""}`} onClick={handleDownvote}>
                 <AiOutlineArrowDown size={20} />
               </button>
-              <div className={`text-xs ${downvoteClicked && !isDownHovered ? "" : "hidden"}`}>{downvoteBets}</div>
+              <div className={`text-xs absolute left-6 ${downvoteClicked && !isDownHovered ? "" : "hidden"}`}>
+                {downvoteBets}
+              </div>
             </div>
             <div className={`${isDownHovered ? "" : "hidden"}`}>
               <input
                 type="number"
                 value={downvoteProgress}
                 id="downvote"
+                max={10}
+                min={0}
                 onChange={handleInputChange}
                 className="outline-none bg-inherit w-8"
               />

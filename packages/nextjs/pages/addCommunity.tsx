@@ -4,9 +4,19 @@ import type { NextPage } from "next";
 import { ArrowSmallRightIcon } from "@heroicons/react/24/outline";
 import { MetaHeader } from "~~/components/MetaHeader";
 import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
-
+type SITE = 'betterReddit' | 'gitcoin' | 'pix';
+type NETWORK = 'gnosis' | 'polygon' | 'linea';
 const Home: NextPage = () => {
+  const [site, setSite] = useState<SITE>("betterReddit");
+  const [network, setNetwork] = useState<NETWORK>("gnosis");
   const [newCommunityName, setNewCommunityName] = useState("");
+  const [mod1, setMod1] = useState("");
+  const [mod2, setMod2] = useState("");
+  const [mod3, setMod3] = useState("");
+  const [mod4, setMod4] = useState("");
+  const [mod5, setMod5] = useState("");
+  const [rules, setRules] = useState("");
+  const [deposit, setDeposit] = useState("1");
 
   const { writeAsync, isLoading } = useScaffoldContractWrite({
     //TODO: Expand to use other parameters, create the multisig that owns the community ERC721,
@@ -14,8 +24,21 @@ const Home: NextPage = () => {
     //ideally in one atomic transaction in our master contract.
     contractName: "YourContract",
     functionName: "setGreeting", //"createCommunity"
-    args: [newCommunityName],
-    value: "0.01",
+    args: [
+      newCommunityName
+      /*
+        network,
+        site,
+        newCommunityName,
+        rules,
+        mod1,
+        mod2,
+        mod3,
+        mod4,
+        mod5
+      */
+    ],
+    value: deposit,
     onBlockConfirmation: txnReceipt => {
       console.log("📦 Transaction blockHash", txnReceipt.blockHash);
     },
@@ -45,13 +68,35 @@ const Home: NextPage = () => {
           <p>The group can add/remove members later.</p>
           <p>
             {" Site: " /*TODO: Make this a drop-down selectlist from set of available sites*/}
-            <input type="radio" id="siteBetterReddit" name="site" value="betterReddit" /> {" Better Reddit "}
-            <input type="radio" id="siteGitcoin" name="site" value="gitcoin" /> {" Gitcoin Grants "}
-            <input type="radio" id="sitePix" name="site" value="pix" /> {" MegaPixels Photography "}
+            <input
+              type="radio"
+              id="siteBetterReddit"
+              name="site"
+              value="betterReddit"
+              checked={site === 'betterReddit'}
+              onChange={() => setSite('betterReddit')}
+            /> {" Better Reddit "}
+            <input
+              type="radio"
+              id="siteGitcoin"
+              name="site"
+              value="gitcoin"
+              checked={site === 'gitcoin'}
+              onChange={() => setSite('gitcoin')}
+            /> {" Gitcoin Grants "}
+            <input
+              type="radio"
+              id="sitePix"
+              name="site"
+              value="pix"
+              checked={site === 'pix'}
+              onChange={() => setSite('pix')}
+            /> {" MegaPixels Photography "}
           </p>
           <p>
             Community name:{" "}
             <input
+              style={{ color: "black" }}
               type="text"
               id="communityName"
               name="communityName"
@@ -59,33 +104,110 @@ const Home: NextPage = () => {
             />
           </p>
           <p>
-            Mod team member 1: <input type="text" id="mod1" name="mod1" />
+            Mod team member 1:{" "}
+            <input
+              style={{ color: "black" }}
+              type="text"
+              id="mod1"
+              name="mod1"
+              value={mod1}
+              onChange={e => setMod1(e.target.value)}
+            />
           </p>
           <p>
-            Mod team member 2: <input type="text" id="mod2" name="mod2" />
+            Mod team member 2:{" "}
+            <input
+              style={{ color: "black" }}
+              type="text"
+              id="mod2"
+              name="mod2"
+              value={mod2}
+              onChange={e => setMod2(e.target.value)}
+            />
           </p>
           <p>
-            Mod team member 3: <input type="text" id="mod3" name="mod3" />
+            Mod team member 3:{" "}
+            <input
+              style={{ color: "black" }}
+              type="text"
+              id="mod3"
+              name="mod3"
+              value={mod3}
+              onChange={e => setMod3(e.target.value)}
+            />
           </p>
           <p>
-            Mod team member 4: <input type="text" id="mod4" name="mod4" />
+            Mod team member 4:{" "}
+            <input
+              style={{ color: "black" }}
+              type="text"
+              id="mod4"
+              name="mod4"
+              value={mod4}
+              onChange={e => setMod4(e.target.value)}
+            />
           </p>
           <p>
-            Mod team member 5: <input type="text" id="mod5" name="mod5" />
+            Mod team member 5:{" "}
+            <input
+              style={{ color: "black" }}
+              type="text"
+              id="mod5"
+              name="mod5"
+              value={mod5}
+              onChange={e => setMod5(e.target.value)}
+            />
           </p>
           <p>
             Community rules (markdown likely to be supported):
             <br />
-            <textarea rows={7} cols={100} id="rules" name="rules" />
+            <textarea
+              rows={7}
+              cols={100}
+              id="rules"
+              name="rules"
+              value={rules}
+              onChange={e => setRules(e.target.value)}
+              style={{ color: "black" }}
+          />
           </p>
           <p>
             {"Network: "}
-            <input type="radio" id="networkGnosis" name="network" value="gnosis" /> Gnosis{" "}
-            <input type="radio" id="networkPolygon" name="network" value="polygon" /> Polygon{" "}
-            <input type="radio" id="networkLinea" name="network" value="linea" /> Linea{" "}
+            <input
+              type="radio"
+              id="networkGnosis"
+              name="network"
+              value="gnosis"
+              checked={network === 'gnosis'}
+              onChange={() => setNetwork('gnosis')}
+            /> Gnosis{" "}
+            <input
+              type="radio"
+              id="networkPolygon"
+              name="network"
+              value="polygon"
+              checked={network === 'polygon'}
+              onChange={() => setNetwork('polygon')}
+            /> Polygon{" "}
+            <input
+              type="radio"
+              id="networkLinea"
+              name="network"
+              value="linea"
+              checked={network === 'linea'}
+              onChange={() => setNetwork('linea')}
+            /> Linea{" "}
           </p>
           <p>
-            Deposit amount (xDAI/MATIC) <input type="text" id="depositAmount" name="depositAmount" />
+            Deposit amount (xDAI/MATIC): {" "}
+            <input
+              style={{ color: "black" }}
+              type="number"
+              id="depositAmount"
+              name="depositAmount"
+              value={deposit}
+              onChange={e => setDeposit(e.target.value)}
+            />
           </p>
           <button
             className={`btn btn-primary rounded-full capitalize font-normal font-white w-24 flex items-center gap-1 hover:gap-2 transition-all tracking-widest ${

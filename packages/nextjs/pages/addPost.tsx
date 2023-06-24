@@ -10,6 +10,7 @@ import { useSigner } from "wagmi";
 type POST_TYPE = 'uri' | 'ipfs' | 'text';
 const Home: NextPage = () => {
   const [communityName, setCommunityName] = useState("");
+  const [postTitle, setPostTitle] = useState("");
   const [postType, setPostType] = useState<POST_TYPE>("ipfs");
   const [postURI, setPostURI] = useState("");
   const [postIPFS, setPostIPFS] = useState("");
@@ -64,6 +65,17 @@ const Home: NextPage = () => {
               name="communityName"
               value={communityName}
               onChange={e => setCommunityName(e.target.value)}
+            />
+          </p>
+          <p>
+            Post title:{" "}
+            <input
+              style={{ color: "black" }}
+              type="text"
+              id="postTitle"
+              name="postTitle"
+              value={postTitle}
+              onChange={e => setPostTitle(e.target.value)}
             />
           </p>
           <p>

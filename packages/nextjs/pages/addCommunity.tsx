@@ -82,6 +82,7 @@ const Home: NextPage = () => {
             {"Network: "}
             <input type="radio" id="networkGnosis" name="network" value="gnosis" /> Gnosis{" "}
             <input type="radio" id="networkPolygon" name="network" value="polygon" /> Polygon{" "}
+            <input type="radio" id="networkLinea" name="network" value="linea" /> Linea{" "}
           </p>
           <p>
             Deposit amount (xDAI/MATIC) <input type="text" id="depositAmount" name="depositAmount" />

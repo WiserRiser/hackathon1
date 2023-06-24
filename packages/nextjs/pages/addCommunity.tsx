@@ -1,12 +1,17 @@
+import * as dotenv from "dotenv";
+dotenv.config();
 //import Link from "next/link";
 import { useState } from "react";
 import type { NextPage } from "next";
 import { ArrowSmallRightIcon } from "@heroicons/react/24/outline";
 import { MetaHeader } from "~~/components/MetaHeader";
-import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
-
-type SITE = "betterReddit" | "gitcoin" | "pix";
-type NETWORK = "gnosis" | "polygon" | "linea";
+import { useScaffoldContract } from "~~/hooks/scaffold-eth";
+import { useSigner } from "wagmi";
+import { Signer } from "ethers";
+import { storeInIPFS } from "./ipfsUtil";
+//SITE values: betterReddit = 1, qf = 2, pix = 3
+type SITE = 1 | 2 | 3;
+type NETWORK = 'gnosis' | 'polygon' | 'linea';
 const Home: NextPage = () => {
   const [site, setSite] = useState<SITE>("betterReddit");
   const [network, setNetwork] = useState<NETWORK>("gnosis");
@@ -19,13 +24,26 @@ const Home: NextPage = () => {
   const [rules, setRules] = useState("");
   const [deposit, setDeposit] = useState("1");
 
-  const { writeAsync, isLoading } = useScaffoldContractWrite({
-    //TODO: Expand to use other parameters, create the multisig that owns the community ERC721,
-    //mint the ERC721 and transfer it to the community,
-    //ideally in one atomic transaction in our master contract.
-    contractName: "YourContract",
-    functionName: "setGreeting", //"createCommunity"
-    args: [
+  const { data: signer, /*isError,*/ isLoading } = useSigner();
+  const { data: gameLogicContract} = useScaffoldContract({
+    contractName: "GameLogic",
+    signerOrProvider: signer as Signer,
+  });
+
+  const storeRulesInIPFS = async function (rules: string): Promise<string> {
+    const rulesCid = await storeInIPFS(rules);
+    console.log('rules CID: ' + rulesCid);
+    return rulesCid;
+  };
+
+  const submitForm = async function() {
+    if(gameLogicContract === null) {
+      throw new Error('gameLogicContract is unexpectedly null.');
+    }
+    const rulesIPFSHash = await storeRulesInIPFS(rules);
+    //TODO: Use the network state to decide which network to do this on.
+    const communityCreation = await gameLogicContract.createCommunity(
+      site,
       newCommunityName,
       /*
         network,

@@ -39,6 +39,8 @@
   "dependencies": {
     "@gelatonetwork/relay-sdk": "^4.0.0",
     "viem": "^1.1.6",
-    "wagmi": "^1.2.1"
+    "wagmi": "^1.2.1",
+    "dotenv": "^16.3.1",
+    "ipfs-http-client": "^60.0.1"
   }
 }

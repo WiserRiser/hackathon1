@@ -8,6 +8,8 @@ import "./PostToken.sol";
 contract GameLogic is AccessControl {
     struct User {
         uint256 verifications;
+        uint8 defaultVoteWeight;
+        bool donateWinningsByDefault;
     }
     address public communityTokenAddress;
     address public postTokenAddress;

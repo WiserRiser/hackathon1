@@ -100,6 +100,7 @@ const Home: NextPage = () => {
               type="text"
               id="communityName"
               name="communityName"
+              value={newCommunityName}
               onChange={e => setNewCommunityName(e.target.value)}
             />
           </p>

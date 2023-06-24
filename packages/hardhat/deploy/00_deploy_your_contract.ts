@@ -31,6 +31,16 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
     autoMine: true,
   });
 
+  const deployedCommunityToken = await deploy("CommunityToken", {
+    from: deployer,
+    // Contract constructor arguments
+    args: [],
+    log: true,
+    // autoMine: can be passed to the deploy function to make the deployment process faster on local networks by
+    // automatically mining the contract deployment transaction. There is no effect on live networks.
+    autoMine: true,
+  });
+
   const deployedVoteToken = await deploy("VoteToken", {
     from: deployer,
     // Contract constructor arguments
@@ -55,6 +65,7 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
     from: deployer,
     // Contract constructor arguments
     args: [
+      deployedCommunityToken.address,
       deployedVoteToken.address,
       deployedPostToken.address
     ],
@@ -63,6 +74,8 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
     // automatically mining the contract deployment transaction. There is no effect on live networks.
     autoMine: true,
   });
+  const communityToken = await hre.ethers.getContractAt(deployedCommunityToken.abi, deployedCommunityToken.address, deployer);
+  await communityToken.transferOwnership(deployedGameLogic.address);
   const voteToken = await hre.ethers.getContractAt(deployedVoteToken.abi, deployedVoteToken.address, deployer);
   await voteToken.transferOwnership(deployedGameLogic.address);
   const postToken = await hre.ethers.getContractAt(deployedPostToken.abi, deployedPostToken.address, deployer);

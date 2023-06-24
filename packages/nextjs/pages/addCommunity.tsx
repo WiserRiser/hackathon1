@@ -3,11 +3,14 @@ import { useState } from "react";
 import type { NextPage } from "next";
 import { ArrowSmallRightIcon } from "@heroicons/react/24/outline";
 import { MetaHeader } from "~~/components/MetaHeader";
-import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
-type SITE = 'betterReddit' | 'qf' | 'pix';
+import { useScaffoldContract } from "~~/hooks/scaffold-eth";
+import { useSigner } from "wagmi";
+import { Signer } from "ethers";
+//SITE values: betterReddit = 1, qf = 2, pix = 3
+type SITE = 1 | 2 | 3;
 type NETWORK = 'gnosis' | 'polygon' | 'linea';
 const Home: NextPage = () => {
-  const [site, setSite] = useState<SITE>("betterReddit");
+  const [site, setSite] = useState<SITE>(1);
   const [network, setNetwork] = useState<NETWORK>("gnosis");
   const [newCommunityName, setNewCommunityName] = useState("");
   const [mod1, setMod1] = useState("");
@@ -22,31 +25,47 @@ const Home: NextPage = () => {
   const [gateAddress, setGateAddress] = useState("");
   const [deposit, setDeposit] = useState("1");
 
-  const { writeAsync, isLoading } = useScaffoldContractWrite({
-    //TODO: Expand to use other parameters, create the multisig that owns the community ERC721,
-    //mint the ERC721 and transfer it to the community,
-    //ideally in one atomic transaction in our master contract.
-    contractName: "YourContract",
-    functionName: "setGreeting", //"createCommunity"
-    args: [
-      newCommunityName
-      /*
-        network,
-        site,
-        newCommunityName,
-        rules,
+  const { data: signer, /*isError,*/ isLoading } = useSigner();
+  const { data: gameLogicContract} = useScaffoldContract({
+    contractName: "GameLogic",
+    signerOrProvider: signer as Signer,
+  });
+
+  const storeRulesInIPFS = async function(rules: string) : Promise<string> {
+    //TODO: Store in IPFS & return hash.
+    return rules;
+  }
+
+  const submitForm = async function() {
+    if(gameLogicContract === null) {
+      throw new Error('gameLogicContract is unexpectedly null.');
+    }
+    const rulesIPFSHash = await storeRulesInIPFS(rules);
+    //TODO: Use the network state to decide which network to do this on.
+    const communityCreation = await gameLogicContract.createCommunity(
+      site,
+      newCommunityName,
+      rulesIPFSHash,
+      restrictPostingChecked,
+      restrictVotingChecked,
+      sponsorPosts,
+      gateAddress,
+      [
         mod1,
         mod2,
         mod3,
         mod4,
         mod5
-      */
-    ],
-    value: deposit,
-    onBlockConfirmation: txnReceipt => {
-      console.log("📦 Transaction blockHash", txnReceipt.blockHash);
-    },
-  });
+      ],
+      {
+        value: deposit,
+      }
+    );
+    //TODO: Expand to use other parameters, create the multisig that owns the community ERC721,
+    //mint the ERC721 and transfer it to the community,
+    //ideally in one atomic transaction in our master contract.
+     console.log("CommunityCreation:", communityCreation);
+  };
 
   return (
     <>
@@ -76,25 +95,25 @@ const Home: NextPage = () => {
               type="radio"
               id="siteBetterReddit"
               name="site"
-              value="betterReddit"
-              checked={site === 'betterReddit'}
-              onChange={() => setSite('betterReddit')}
+              value={1}
+              checked={site === 1}
+              onChange={() => setSite(1)}
             /> {" Better Reddit "}
             <input
               type="radio"
               id="siteQF"
               name="site"
-              value="qf"
-              checked={site === 'qf'}
-              onChange={() => setSite('qf')}
+              value={2}
+              checked={site === 2}
+              onChange={() => setSite(2)}
             /> {" Quadratic Funding Friends "}
             <input
               type="radio"
               id="sitePix"
               name="site"
-              value="pix"
-              checked={site === 'pix'}
-              onChange={() => setSite('pix')}
+              value={3}
+              checked={site === 3}
+              onChange={() => setSite(3)}
             /> {" MegaPixels Photography "}
             <br />
             <em>If your site isn&rsquo;t on this list and you would like it to be, please <a href='mailto:sales@wiserriser.com'>reach out by clicking here</a>.</em>
@@ -255,7 +274,7 @@ const Home: NextPage = () => {
             className={`btn btn-primary rounded-full capitalize font-normal font-white w-24 flex items-center gap-1 hover:gap-2 transition-all tracking-widest ${
               isLoading ? "loading" : ""
             }`}
-            onClick={writeAsync}
+            onClick={submitForm}
           >
             {!isLoading && (
               <>

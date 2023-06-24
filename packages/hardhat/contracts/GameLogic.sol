@@ -35,9 +35,9 @@ contract GameLogic is AccessControl {
         int8 amountCurrentTxAdds = votes - netCurrentVotes;
         //TODO: Adjust balances per amountCurrentTxAdds.
         if (votes < 0) {
-            downVoteMap[_postAddress][msg.sender] = currentDownVoteCount + uint256(-votes);
+            downVoteMap[_postAddress][msg.sender] = -votes;
         } else if (votes > 0) {
-            upVoteMap[_postAddress][msg.sender] = currentUpVoteCount + uint256(votes);
+            upVoteMap[_postAddress][msg.sender] = votes;
         }
         VoteToken(voteTokenAddress).transfer(msg.sender, 1);
     }

@@ -25,7 +25,7 @@ const Home: NextPage = () => {
     contractName: "YourContract",
     functionName: "setGreeting", //"createCommunity"
     args: [newCommunityName],
-    value: "0.01",
+    value: deposit,
     onBlockConfirmation: txnReceipt => {
       console.log("📦 Transaction blockHash", txnReceipt.blockHash);
     },

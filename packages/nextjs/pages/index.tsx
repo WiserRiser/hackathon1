@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { NextPage } from "next";
-import { MagnifyingGlassIcon, PencilSquareIcon, SparklesIcon, UserGroupIcon, UserIcon } from "@heroicons/react/24/outline";
+import { MagnifyingGlassIcon, PencilSquareIcon, UserGroupIcon, UserIcon } from "@heroicons/react/24/outline";
 import { MetaHeader } from "~~/components/MetaHeader";
 import WorldID from "~~/components/WorldID";
 

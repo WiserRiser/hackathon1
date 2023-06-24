@@ -16,6 +16,18 @@ contract GameLogic is AccessControl {
     mapping (address => mapping (address => int8)) public downVoteMap;
     // user address => nft address
     mapping (address => address) public postAddress;
+    // user address => 8 bits about verification:
+    //0: orb w/Worldcoin
+    //1: phone number w/Worldcoin
+    //2: Sismo
+    //3, 4, 5: currently unused
+    //6: Polygon ID > 13
+    //7: Polygon ID > 18
+    //Ideally would use a smaller data type,
+    //but the bitshifting operation produces uint256 in the Solidity compiler
+    //so using uint256 at least for now to satisify typechecking,
+    //which also gives plenty of room for expansion around how much verification info we store.
+    mapping (address => uint256) public verifications;
 
     constructor(address _CommunityToken, address _VoteToken, address _PostToken) {
         _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
@@ -35,6 +47,46 @@ contract GameLogic is AccessControl {
         address[] calldata mods
     ) public {
         //TODO: Mint the ERC721 in the CommunityToken contract and set values.
+    }
+
+    function verifyUserWorldcoinOrb(
+        address user
+    ) public {
+        _setUserVerification(user, 0);
+    }
+    //Could combine immediately preceding & following functions
+    //if Worldcoin gives one verification function that returns an
+    //indication of which verification method(s) the user has completed.
+    function verifyUserWorldcoinPhone(
+        address user
+    ) public {
+        _setUserVerification(user, 1);
+    }
+
+    function verifyUserSismo(
+        address user
+    ) public {
+        _setUserVerification(user, 2);
+    }
+
+    function verifyUserPolygon(
+        address user,
+        uint8 minAge //should be 13 or 18
+    ) public {
+        //TODO: Call Polygon ID on-chain verification for the specified minimum age.
+        //Revert/don't reach the below code if that fails.
+        if(minAge >= 18) {
+            _setUserVerification(user, 7);
+        } else if (minAge >= 13) {
+            _setUserVerification(user, 6);
+        }
+    }
+
+    function _setUserVerification(
+        address user,
+        uint8 bit
+    ) private {
+        verifications[user] |= (1 << bit);
     }
 
     function createPost(string memory uri) public {

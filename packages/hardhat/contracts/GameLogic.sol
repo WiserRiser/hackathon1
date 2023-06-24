@@ -11,6 +11,9 @@ contract GameLogic is AccessControl {
         uint8 defaultVoteWeight;
         bool donateWinningsByDefault;
     }
+
+    event VerificationCompleted(address user, uint8 bit);
+
     address public communityTokenAddress;
     address public postTokenAddress;
     address public voteTokenAddress;
@@ -91,6 +94,7 @@ contract GameLogic is AccessControl {
         address user,
         uint8 bit
     ) private {
+        emit VerificationCompleted(user, bit);
         users[user].verifications |= (1 << bit);
     }
 

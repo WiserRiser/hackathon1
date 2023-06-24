@@ -24,7 +24,9 @@ const Home: NextPage = () => {
     //ideally in one atomic transaction in our master contract.
     contractName: "YourContract",
     functionName: "setGreeting", //"createCommunity"
-    args: [newCommunityName],
+    args: [
+      newCommunityName
+    ],
     value: deposit,
     onBlockConfirmation: txnReceipt => {
       console.log("📦 Transaction blockHash", txnReceipt.blockHash);

@@ -1,3 +1,5 @@
+import * as dotenv from "dotenv";
+dotenv.config();
 //import Link from "next/link";
 import { useState } from "react";
 import type { NextPage } from "next";
@@ -6,9 +8,7 @@ import { MetaHeader } from "~~/components/MetaHeader";
 import { useScaffoldContract } from "~~/hooks/scaffold-eth";
 import { Signer } from "ethers";
 import { useSigner } from "wagmi";
-import { create } from 'ipfs-http-client'
-
-
+import { storeInIPFS } from "./ipfsUtil";
 
 type POST_TYPE = 'uri' | 'ipfs' | 'text';
 const Home: NextPage = () => {
@@ -34,22 +34,12 @@ const Home: NextPage = () => {
       //TODO: Post to ipfs & get IPFS identifier
     //const ipfs = ipfsClient({ host: 'ipfs.infura.io', port: '5001', protocol: 'https' });
 
-    const auth =
-    'Basic ' + Buffer.from(process.env.INFURA_ID + ':' + process.env.INFURA_SECRET_KEY).toString('base64');
-    const ipfs = create({
-        host: 'ipfs.infura.io',
-        port: 5001,
-        protocol: 'https',
-        headers: {
-            authorization: auth,
-        },
-    });
-
-    const { cid } = await ipfs.add(postText);
-
-    const postCid = cid.toString();
-    console.log('post CID: ' + postCid);
-    localType = 'ipfs';
+    console.log("infura key:", process.env.INFURA_ID);
+    if (localType === 'text') {
+      const postCid = await storeInIPFS(postText);
+      console.log('post CID: ' + postCid);
+      localType = 'ipfs';
+    }
     }
     if(gameLogicContract === null) {
       throw new Error('gameLogicContract is unexpectedly null.');

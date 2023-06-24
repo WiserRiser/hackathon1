@@ -1,3 +1,5 @@
+import * as dotenv from "dotenv";
+dotenv.config();
 //import Link from "next/link";
 import { useState } from "react";
 import type { NextPage } from "next";
@@ -6,6 +8,7 @@ import { MetaHeader } from "~~/components/MetaHeader";
 import { useScaffoldContract } from "~~/hooks/scaffold-eth";
 import { useSigner } from "wagmi";
 import { Signer } from "ethers";
+import { storeInIPFS } from "./ipfsUtil";
 //SITE values: betterReddit = 1, qf = 2, pix = 3
 type SITE = 1 | 2 | 3;
 type NETWORK = 'gnosis' | 'polygon' | 'linea';
@@ -31,15 +34,11 @@ const Home: NextPage = () => {
     signerOrProvider: signer as Signer,
   });
 
-  const storeRulesInIPFS = async function(rules: string) : Promise<string> {
-    //TODO: Store in IPFS & return hash.
-    const ipfsClient = require('ipfs-http-client');
-    const ipfs = ipfsClient({ host: 'ipfs.infura.io', port: '5001', protocol: 'https' });
-
-    const { cid } = await ipfs.add(rules);
-    const rulesCid = cid.toString();
+  const storeRulesInIPFS = async function (rules: string): Promise<string> {
+    const rulesCid = await storeInIPFS(rules);
+    console.log('rules CID: ' + rulesCid);
     return rulesCid;
-  }
+  };
 
   const submitForm = async function() {
     if(gameLogicContract === null) {

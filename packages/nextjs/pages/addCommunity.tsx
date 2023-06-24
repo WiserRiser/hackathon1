@@ -100,6 +100,7 @@ const Home: NextPage = () => {
               type="text"
               id="communityName"
               name="communityName"
+              value={newCommunityName}
               onChange={e => setNewCommunityName(e.target.value)}
             />
           </p>
@@ -206,6 +207,7 @@ const Home: NextPage = () => {
               id="depositAmount"
               name="depositAmount"
               value={deposit}
+              min={0}
               onChange={e => setDeposit(e.target.value)}
             />
           </p>

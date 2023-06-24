@@ -26,6 +26,17 @@ const Home: NextPage = () => {
     functionName: "setGreeting", //"createCommunity"
     args: [
       newCommunityName
+      /*
+        network,
+        site,
+        newCommunityName,
+        rules,
+        mod1,
+        mod2,
+        mod3,
+        mod4,
+        mod5
+      */
     ],
     value: deposit,
     onBlockConfirmation: txnReceipt => {

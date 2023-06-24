@@ -59,19 +59,44 @@ const Home: NextPage = () => {
             />
           </p>
           <p>
-            Mod team member 1: <input type="text" id="mod1" name="mod1" />
+            Mod team member 1:{" "}
+            <input
+              type="text"
+              id="mod1"
+              name="mod1"
+            />
           </p>
           <p>
-            Mod team member 2: <input type="text" id="mod2" name="mod2" />
+            Mod team member 2:{" "}
+            <input
+              type="text"
+              id="mod2"
+              name="mod2"
+            />
           </p>
           <p>
-            Mod team member 3: <input type="text" id="mod3" name="mod3" />
+            Mod team member 3:{" "}
+            <input
+              type="text"
+              id="mod3"
+              name="mod3"
+            />
           </p>
           <p>
-            Mod team member 4: <input type="text" id="mod4" name="mod4" />
+            Mod team member 4:{" "}
+            <input
+              type="text"
+              id="mod4"
+              name="mod4"
+            />
           </p>
           <p>
-            Mod team member 5: <input type="text" id="mod5" name="mod5" />
+            Mod team member 5:{" "}
+            <input
+              type="text"
+              id="mod5"
+              name="mod5"
+            />
           </p>
           <p>
             Community rules (markdown likely to be supported):

@@ -5,8 +5,10 @@ import { ArrowSmallRightIcon } from "@heroicons/react/24/outline";
 import { MetaHeader } from "~~/components/MetaHeader";
 import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 type SITE = 'betterReddit' | 'gitcoin' | 'pix';
+type NETWORK = 'gnosis' | 'polygon' | 'linea';
 const Home: NextPage = () => {
   const [site, setSite] = useState<SITE>("betterReddit");
+  const [network, setNetwork] = useState<NETWORK>("gnosis");
   const [newCommunityName, setNewCommunityName] = useState("");
   const [mod1, setMod1] = useState("");
   const [mod2, setMod2] = useState("");
@@ -163,18 +165,24 @@ const Home: NextPage = () => {
               id="networkGnosis"
               name="network"
               value="gnosis"
+              checked={network === 'gnosis'}
+              onChange={() => setNetwork('gnosis')}
             /> Gnosis{" "}
             <input
               type="radio"
               id="networkPolygon"
               name="network"
               value="polygon"
+              checked={network === 'polygon'}
+              onChange={() => setNetwork('polygon')}
             /> Polygon{" "}
             <input
               type="radio"
               id="networkLinea"
               name="network"
               value="linea"
+              checked={network === 'linea'}
+              onChange={() => setNetwork('linea')}
             /> Linea{" "}
           </p>
           <p>

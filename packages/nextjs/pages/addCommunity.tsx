@@ -92,6 +92,8 @@ const Home: NextPage = () => {
               checked={site === 'pix'}
               onChange={() => setSite('pix')}
             /> {" MegaPixels Photography "}
+            <br />
+            <em>If your site isn&rsquo;t on this list and you would like it to be, please <a href='mailto:sales@wiserriser.com'>reach out by clicking here</a>.</em>
           </p>
           <p>
             Community name:{" "}

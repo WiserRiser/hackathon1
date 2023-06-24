@@ -1,17 +1,14 @@
 //import Link from "next/link";
 import { useState } from "react";
-import { Signer } from "ethers";
 import type { NextPage } from "next";
-import { useSigner } from "wagmi";
 import { ArrowSmallRightIcon } from "@heroicons/react/24/outline";
 import { MetaHeader } from "~~/components/MetaHeader";
-import { useScaffoldContract } from "~~/hooks/scaffold-eth";
+import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
 
-//SITE values: betterReddit = 1, qf = 2, pix = 3
-type SITE = 1 | 2 | 3;
+type SITE = "betterReddit" | "gitcoin" | "pix";
 type NETWORK = "gnosis" | "polygon" | "linea";
 const Home: NextPage = () => {
-  const [site, setSite] = useState<SITE>(1);
+  const [site, setSite] = useState<SITE>("betterReddit");
   const [network, setNetwork] = useState<NETWORK>("gnosis");
   const [newCommunityName, setNewCommunityName] = useState("");
   const [mod1, setMod1] = useState("");
@@ -20,52 +17,33 @@ const Home: NextPage = () => {
   const [mod4, setMod4] = useState("");
   const [mod5, setMod5] = useState("");
   const [rules, setRules] = useState("");
-  const [restrictPostingChecked, setRestrictPostingChecked] = useState<boolean>(false);
-  const [restrictVotingChecked, setRestrictVotingChecked] = useState<boolean>(false);
-  const [sponsorPosts, setSponsorPosts] = useState<boolean>(false);
-  const [gateAddress, setGateAddress] = useState("");
   const [deposit, setDeposit] = useState("1");
 
-  const { data: signer, /*isError,*/ isLoading } = useSigner();
-  const { data: gameLogicContract } = useScaffoldContract({
-    contractName: "GameLogic",
-    signerOrProvider: signer as Signer,
-  });
-
-  const storeRulesInIPFS = async function (rules: string): Promise<string> {
-    //TODO: Store in IPFS & return hash.
-    const ipfsClient = require("ipfs-http-client");
-    const ipfs = ipfsClient({ host: "ipfs.infura.io", port: "5001", protocol: "https" });
-
-    const { cid } = await ipfs.add(rules);
-    const rulesCid = cid.toString();
-    return rulesCid;
-  };
-
-  const submitForm = async function () {
-    if (gameLogicContract === null) {
-      throw new Error("gameLogicContract is unexpectedly null.");
-    }
-    const rulesIPFSHash = await storeRulesInIPFS(rules);
-    //TODO: Use the network state to decide which network to do this on.
-    const communityCreation = await gameLogicContract.createCommunity(
-      site,
-      newCommunityName,
-      rulesIPFSHash,
-      restrictPostingChecked,
-      restrictVotingChecked,
-      sponsorPosts,
-      gateAddress,
-      [mod1, mod2, mod3, mod4, mod5],
-      {
-        value: deposit,
-      },
-    );
+  const { writeAsync, isLoading } = useScaffoldContractWrite({
     //TODO: Expand to use other parameters, create the multisig that owns the community ERC721,
     //mint the ERC721 and transfer it to the community,
     //ideally in one atomic transaction in our master contract.
-    console.log("CommunityCreation:", communityCreation);
-  };
+    contractName: "YourContract",
+    functionName: "setGreeting", //"createCommunity"
+    args: [
+      newCommunityName,
+      /*
+        network,
+        site,
+        newCommunityName,
+        rules,
+        mod1,
+        mod2,
+        mod3,
+        mod4,
+        mod5
+      */
+    ],
+    value: deposit,
+    onBlockConfirmation: txnReceipt => {
+      console.log("📦 Transaction blockHash", txnReceipt.blockHash);
+    },
+  });
 
   return (
     <>
@@ -96,34 +74,29 @@ const Home: NextPage = () => {
               type="radio"
               id="siteBetterReddit"
               name="site"
-              value={1}
-              checked={site === 1}
-              onChange={() => setSite(1)}
+              value="betterReddit"
+              checked={site === "betterReddit"}
+              onChange={() => setSite("betterReddit")}
             />{" "}
             {" Better Reddit "}
             <input
               type="radio"
-              id="siteQF"
+              id="siteGitcoin"
               name="site"
-              value={2}
-              checked={site === 2}
-              onChange={() => setSite(2)}
+              value="gitcoin"
+              checked={site === "gitcoin"}
+              onChange={() => setSite("gitcoin")}
             />{" "}
-            {" Quadratic Funding Friends "}
+            {" Gitcoin Grants "}
             <input
               type="radio"
               id="sitePix"
               name="site"
-              value={3}
-              checked={site === 3}
-              onChange={() => setSite(3)}
+              value="pix"
+              checked={site === "pix"}
+              onChange={() => setSite("pix")}
             />{" "}
             {" MegaPixels Photography "}
-            <br />
-            <em>
-              If your site isn&rsquo;t on this list and you would like it to be, please{" "}
-              <a href="mailto:sales@wiserriser.com">reach out by clicking here</a>.
-            </em>
           </p>
           <p>
             Community name:{" "}
@@ -132,7 +105,6 @@ const Home: NextPage = () => {
               type="text"
               id="communityName"
               name="communityName"
-              value={newCommunityName}
               onChange={e => setNewCommunityName(e.target.value)}
             />
           </p>
@@ -205,43 +177,6 @@ const Home: NextPage = () => {
             />
           </p>
           <p>
-            {"Restrict "}
-            <input
-              type="checkbox"
-              id="restrictPosting"
-              name="restrictPosting"
-              checked={restrictPostingChecked}
-              onChange={e => setRestrictPostingChecked(e.target.checked)}
-            />{" "}
-            {" posting and/or "}
-            <input
-              type="checkbox"
-              id="restrictVoting"
-              name="restrictVoting"
-              checked={restrictVotingChecked}
-              onChange={e => setRestrictVotingChecked(e.target.checked)}
-            />
-            {" voting to holders of tokens in this contract:  "}
-            <input
-              style={{ color: "black", width: "30em" }}
-              type="text"
-              id="gateAddress"
-              name="gateAddress"
-              value={gateAddress}
-              onChange={e => setGateAddress(e.target.value)}
-            />
-          </p>
-          <p>
-            <input
-              type="checkbox"
-              id="sponsorPosts"
-              name="sponsorPosts"
-              checked={sponsorPosts}
-              onChange={e => setSponsorPosts(e.target.checked)}
-            />
-            {" Sponsor post and comment creation in this community."}
-          </p>
-          <p>
             {"Network: "}
             <input
               type="radio"
@@ -279,7 +214,6 @@ const Home: NextPage = () => {
               id="depositAmount"
               name="depositAmount"
               value={deposit}
-              min={0}
               onChange={e => setDeposit(e.target.value)}
             />
           </p>
@@ -287,7 +221,7 @@ const Home: NextPage = () => {
             className={`btn btn-primary rounded-full capitalize font-normal font-white w-24 flex items-center gap-1 hover:gap-2 transition-all tracking-widest ${
               isLoading ? "loading" : ""
             }`}
-            onClick={submitForm}
+            onClick={writeAsync}
           >
             {!isLoading && (
               <>

@@ -29,8 +29,8 @@ const WorldID = () => {
       // walletConnectProjectId="get_this_from_walletconnect_portal"
     >
       {({ open }) => (
-        <button className="p-3 rounded-lg bg-blue-500 max-w-[6rem]" onClick={open}>
-          Moderate
+        <button className="bg-sky-500 p-3 rounded-md max-w-xs" onClick={open}>
+          World Id
         </button>
       )}
     </IDKitWidget>

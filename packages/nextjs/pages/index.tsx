@@ -16,12 +16,10 @@ const Home: NextPage = () => {
             <span className="block text-4xl font-bold">WiserRiser</span>
           </h1>
           <p className="text-center text-lg">
-            This file is <code className="italic bg-base-300 text-base font-bold">packages/nextjs/pages/index.tsx</code>
+            A hackathon project seeking to scale up community-building moderators&apos; efforts!
           </p>
-          <p className="text-center text-lg">
-            The default master smart contract is{" "}
-            <code className="italic bg-base-300 text-base font-bold">YourContract.sol</code> in{" "}
-            <code className="italic bg-base-300 text-base font-bold">packages/hardhat/contracts</code>
+          <p className="text-center text-lg" style={{ fontStyle: "italic" }}>
+            This is a hackathon project which has not reached maturity for further use.
           </p>
         </div>
 

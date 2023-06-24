@@ -33,7 +33,7 @@ const Home: NextPage = () => {
     if(gameLogicContract === null) {
       throw new Error('gameLogicContract is unexpectedly null.');
     }
-    gameLogicContract.setGreeting(postURI).value(postedValue);
+    gameLogicContract.setGreeting(postURI, { value: postedValue });
   };
 
   return (

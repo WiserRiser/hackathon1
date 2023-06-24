@@ -128,11 +128,11 @@ const Home: NextPage = () => {
           <p>
             Deposit amount (xDAI/MATIC): {" "}
             <input
-            type="number"
-            id="depositAmount"
-            name="depositAmount"
-            value={deposit}
-            onChange={e => setDeposit(e.target.value)}
+              type="number"
+              id="depositAmount"
+              name="depositAmount"
+              value={deposit}
+              onChange={e => setDeposit(e.target.value)}
             />
           </p>
           <button

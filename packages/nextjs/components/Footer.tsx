@@ -31,7 +31,7 @@ export const Footer = () => {
         <ul className="menu menu-horizontal w-full">
           <div className="flex justify-center items-center gap-2 text-sm w-full">
             <div>
-              Built at{" "}
+              {"Built at "}
               <a
                 href="https://ethglobal.com/events/waterloo2023"
                 target="_blank"

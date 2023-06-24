@@ -6,10 +6,11 @@ import "@openzeppelin/contracts/access/AccessControl.sol";
 contract GameLogic is AccessControl {
     address public PostToken;
     address public VoteToken;
-    // upvote post address => count
-    mapping (address => uint256) public upVoteMap;
+    // upvote post address => (user address, count)
+    mapping (address => mapping (address => uint256)) public upVoteMap;
+    //mapping (address => uint256) public upVoteMap;
     // downvote post address => count
-    mapping (address => uint256) public downVoteMap;
+    mapping (address => mapping (address => uint256)) public downVoteMap;
     // user address => nft address
     mapping (address => address) public postAddress;
 
@@ -26,12 +27,13 @@ contract GameLogic is AccessControl {
     }
 
     function vote(address _postAddress, int8 votes) public {
-        uint256 currentUpVoteCount = upVoteMap[_postAddress];
-        uint256 currentDownVoteCount = downVoteMap[_postAddress];
+        uint256 currentUpVoteCount = upVoteMap[_postAddress][msg.sender];
+        uint256 currentDownVoteCount = downVoteMap[_postAddress][msg.sender];
+
         if (votes < 0) {
-            downVoteMap[_postAddress] = currentDownVoteCount + (uint256(-votes));
+            downVoteMap[_postAddress][msg.sender] = currentDownVoteCount + uint256(-votes);
         } else if (votes > 0) {
-            upVoteMap[_postAddress] = currentUpVoteCount + uint256(votes);
+            upVoteMap[_postAddress][msg.sender] = currentUpVoteCount + uint256(votes);
         }
 
         VoteToken(VoteToken).transfer(msg.sender, 1);

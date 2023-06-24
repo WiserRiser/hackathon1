@@ -48,6 +48,7 @@ export const appChains = configureChains(
 const wallets = [
   metaMaskWallet({ chains: appChains.chains, shimDisconnect: true }),
   walletConnectWallet({ chains: appChains.chains }),
+  // safeWallet({ chains: appChains.chains }),
   ledgerWallet({ chains: appChains.chains }),
   braveWallet({ chains: appChains.chains }),
   coinbaseWallet({ appName: "scaffold-eth-2", chains: appChains.chains }),

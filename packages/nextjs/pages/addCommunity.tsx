@@ -4,8 +4,9 @@ import type { NextPage } from "next";
 import { ArrowSmallRightIcon } from "@heroicons/react/24/outline";
 import { MetaHeader } from "~~/components/MetaHeader";
 import { useScaffoldContractWrite } from "~~/hooks/scaffold-eth";
-type SITE = 'betterReddit' | 'gitcoin' | 'pix';
-type NETWORK = 'gnosis' | 'polygon' | 'linea';
+
+type SITE = "betterReddit" | "gitcoin" | "pix";
+type NETWORK = "gnosis" | "polygon" | "linea";
 const Home: NextPage = () => {
   const [site, setSite] = useState<SITE>("betterReddit");
   const [network, setNetwork] = useState<NETWORK>("gnosis");
@@ -25,7 +26,7 @@ const Home: NextPage = () => {
     contractName: "YourContract",
     functionName: "setGreeting", //"createCommunity"
     args: [
-      newCommunityName
+      newCommunityName,
       /*
         network,
         site,
@@ -61,6 +62,7 @@ const Home: NextPage = () => {
             You will also need a deposit amount which is used to sponsor gas fees in the community. In the future,
             crowdfunding functionality for that deposit can be added.
           </p>
+          <button>Increment</button>
         </div>
         <div className="flex-grow bg-base-300 w-full mt-16 px-8 py-12">
           Enter the addresses of the five mod team members here: These will be the co-owners of a Gnosis Safe or similar
@@ -73,25 +75,28 @@ const Home: NextPage = () => {
               id="siteBetterReddit"
               name="site"
               value="betterReddit"
-              checked={site === 'betterReddit'}
-              onChange={() => setSite('betterReddit')}
-            /> {" Better Reddit "}
+              checked={site === "betterReddit"}
+              onChange={() => setSite("betterReddit")}
+            />{" "}
+            {" Better Reddit "}
             <input
               type="radio"
               id="siteGitcoin"
               name="site"
               value="gitcoin"
-              checked={site === 'gitcoin'}
-              onChange={() => setSite('gitcoin')}
-            /> {" Gitcoin Grants "}
+              checked={site === "gitcoin"}
+              onChange={() => setSite("gitcoin")}
+            />{" "}
+            {" Gitcoin Grants "}
             <input
               type="radio"
               id="sitePix"
               name="site"
               value="pix"
-              checked={site === 'pix'}
-              onChange={() => setSite('pix')}
-            /> {" MegaPixels Photography "}
+              checked={site === "pix"}
+              onChange={() => setSite("pix")}
+            />{" "}
+            {" MegaPixels Photography "}
           </p>
           <p>
             Community name:{" "}
@@ -169,7 +174,7 @@ const Home: NextPage = () => {
               value={rules}
               onChange={e => setRules(e.target.value)}
               style={{ color: "black" }}
-          />
+            />
           </p>
           <p>
             {"Network: "}
@@ -178,28 +183,31 @@ const Home: NextPage = () => {
               id="networkGnosis"
               name="network"
               value="gnosis"
-              checked={network === 'gnosis'}
-              onChange={() => setNetwork('gnosis')}
-            /> Gnosis{" "}
+              checked={network === "gnosis"}
+              onChange={() => setNetwork("gnosis")}
+            />{" "}
+            Gnosis{" "}
             <input
               type="radio"
               id="networkPolygon"
               name="network"
               value="polygon"
-              checked={network === 'polygon'}
-              onChange={() => setNetwork('polygon')}
-            /> Polygon{" "}
+              checked={network === "polygon"}
+              onChange={() => setNetwork("polygon")}
+            />{" "}
+            Polygon{" "}
             <input
               type="radio"
               id="networkLinea"
               name="network"
               value="linea"
-              checked={network === 'linea'}
-              onChange={() => setNetwork('linea')}
-            /> Linea{" "}
+              checked={network === "linea"}
+              onChange={() => setNetwork("linea")}
+            />{" "}
+            Linea{" "}
           </p>
           <p>
-            Deposit amount (xDAI/MATIC): {" "}
+            Deposit amount (xDAI/MATIC):{" "}
             <input
               style={{ color: "black" }}
               type="number"

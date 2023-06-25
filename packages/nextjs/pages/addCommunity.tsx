@@ -320,13 +320,6 @@ const Home: NextPage = () => {
               </>
             )}
           </button>
-          <button
-            onClick={() => {
-              switchNetwork?.(parseInt("1", 10));
-            }}
-          >
-            switch network
-          </button>
         </div>
       </div>
     </>

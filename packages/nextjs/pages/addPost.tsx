@@ -145,7 +145,7 @@ const Home: NextPage = () => {
             />
           </p>
           <p>
-            Optional amount posted to the community with this post (xDAI/MATIC): {" "}
+            Optional amount posted to the community with this post (xDAI/MATIC/ETH): {" "}
             <input
               style={{ color: "black" }}
               type="number"

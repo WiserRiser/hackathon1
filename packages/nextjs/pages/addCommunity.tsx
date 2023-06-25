@@ -47,13 +47,13 @@ const Home: NextPage = () => {
   const submitForm = async function () {
     const currentNetwork = (await signer?.provider?.getNetwork())?.chainId;
     if (typeof currentNetwork === "undefined") {
-      throw new Error("Current network is unexpectedly undefined.");
+    //  throw new Error("Current network is unexpectedly undefined.");
     }
     //@ts-ignore for now because keys of contracts are defined as const
-    const gameLogicContractAddress = contracts[currentNetwork][0].contracts["GameLogic"].address;
-    console.log("Contract is deployed at ", gameLogicContractAddress);
+    // const gameLogicContractAddress = contracts[currentNetwork][0].contracts["GameLogic"].address;
+    // console.log("Contract is deployed at ", gameLogicContractAddress);
     if (gameLogicContract === null) {
-      throw new Error("gameLogicContract is unexpectedly null.");
+   //   throw new Error("gameLogicContract is unexpectedly null.");
     }
     const rulesIPFSHash = await storeRulesInIPFS(rules);
     //TODO: Use the network state to decide which network to do this on.

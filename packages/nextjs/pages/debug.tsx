@@ -7,7 +7,46 @@ import { getContractNames } from "~~/utils/scaffold-eth/contractNames";
 
 const selectedContractStorageKey = "scaffoldEth2.selectedContract";
 
+import { gql, useQuery } from 'urql';
+
+const punksQuery = gql`
+  query {
+    
+      accounts(first: 5) {
+        id
+        punksOwned {
+          id
+        }
+        bought {
+          id
+        }
+        nftsOwned {
+          id
+        }
+      }
+      punks(first: 5) {
+        id
+        transferedTo {
+          id
+        }
+        assignedTo {
+          id
+        }
+        purchasedBy {
+          id
+        }
+      }
+    }
+`
+
 const Debug: NextPage = () => {
+
+  const [result, reexecuteQuery] = useQuery({
+    query: punksQuery,
+  });
+
+  const { data, fetching, error } = result;
+  console.log(data);
   const contractNames = getContractNames();
   const [selectedContract, setSelectedContract] = useLocalStorage<ContractName>(
     selectedContractStorageKey,

@@ -41,6 +41,7 @@
     "@xmtp/react-sdk": "preview",
     "dotenv": "^16.3.1",
     "hardhat": "^2.16.0",
-    "ipfs-http-client": "^60.0.1"
+    "ipfs-http-client": "^60.0.1",
+    "urql": "^4.0.4"
   }
 }

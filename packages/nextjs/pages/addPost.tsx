@@ -10,8 +10,21 @@ import { Signer, ethers } from "ethers";
 import { useSigner } from "wagmi";
 import { storeInIPFS } from "./ipfsUtil";
 
+import { gql, useQuery } from 'urql';
+
+const punksQuery = gql`
+query {
+    
+  accounts(first: 5) {
+    id
+  }
+}
+`
+
 type POST_TYPE = 'uri' | 'ipfs' | 'text';
 const Home: NextPage = () => {
+
+
   const [communityId, setCommunityId] = useState("");
   const [postTitle, setPostTitle] = useState("");
   const [postType, setPostType] = useState<POST_TYPE>("ipfs");
@@ -55,6 +68,15 @@ const Home: NextPage = () => {
     );
     console.log('postCreation:',postCreation)
   };
+
+  const response = useQuery({query: punksQuery});
+  const [result, reexecuteQuery] = response;
+  // const [result, reexecuteQuery] = useQuery({
+  //   query: punksQuery,
+  // });
+
+  const { data, fetching, error } = result;
+  console.log(data);
 
   return (
     <>

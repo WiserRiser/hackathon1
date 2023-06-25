@@ -15,6 +15,11 @@ import { useGlobalState } from "~~/services/store/store";
 import { wagmiClient } from "~~/services/web3/wagmiClient";
 import { appChains } from "~~/services/web3/wagmiConnectors";
 import "~~/styles/globals.css";
+import { Client, cacheExchange, fetchExchange, Provider } from 'urql';
+
+const APIURL = 'https://gateway.thegraph.com/api/e8becdb1e9836277052590265ac5b907/subgraphs/id/YqMJatbgbqy1GodtbYZv4U9NzyaScCgSF7CAE5ivAM7'
+
+
 
 const ScaffoldEthApp = ({ Component, pageProps }: AppProps) => {
   const price = useNativeCurrencyPrice();
@@ -33,7 +38,14 @@ const ScaffoldEthApp = ({ Component, pageProps }: AppProps) => {
     setIsDarkTheme(isDarkMode);
   }, [isDarkMode]);
 
+  const client = new Client({
+    url: APIURL,
+    exchanges: [cacheExchange, fetchExchange],
+  });
+
+
   return (
+    <Provider value={client}> 
     <WagmiConfig client={wagmiClient}>
       <StoreProvider>
         <NextNProgress />
@@ -53,6 +65,7 @@ const ScaffoldEthApp = ({ Component, pageProps }: AppProps) => {
         </RainbowKitProvider>
       </StoreProvider>
     </WagmiConfig>
+    </Provider>
   );
 };
 

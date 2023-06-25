@@ -1,8 +1,8 @@
 const contracts = {
-  80001: [
+  31337: [
     {
-      chainId: "80001",
-      name: "polygonMumbai",
+      chainId: "31337",
+      name: "localhost",
       contracts: {
         CommunityToken: {
           address: "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
@@ -570,7 +570,7 @@ const contracts = {
           ],
         },
         GameLogic: {
-          address: "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
+          address: "0xA51c1fc2f0D1a1b8494Ed1FE312d7C3a78Ed91C0",
           abi: [
             {
               inputs: [
@@ -629,6 +629,19 @@ const contracts = {
                 },
               ],
               name: "DonationDefaultSet",
+              type: "event",
+            },
+            {
+              anonymous: false,
+              inputs: [
+                {
+                  indexed: false,
+                  internalType: "address",
+                  name: "user",
+                  type: "address",
+                },
+              ],
+              name: "ReceivedInitialAirdrop",
               type: "event",
             },
             {
@@ -715,14 +728,60 @@ const contracts = {
                   name: "user",
                   type: "address",
                 },
+              ],
+              name: "VerificationCompletedOrb",
+              type: "event",
+            },
+            {
+              anonymous: false,
+              inputs: [
                 {
                   indexed: false,
-                  internalType: "uint8",
-                  name: "bit",
-                  type: "uint8",
+                  internalType: "address",
+                  name: "user",
+                  type: "address",
                 },
               ],
-              name: "VerificationCompleted",
+              name: "VerificationCompletedPhone",
+              type: "event",
+            },
+            {
+              anonymous: false,
+              inputs: [
+                {
+                  indexed: false,
+                  internalType: "address",
+                  name: "user",
+                  type: "address",
+                },
+              ],
+              name: "VerificationCompletedPolygon13",
+              type: "event",
+            },
+            {
+              anonymous: false,
+              inputs: [
+                {
+                  indexed: false,
+                  internalType: "address",
+                  name: "user",
+                  type: "address",
+                },
+              ],
+              name: "VerificationCompletedPolygon18",
+              type: "event",
+            },
+            {
+              anonymous: false,
+              inputs: [
+                {
+                  indexed: false,
+                  internalType: "address",
+                  name: "user",
+                  type: "address",
+                },
+              ],
+              name: "VerificationCompletedSismo",
               type: "event",
             },
             {
@@ -913,6 +972,44 @@ const contracts = {
               type: "function",
             },
             {
+              inputs: [
+                {
+                  internalType: "address",
+                  name: "user",
+                  type: "address",
+                },
+              ],
+              name: "hasVerifiedAge",
+              outputs: [
+                {
+                  internalType: "bool",
+                  name: "",
+                  type: "bool",
+                },
+              ],
+              stateMutability: "view",
+              type: "function",
+            },
+            {
+              inputs: [
+                {
+                  internalType: "address",
+                  name: "user",
+                  type: "address",
+                },
+              ],
+              name: "hasVerifiedPersonhood",
+              outputs: [
+                {
+                  internalType: "bool",
+                  name: "",
+                  type: "bool",
+                },
+              ],
+              stateMutability: "view",
+              type: "function",
+            },
+            {
               inputs: [],
               name: "moderate",
               outputs: [],
@@ -1077,11 +1174,6 @@ const contracts = {
               name: "users",
               outputs: [
                 {
-                  internalType: "uint256",
-                  name: "verifications",
-                  type: "uint256",
-                },
-                {
                   internalType: "uint8",
                   name: "defaultVoteWeight",
                   type: "uint8",
@@ -1089,6 +1181,31 @@ const contracts = {
                 {
                   internalType: "bool",
                   name: "donateWinningsByDefault",
+                  type: "bool",
+                },
+                {
+                  internalType: "bool",
+                  name: "hasVerifiedOrb",
+                  type: "bool",
+                },
+                {
+                  internalType: "bool",
+                  name: "hasVerifiedPhone",
+                  type: "bool",
+                },
+                {
+                  internalType: "bool",
+                  name: "hasVerifiedSismo",
+                  type: "bool",
+                },
+                {
+                  internalType: "bool",
+                  name: "hasVerifiedPolygon13",
+                  type: "bool",
+                },
+                {
+                  internalType: "bool",
+                  name: "hasVerifiedPolygon18",
                   type: "bool",
                 },
               ],
@@ -1735,7 +1852,7 @@ const contracts = {
           ],
         },
         VoteToken: {
-          address: "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+          address: "0xB7f8BC63BbcaD18155201308C8f3540b07f84F5e",
           abi: [
             {
               inputs: [
@@ -2260,7 +2377,7 @@ const contracts = {
       name: "polygonMumbai",
       contracts: {
         CommunityToken: {
-          address: "0xfcD6d433C2d691Ec94D02C53c6facB1DB29EF037",
+          address: "0xcEF3c5040869134704e638a26cFdD7F73904eAfe",
           abi: [
             {
               inputs: [],
@@ -2547,7 +2664,13 @@ const contracts = {
                 },
               ],
               name: "makeNew",
-              outputs: [],
+              outputs: [
+                {
+                  internalType: "uint256",
+                  name: "",
+                  type: "uint256",
+                },
+              ],
               stateMutability: "nonpayable",
               type: "function",
             },
@@ -2726,6 +2849,19 @@ const contracts = {
             {
               inputs: [
                 {
+                  internalType: "uint256",
+                  name: "tokenId",
+                  type: "uint256",
+                },
+              ],
+              name: "topUpBalance",
+              outputs: [],
+              stateMutability: "payable",
+              type: "function",
+            },
+            {
+              inputs: [
+                {
                   internalType: "address",
                   name: "from",
                   type: "address",
@@ -2761,8 +2897,52 @@ const contracts = {
             },
           ],
         },
+        Counter: {
+          address: "0x9446A3209cf434e150E1Cf14df27F4cba4C6f183",
+          abi: [
+            {
+              anonymous: false,
+              inputs: [
+                {
+                  indexed: false,
+                  internalType: "uint256",
+                  name: "newCounterValue",
+                  type: "uint256",
+                },
+                {
+                  indexed: false,
+                  internalType: "address",
+                  name: "msgSender",
+                  type: "address",
+                },
+              ],
+              name: "IncrementCounter",
+              type: "event",
+            },
+            {
+              inputs: [],
+              name: "counter",
+              outputs: [
+                {
+                  internalType: "uint256",
+                  name: "",
+                  type: "uint256",
+                },
+              ],
+              stateMutability: "view",
+              type: "function",
+            },
+            {
+              inputs: [],
+              name: "increment",
+              outputs: [],
+              stateMutability: "nonpayable",
+              type: "function",
+            },
+          ],
+        },
         GameLogic: {
-          address: "0xDC4Be71f07c3102C987E43ef59786A7A47A2A2C7",
+          address: "0x74Ba61C67e924E1eBecc71F7F81b5E0C4d8656dD",
           abi: [
             {
               inputs: [
@@ -2868,27 +3048,8 @@ const contracts = {
                   name: "gateAddress",
                   type: "address",
                 },
-                {
-                  indexed: false,
-                  internalType: "address[]",
-                  name: "mods",
-                  type: "address[]",
-                },
               ],
               name: "NewCommunity",
-              type: "event",
-            },
-            {
-              anonymous: false,
-              inputs: [
-                {
-                  indexed: false,
-                  internalType: "address",
-                  name: "user",
-                  type: "address",
-                },
-              ],
-              name: "NewDownVote",
               type: "event",
             },
             {
@@ -2906,12 +3067,6 @@ const contracts = {
                   name: "uri",
                   type: "string",
                 },
-                {
-                  indexed: false,
-                  internalType: "uint256",
-                  name: "id",
-                  type: "uint256",
-                },
               ],
               name: "NewPost",
               type: "event",
@@ -2926,7 +3081,7 @@ const contracts = {
                   type: "address",
                 },
               ],
-              name: "NewUpVote",
+              name: "ReceivedInitialAirdrop",
               type: "event",
             },
             {
@@ -3013,14 +3168,60 @@ const contracts = {
                   name: "user",
                   type: "address",
                 },
+              ],
+              name: "VerificationCompletedOrb",
+              type: "event",
+            },
+            {
+              anonymous: false,
+              inputs: [
                 {
                   indexed: false,
-                  internalType: "uint8",
-                  name: "bit",
-                  type: "uint8",
+                  internalType: "address",
+                  name: "user",
+                  type: "address",
                 },
               ],
-              name: "VerificationCompleted",
+              name: "VerificationCompletedPhone",
+              type: "event",
+            },
+            {
+              anonymous: false,
+              inputs: [
+                {
+                  indexed: false,
+                  internalType: "address",
+                  name: "user",
+                  type: "address",
+                },
+              ],
+              name: "VerificationCompletedPolygon13",
+              type: "event",
+            },
+            {
+              anonymous: false,
+              inputs: [
+                {
+                  indexed: false,
+                  internalType: "address",
+                  name: "user",
+                  type: "address",
+                },
+              ],
+              name: "VerificationCompletedPolygon18",
+              type: "event",
+            },
+            {
+              anonymous: false,
+              inputs: [
+                {
+                  indexed: false,
+                  internalType: "address",
+                  name: "user",
+                  type: "address",
+                },
+              ],
+              name: "VerificationCompletedSismo",
               type: "event",
             },
             {
@@ -3094,11 +3295,21 @@ const contracts = {
               ],
               name: "createCommunity",
               outputs: [],
-              stateMutability: "nonpayable",
+              stateMutability: "payable",
               type: "function",
             },
             {
               inputs: [
+                {
+                  internalType: "bool",
+                  name: "isTopLevel",
+                  type: "bool",
+                },
+                {
+                  internalType: "uint256",
+                  name: "parentId",
+                  type: "uint256",
+                },
                 {
                   internalType: "string",
                   name: "title",
@@ -3106,13 +3317,13 @@ const contracts = {
                 },
                 {
                   internalType: "string",
-                  name: "uri",
+                  name: "contentURI",
                   type: "string",
                 },
               ],
               name: "createPost",
               outputs: [],
-              stateMutability: "nonpayable",
+              stateMutability: "payable",
               type: "function",
             },
             {
@@ -3198,6 +3409,51 @@ const contracts = {
                 },
               ],
               stateMutability: "view",
+              type: "function",
+            },
+            {
+              inputs: [
+                {
+                  internalType: "address",
+                  name: "user",
+                  type: "address",
+                },
+              ],
+              name: "hasVerifiedAge",
+              outputs: [
+                {
+                  internalType: "bool",
+                  name: "",
+                  type: "bool",
+                },
+              ],
+              stateMutability: "view",
+              type: "function",
+            },
+            {
+              inputs: [
+                {
+                  internalType: "address",
+                  name: "user",
+                  type: "address",
+                },
+              ],
+              name: "hasVerifiedPersonhood",
+              outputs: [
+                {
+                  internalType: "bool",
+                  name: "",
+                  type: "bool",
+                },
+              ],
+              stateMutability: "view",
+              type: "function",
+            },
+            {
+              inputs: [],
+              name: "moderate",
+              outputs: [],
+              stateMutability: "nonpayable",
               type: "function",
             },
             {
@@ -3358,11 +3614,6 @@ const contracts = {
               name: "users",
               outputs: [
                 {
-                  internalType: "uint256",
-                  name: "verifications",
-                  type: "uint256",
-                },
-                {
                   internalType: "uint8",
                   name: "defaultVoteWeight",
                   type: "uint8",
@@ -3370,6 +3621,31 @@ const contracts = {
                 {
                   internalType: "bool",
                   name: "donateWinningsByDefault",
+                  type: "bool",
+                },
+                {
+                  internalType: "bool",
+                  name: "hasVerifiedOrb",
+                  type: "bool",
+                },
+                {
+                  internalType: "bool",
+                  name: "hasVerifiedPhone",
+                  type: "bool",
+                },
+                {
+                  internalType: "bool",
+                  name: "hasVerifiedSismo",
+                  type: "bool",
+                },
+                {
+                  internalType: "bool",
+                  name: "hasVerifiedPolygon13",
+                  type: "bool",
+                },
+                {
+                  internalType: "bool",
+                  name: "hasVerifiedPolygon18",
                   type: "bool",
                 },
               ],
@@ -3467,7 +3743,7 @@ const contracts = {
           ],
         },
         PostToken: {
-          address: "0xda03EF601832FC4085B096447942416A45D5d4f5",
+          address: "0xD545535166247cb607cC02933F36Cf99575FBeA2",
           abi: [
             {
               inputs: [],
@@ -3622,6 +3898,60 @@ const contracts = {
               inputs: [
                 {
                   internalType: "uint256",
+                  name: "",
+                  type: "uint256",
+                },
+              ],
+              name: "details",
+              outputs: [
+                {
+                  internalType: "bool",
+                  name: "isTopLevel",
+                  type: "bool",
+                },
+                {
+                  internalType: "uint256",
+                  name: "parentId",
+                  type: "uint256",
+                },
+                {
+                  internalType: "string",
+                  name: "title",
+                  type: "string",
+                },
+                {
+                  internalType: "string",
+                  name: "contentURI",
+                  type: "string",
+                },
+                {
+                  internalType: "address",
+                  name: "author",
+                  type: "address",
+                },
+                {
+                  internalType: "bool",
+                  name: "isDeleted",
+                  type: "bool",
+                },
+                {
+                  internalType: "bool",
+                  name: "isModerated",
+                  type: "bool",
+                },
+                {
+                  internalType: "bool",
+                  name: "isModeratedUp",
+                  type: "bool",
+                },
+              ],
+              stateMutability: "view",
+              type: "function",
+            },
+            {
+              inputs: [
+                {
+                  internalType: "uint256",
                   name: "tokenId",
                   type: "uint256",
                 },
@@ -3632,6 +3962,44 @@ const contracts = {
                   internalType: "address",
                   name: "",
                   type: "address",
+                },
+              ],
+              stateMutability: "view",
+              type: "function",
+            },
+            {
+              inputs: [
+                {
+                  internalType: "uint256",
+                  name: "postId",
+                  type: "uint256",
+                },
+              ],
+              name: "getAuthorForPost",
+              outputs: [
+                {
+                  internalType: "address",
+                  name: "",
+                  type: "address",
+                },
+              ],
+              stateMutability: "view",
+              type: "function",
+            },
+            {
+              inputs: [
+                {
+                  internalType: "uint256",
+                  name: "postId",
+                  type: "uint256",
+                },
+              ],
+              name: "getCommunityIdForPost",
+              outputs: [
+                {
+                  internalType: "uint256",
+                  name: "",
+                  type: "uint256",
                 },
               ],
               stateMutability: "view",
@@ -3659,6 +4027,45 @@ const contracts = {
                 },
               ],
               stateMutability: "view",
+              type: "function",
+            },
+            {
+              inputs: [
+                {
+                  internalType: "bool",
+                  name: "isTopLevel",
+                  type: "bool",
+                },
+                {
+                  internalType: "uint256",
+                  name: "parentId",
+                  type: "uint256",
+                },
+                {
+                  internalType: "string",
+                  name: "title",
+                  type: "string",
+                },
+                {
+                  internalType: "string",
+                  name: "contentURI",
+                  type: "string",
+                },
+                {
+                  internalType: "address",
+                  name: "author",
+                  type: "address",
+                },
+              ],
+              name: "makeNew",
+              outputs: [
+                {
+                  internalType: "uint256",
+                  name: "",
+                  type: "uint256",
+                },
+              ],
+              stateMutability: "nonpayable",
               type: "function",
             },
             {
@@ -3719,11 +4126,6 @@ const contracts = {
                   internalType: "address",
                   name: "to",
                   type: "address",
-                },
-                {
-                  internalType: "string",
-                  name: "uri",
-                  type: "string",
                 },
               ],
               name: "safeMint",
@@ -3890,7 +4292,7 @@ const contracts = {
           ],
         },
         VoteToken: {
-          address: "0xB0c2f1C2Bdd8e07429C5b563a81a123fC5EdCe01",
+          address: "0x1C40184eADe02e2592837064a52bfD758e119842",
           abi: [
             {
               inputs: [
@@ -4265,7 +4667,7 @@ const contracts = {
           ],
         },
         YourContract: {
-          address: "0x99BD827eD6cb2e74282FF53022f39cb253275321",
+          address: "0x9a674bcD3a7d7B15c30f1310Bc11c8B87658a1F3",
           abi: [
             {
               inputs: [
@@ -4391,13 +4793,6 @@ const contracts = {
                 },
               ],
               stateMutability: "view",
-              type: "function",
-            },
-            {
-              inputs: [],
-              name: "withdraw",
-              outputs: [],
-              stateMutability: "nonpayable",
               type: "function",
             },
             {

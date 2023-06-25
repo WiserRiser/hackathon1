@@ -1,9 +1,49 @@
 import type { NextPage } from "next";
+import { useEffect, useState } from "react";
 import { MetaHeader } from "~~/components/MetaHeader";
 import { ContractData } from "~~/components/example-ui/ContractData";
 import { ContractInteraction } from "~~/components/example-ui/ContractInteraction";
 
+
+import { gql, useQuery } from 'urql';
+
+const punksQuery = gql`
+  query {
+    
+      accounts(first: 5) {
+        id
+        punksOwned {
+          id
+        }
+        bought {
+          id
+        }
+        nftsOwned {
+          id
+        }
+      }
+      punks(first: 5) {
+        id
+        transferedTo {
+          id
+        }
+        assignedTo {
+          id
+        }
+        purchasedBy {
+          id
+        }
+      }
+    }
+`
+
 const ExampleUI: NextPage = () => {
+  const [result, reexecuteQuery] = useQuery({
+    query: punksQuery,
+  });
+
+  const { data, fetching, error } = result;
+  console.log(data);
   return (
     <>
       <MetaHeader

@@ -66,11 +66,19 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
     // automatically mining the contract deployment transaction. There is no effect on live networks.
     autoMine: true,
   });
-
+  const deployedUsers = await deploy("Users", {
+    from: deployer,
+    // Contract constructor arguments
+    args: [deployedVoteToken.address],
+    log: true,
+    // autoMine: can be passed to the deploy function to make the deployment process faster on local networks by
+    // automatically mining the contract deployment transaction. There is no effect on live networks.
+    autoMine: true,
+  });
   const deployedGameLogic = await deploy("GameLogic", {
     from: deployer,
     // Contract constructor arguments
-    args: [deployedCommunityToken.address, deployedVoteToken.address, deployedPostToken.address],
+    args: [deployedCommunityToken.address, deployedVoteToken.address, deployedPostToken.address, deployedUsers.address],
     log: true,
     // autoMine: can be passed to the deploy function to make the deployment process faster on local networks by
     // automatically mining the contract deployment transaction. There is no effect on live networks.

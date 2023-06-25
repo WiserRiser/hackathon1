@@ -1,39 +1,16 @@
 // SPDX-License-Identifier: Apache-2.0
 pragma solidity ^0.8.9;
 
-import "@openzeppelin/contracts/access/AccessControl.sol";
+import "./Users.sol";
 import "./CommunityToken.sol";
 import "./VoteToken.sol";
 import "./PostToken.sol";
-import "./polygon/lib/GenesisUtils.sol";
-import "./polygon/interfaces/ICircuitValidator.sol";
-import "./polygon/verifiers/ZKPVerifier.sol";
 
-contract GameLogic is AccessControl, ZKPVerifier {
-    uint64 public constant TRANSFER_REQUEST_ID = 1;
-
-    struct User {
-        uint8 defaultVoteWeight;
-        bool donateWinningsByDefault;
-        bool hasVerifiedOrb;
-        bool hasVerifiedPhone;
-        bool hasVerifiedSismo;
-        bool hasVerifiedPolygon13;
-        bool hasVerifiedPolygon18;
-    }
-
-    event VerificationCompletedOrb(address user);
-    event VerificationCompletedPhone(address user);
-    event VerificationCompletedSismo(address user);
-    event VerificationCompletedPolygon13(address user);
-    event VerificationCompletedPolygon18(address user);
-    event ReceivedInitialAirdrop(address user);
-    event DefaultVoteWeightChanged(address user, uint8 defaultVoteWeight);
-    event DonationDefaultSet(address user, bool donatesByDefaultNow);
-
+contract GameLogic is Ownable {
     address public communityTokenAddress;
     address public postTokenAddress;
     address public voteTokenAddress;
+    address public usersAddress;
     // upvote post address => (user address, count)
     mapping (uint => mapping (address => int8)) public upVoteMap;
     //mapping (address => uint256) public upVoteMap;
@@ -41,25 +18,66 @@ contract GameLogic is AccessControl, ZKPVerifier {
     mapping (uint => mapping (address => int8)) public downVoteMap;
     // user address => nft address
     mapping (address => address) public postAddress;
-    mapping (address => User) public users;
 
     //For Polygon id
     mapping(uint256 => address) public idToAddress;
     mapping(address => uint256) public addressToId;
 
-    constructor(address _CommunityToken, address _VoteToken, address _PostToken) {
-        _setupRole(DEFAULT_ADMIN_ROLE, _msgSender());
+    constructor(address _CommunityToken, address _VoteToken, address _PostToken, address _Users) {
         communityTokenAddress = _CommunityToken;
         postTokenAddress = _PostToken;
         voteTokenAddress = _VoteToken;
+        usersAddress = _Users;
     }
 
     modifier verificationRequired() {
-        require(
-            proofs[msg.sender][TRANSFER_REQUEST_ID] == true && hasVerifiedPersonhood(_msgSender()),
-            "only identities who provided proof are allowed to take this action"
-        );
+        require(Users(usersAddress).verificationRequired(_msgSender()));
         _;
+    }
+
+    function verifyUserWorldcoinOrb(
+        address user
+    ) public {
+        Users(usersAddress).verifyUserWorldcoinOrb(user);
+    }
+
+    function verifyUserWorldcoinPhone(
+        address user
+    ) public {
+        Users(usersAddress).verifyUserWorldcoinPhone(user);
+    }
+
+    function verifyUserSismo(
+        address user
+    ) public {
+        Users(usersAddress).verifyUserSismo(user);
+    }
+
+    function verifyUserPolygon(
+        address user,
+        uint8 minAge //should be 13 or 18
+    ) public {
+        Users(usersAddress).verifyUserPolygon(user, minAge);
+    }
+
+    function setUserDefaultVoteWeight(
+        address user,
+        uint8 defaultVoteWeight
+    ) public {
+        Users(usersAddress).setUserDefaultVoteWeight(
+            user,
+            defaultVoteWeight
+        );
+    }
+
+    function setUserDefaultDonate(
+        address user,
+        bool donateWinningsByDefault
+    ) public {
+        Users(usersAddress).setUserDefaultDonate(
+            user,
+            donateWinningsByDefault
+        );
     }
 
     function createCommunity(
@@ -91,143 +109,6 @@ contract GameLogic is AccessControl, ZKPVerifier {
             gateAddress
         );
         CommunityToken(communityTokenAddress).topUpBalance{value: msg.value}(tokenId);
-    }
-
-    function verifyUserWorldcoinOrb(
-        address user
-    ) public {
-        //requrire(tx comes from user)
-        //require(Worldcoin claims personhood via orb)
-        bool eligibleForTokens = !hasVerifiedPersonhood(user) && hasVerifiedAge(user);
-        users[user].hasVerifiedOrb = true;
-        emit VerificationCompletedOrb(user);
-        if(eligibleForTokens) {
-            airdropInitialTokens(user);
-        }
-    }
-    //Could combine immediately preceding & following functions
-    //if Worldcoin gives one verification function that returns an
-    //indication of which verification method(s) the user has completed.
-    function verifyUserWorldcoinPhone(
-        address user
-    ) public {
-        //requrire(tx comes from user)
-        //require(Worldcoin claims personhood via phone)
-        bool eligibleForTokens = !hasVerifiedPersonhood(user) && hasVerifiedAge(user);
-        users[user].hasVerifiedPhone = true;
-        emit VerificationCompletedPhone(user);
-        if(eligibleForTokens) {
-            airdropInitialTokens(user);
-        }
-    }
-
-    function verifyUserSismo(
-        address user
-    ) public {
-        //requrire(tx comes from user)
-        //require(Sismo claims personhood)
-        bool eligibleForTokens = !hasVerifiedPersonhood(user) && hasVerifiedAge(user);
-        users[user].hasVerifiedSismo = true;
-        emit VerificationCompletedSismo(user);
-        if(eligibleForTokens) {
-            airdropInitialTokens(user);
-        }
-    }
-
-    function hasVerifiedPersonhood(
-        address user
-    ) public view returns (bool) {
-        User storage userStruct = users[user];
-        return userStruct.hasVerifiedOrb || userStruct.hasVerifiedPhone || userStruct.hasVerifiedSismo;
-    }
-
-    function hasVerifiedAge(
-        address user
-    ) public view returns (bool) {
-        User storage userStruct = users[user];
-        return userStruct.hasVerifiedPolygon13 || userStruct.hasVerifiedPolygon18;
-    }
-
-    function airdropInitialTokens(
-        address user
-    ) private {
-        VoteToken(voteTokenAddress).mint(user, 2000);
-        emit ReceivedInitialAirdrop(user);
-    }
-
-    //Based on https://0xpolygonid.github.io/tutorials/verifier/on-chain-verification/overview/#user-demo-claim-the-airdrop
-    function _beforePolygonProofSubmit(
-        uint64, /* requestId */
-        uint256[] memory inputs,
-        ICircuitValidator validator
-    ) internal view {
-        // check that the challenge input of the proof is equal to the msg.sender
-        address addr = GenesisUtils.int256ToAddress(
-            inputs[validator.getChallengeInputIndex()]
-        );
-        require(
-            _msgSender() == addr,
-            "address in the proof is not a sender address"
-        );
-    }
-
-    function _afterPolygonProofSubmit(
-        uint64 requestId,
-        uint256[] memory inputs,
-        ICircuitValidator validator
-    ) internal {
-        require(
-            requestId == TRANSFER_REQUEST_ID && addressToId[_msgSender()] == 0,
-            "proof can not be submitted more than once"
-        );
-
-        uint256 id = inputs[validator.getChallengeInputIndex()];
-        // execute the airdrop
-        if (idToAddress[id] == address(0)) {
-            addressToId[_msgSender()] = id;
-            idToAddress[id] = _msgSender();
-        }
-    }
-
-    function verifyUserPolygon(
-        address user,
-        uint8 minAge //should be 13 or 18
-    ) public {
-        //requrire(tx comes from user)
-
-
-        //require(Polygon claims user has over minimum age)
-        //TODO: Call Polygon ID on-chain verification for the specified minimum age.
-        //Revert/don't reach the below code if that fails.
-        bool eligibleForTokens = hasVerifiedPersonhood(user) && !hasVerifiedAge(user);
-        if(minAge >= 18) {
-            users[user].hasVerifiedPolygon18 = true;
-            emit VerificationCompletedPolygon18(user);
-        } else if (minAge >= 13) {
-            users[user].hasVerifiedPolygon13 = true;
-            emit VerificationCompletedPolygon13(user);
-        }
-        if(eligibleForTokens) {
-            airdropInitialTokens(user);
-        }
-    }
-
-    function setUserDefaultVoteWeight(
-        address user,
-        uint8 defaultVoteWeight
-    ) public {
-        //requrire(tx comes from user)
-        emit DefaultVoteWeightChanged(user, defaultVoteWeight);
-        users[user].defaultVoteWeight = defaultVoteWeight;
-    }
-
-    function setUserDefaultDonate(
-        address user,
-        bool donateWinningsByDefault
-    ) public {
-        //requrire(tx comes from user)
-        emit DonationDefaultSet(user, donateWinningsByDefault);
-        users[user].donateWinningsByDefault = donateWinningsByDefault;
     }
 
     function createPost(

@@ -60,7 +60,7 @@ contract PostToken is ERC721, ERC721Burnable, Ownable {
         return details[postId].author;
     }
 
-    function safeMint(address to, string memory uri) public onlyOwner {
+    function safeMint(address to) public onlyOwner {
         uint256 tokenId = _tokenIdCounter.current();
         _tokenIdCounter.increment();
         _safeMint(to, tokenId);

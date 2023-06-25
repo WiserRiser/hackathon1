@@ -12,7 +12,7 @@ import { storeInIPFS } from "./ipfsUtil";
 
 type POST_TYPE = 'uri' | 'ipfs' | 'text';
 const Home: NextPage = () => {
-  const [communityName, setCommunityName] = useState("");
+  const [communityId, setCommunityId] = useState("");
   const [postTitle, setPostTitle] = useState("");
   const [postType, setPostType] = useState<POST_TYPE>("ipfs");
   const [postURI, setPostURI] = useState("");
@@ -67,15 +67,15 @@ const Home: NextPage = () => {
         </div>
         <div className="flex-grow bg-base-300 w-full mt-16 px-8 py-12">
           <p>
-            Community name:{" "}
+            Community Id:{" "}
             <input
               style={{ color: "black" }}
-              type="text"
-              id="communityName"
-              name="communityName"
-              value={communityName}
-              onChange={e => setCommunityName(e.target.value)}
-            />
+              type="number"
+              id="communityId"
+              name="communityId"
+              value={communityId}
+              onChange={e => setCommunityId(e.target.value)}
+            />{" (In the future, this will be easier to select.)"}
           </p>
           <p>
             Post title:{" "}

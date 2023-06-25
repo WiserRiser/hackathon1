@@ -12,7 +12,7 @@ const styles = {
     textAlign: "center"
   },
   qrcode: {
-    textAlign: "center"
+    display:"flex",
   }
 } as const;
 
@@ -21,7 +21,7 @@ export default class App extends React.Component {
     return (
       <div style={styles.root}>
         <h1 style={styles.h1}>QRCode with JSON</h1>
-        <div style={styles.qrcode}>
+        <div style={styles.qrcode} className="flex justify-center items-center">
           <QRCode
             level="Q"
             style={{ width: 512 }}

@@ -1,13 +1,16 @@
 import { useState } from "react";
 import Image from "next/image";
 import { Signer } from "ethers";
-import { useAccount, useContractWrite, usePrepareContractWrite, useSigner } from "wagmi";
+import { useAccount, useSigner } from "wagmi";
 import PersonhoodVerifications from "~~/components/PersonhoodVerifications";
+import PolygonModal from "~~/components/PolygonModal";
 import { useScaffoldContract } from "~~/hooks/scaffold-eth";
 
 const Onboarding = () => {
   const [agreedToXMTP, setAgreedToXMTP] = useState(false);
   const [agreedToDonation, setAgreedToDonation] = useState(false);
+  let [isOpen, setIsOpen] = useState(false);
+
   const [votingWeight, setVotingWeight] = useState(5);
   const { data: signer, /*isError,*/ isLoading } = useSigner();
   const { data: gameLogicContract } = useScaffoldContract({
@@ -69,14 +72,9 @@ const Onboarding = () => {
           be consenting to moderating adult content.
         </p>
         <div className="flex flex-row w-full justify-around">
-          <button onClick={() => console.log("clicked")}>
+          <PolygonModal isOpen={isOpen} setIsOpen={setIsOpen} />
+          <button onClick={() => setIsOpen(true)}>
             <div className="relative -mx-5 mt-8 flex flex-col bg-slate-700/25 ring-1 ring-slate-700/50 sm:mx-0 sm:rounded-2xl h-32 w-32 justify-center items-center hover:bg-slate-700">
-              {/* <PolygonIDVerifier publicServerURL={
-                    process.env.REACT_APP_VERIFICATION_SERVER_PUBLIC_URL
-                  }
-                  localServerURL={
-                    process.env.REACT_APP_VERIFICATION_SERVER_LOCAL_HOST_URL
-                  }/> */}
               <Image
                 src={"/assets/youngest_noun.svg"}
                 alt="Badge"
@@ -88,7 +86,7 @@ const Onboarding = () => {
               <p className="mt-2 mb-0">I am over 13</p>
             </div>
           </button>
-          <button onClick={() => console.log("clicked")}>
+          <button onClick={() => setIsOpen(true)}>
             <div className="relative -mx-5 mt-8 flex flex-col bg-slate-700/25 ring-1 ring-slate-700/50 sm:mx-0 sm:rounded-2xl h-32 w-32 justify-center items-center hover:bg-slate-700">
               <Image
                 src={"/assets/oldest_noun.svg"}

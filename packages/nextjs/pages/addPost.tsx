@@ -6,7 +6,7 @@ import type { NextPage } from "next";
 import { ArrowSmallRightIcon } from "@heroicons/react/24/outline";
 import { MetaHeader } from "~~/components/MetaHeader";
 import { useScaffoldContract } from "~~/hooks/scaffold-eth";
-import { Signer } from "ethers";
+import { Signer, ethers } from "ethers";
 import { useSigner } from "wagmi";
 import { storeInIPFS } from "./ipfsUtil";
 

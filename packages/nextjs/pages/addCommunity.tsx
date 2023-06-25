@@ -7,7 +7,7 @@ import { ArrowSmallRightIcon } from "@heroicons/react/24/outline";
 import { MetaHeader } from "~~/components/MetaHeader";
 import { useScaffoldContract } from "~~/hooks/scaffold-eth";
 import { useSigner } from "wagmi";
-import { Signer } from "ethers";
+import { Signer, ethers } from "ethers";
 import { storeInIPFS } from "./ipfsUtil";
 import contracts from "../generated/deployedContracts";
 
@@ -73,7 +73,7 @@ const Home: NextPage = () => {
         mod5.trim()
       ],
       {
-        value: deposit,
+        value: ethers.utils.parseUnits(deposit, "ether"),
       }
     );
     //TODO: Expand to use other parameters, create the multisig that owns the community ERC721,

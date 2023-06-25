@@ -13,6 +13,7 @@ const styles = {
   },
   qrcode: {
     display:"flex",
+		padding: "2.3em",
   }
 } as const;
 

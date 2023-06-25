@@ -16,6 +16,7 @@
   "dependencies": {
     "@ethersproject/networks": "^5.7.1",
     "@ethersproject/web": "^5.7.1",
+    "@fortawesome/fontawesome-free": "^6.4.0",
     "@gelatonetwork/relay-sdk": "^4.0.0",
     "@heroicons/react": "^2.0.11",
     "@rainbow-me/rainbowkit": "^0.11.0",

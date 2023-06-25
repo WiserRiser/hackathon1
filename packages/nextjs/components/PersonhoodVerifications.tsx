@@ -10,38 +10,6 @@ import { gameLogic } from "~~/abi/GameLogic";
 // import { decode } from "~~/lib/wld";
 
 const PersonhoodVerifications = () => {
-  // const { address } = useAccount();
-  // const [proof, setProof] = useState<ISuccessResult | null>(null);
-
-  // const { config } = usePrepareContractWrite({
-  //   address: process.env.NEXT_PUBLIC_CONTRACT_ADDR as `0x${string}`,
-  //   abi: ContractAbi,
-  //   enabled: proof != null && address != null,
-  //   functionName: "verifyAndExecute",
-  //   args: [
-  //     address!,
-  //     proof?.merkle_root ? decode<BigNumber>("uint256", proof?.merkle_root ?? "") : BigNumber.from(0),
-  //     proof?.nullifier_hash ? decode<BigNumber>("uint256", proof?.nullifier_hash ?? "") : BigNumber.from(0),
-  //     proof?.proof
-  //       ? decode<[BigNumber, BigNumber, BigNumber, BigNumber, BigNumber, BigNumber, BigNumber, BigNumber]>(
-  //           "uint256[8]",
-  //           proof?.proof ?? "",
-  //         )
-  //       : [
-  //           BigNumber.from(0),
-  //           BigNumber.from(0),
-  //           BigNumber.from(0),
-  //           BigNumber.from(0),
-  //           BigNumber.from(0),
-  //           BigNumber.from(0),
-  //           BigNumber.from(0),
-  //           BigNumber.from(0),
-  //         ],
-  //   ],
-  // });
-
-  // const { write } = useContractWrite(config);
-
   const handleProof = async (result: ISuccessResult) => {
     const reqBody = {
       merkle_root: result.merkle_root,
@@ -79,6 +47,7 @@ const PersonhoodVerifications = () => {
 
   const onSuccess = (result: ISuccessResult, write: any) => {
     // performing a write function here due to time constraints
+
     console.log(address);
     write?.();
   };

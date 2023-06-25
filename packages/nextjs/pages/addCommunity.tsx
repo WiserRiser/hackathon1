@@ -9,6 +9,8 @@ import { useScaffoldContract } from "~~/hooks/scaffold-eth";
 import { useSigner } from "wagmi";
 import { Signer } from "ethers";
 import { storeInIPFS } from "./ipfsUtil";
+import contracts from "../generated/deployedContracts";
+
 //SITE values: betterReddit = 1, qf = 2, pix = 3
 type SITE = 1 | 2 | 3;
 type NETWORK = 'gnosis' | 'polygon' | 'linea';
@@ -33,19 +35,28 @@ const Home: NextPage = () => {
     contractName: "GameLogic",
     signerOrProvider: signer as Signer,
   });
-
   const storeRulesInIPFS = async function (rules: string): Promise<string> {
     const rulesCid = await storeInIPFS(rules);
     console.log('rules CID: ' + rulesCid);
     return rulesCid;
   };
-
   const submitForm = async function() {
+    const currentNetwork = (await signer?.provider?.getNetwork())?.chainId;
+    if (typeof currentNetwork === "undefined") {
+      throw new Error("Current network is unexpectedly undefined.");
+    }
+    //@ts-ignore for now because keys of contracts are defined as const
+    const gameLogicContractAddress = contracts[currentNetwork][0].contracts['GameLogic'].address;
+    console.log('Contract is deployed at ',gameLogicContractAddress);
     if(gameLogicContract === null) {
       throw new Error('gameLogicContract is unexpectedly null.');
     }
     const rulesIPFSHash = await storeRulesInIPFS(rules);
     //TODO: Use the network state to decide which network to do this on.
+    let gateAddressTrimmed = gateAddress.trim();
+    if(gateAddressTrimmed.length === 0) {
+      gateAddressTrimmed = '0x0000000000000000000000000000000000000000';
+    }
     const communityCreation = await gameLogicContract.createCommunity(
       site,
       newCommunityName,
@@ -53,13 +64,13 @@ const Home: NextPage = () => {
       restrictPostingChecked,
       restrictVotingChecked,
       sponsorPosts,
-      gateAddress,
+      gateAddressTrimmed,
       [
-        mod1,
-        mod2,
-        mod3,
-        mod4,
-        mod5
+        mod1.trim(),
+        mod2.trim(),
+        mod3.trim(),
+        mod4.trim(),
+        mod5.trim()
       ],
       {
         value: deposit,

@@ -38,6 +38,7 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.4.0",
+    "@xmtp/react-sdk": "preview",
     "dotenv": "^16.3.1",
     "hardhat": "^2.16.0",
     "ipfs-http-client": "^60.0.1"

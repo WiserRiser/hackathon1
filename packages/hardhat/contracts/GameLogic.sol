@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: Apache-2.0
 pragma solidity ^0.8.9;
 
 import "@openzeppelin/contracts/access/AccessControl.sol";
@@ -145,10 +145,24 @@ contract GameLogic is AccessControl {
         users[user].donateWinningsByDefault = donateWinningsByDefault;
     }
 
-    function createPost(string memory uri) public {
+    function createPost(
+        bool isTopLevel,
+        uint parentId,
+        string calldata title,
+        string calldata contentURI
+    ) public payable {
         // TODO capture nft address here
         //postAddress[msg.sender] =
         //PostToken.safeMint(address(this), uri);
+        PostToken(postTokenAddress).makeNew(
+            isTopLevel,
+            parentId,
+            title,
+            contentURI,
+            msg.sender
+        );
+        uint communityId = isTopLevel ? parentId : PostToken(postTokenAddress).getCommunityIdForPost(parentId);
+        CommunityToken(communityTokenAddress).topUpBalance{value: msg.value}(communityId);
     }
 
     function vote(address _postAddress, int8 votes) public {
@@ -163,5 +177,9 @@ contract GameLogic is AccessControl {
             upVoteMap[_postAddress][msg.sender] = votes;
         }
         VoteToken(voteTokenAddress).transfer(msg.sender, 1);
+    }
+
+    function moderate() public {
+        
     }
 }

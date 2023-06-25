@@ -2,13 +2,11 @@ import Link from "next/link";
 import type { NextPage } from "next";
 import { MagnifyingGlassIcon, PencilSquareIcon, UserGroupIcon, UserIcon } from "@heroicons/react/24/outline";
 import { MetaHeader } from "~~/components/MetaHeader";
-import WorldID from "~~/components/WorldID";
 
 const Home: NextPage = () => {
   return (
     <>
       <MetaHeader />
-      <WorldID />
       <div className="flex items-center flex-col flex-grow pt-10">
         <div className="px-5">
           <h1 className="text-center mb-8">

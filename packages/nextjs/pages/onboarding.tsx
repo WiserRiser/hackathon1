@@ -1,8 +1,15 @@
+import { useState } from "react";
 import Image from "next/image";
 import PersonhoodVerifications from "~~/components/PersonhoodVerifications";
 import PolygonIDVerifier from "~~/components/PolygonIDVerifier";
 
 const Onboarding = () => {
+  const [agreedToXMTP, setAgreedToXMTP] = useState(false);
+
+  const handleAgreeToXMTP = () => {
+    setAgreedToXMTP(!agreedToXMTP);
+  };
+
   return (
     <div className="relative  z-10 -mx-4 bg-[radial-gradient(164.75%_100%_at_50%_0%,#334155_0%,#0F172A_48.73%)] px-5 py-10 shadow-lg sm:mx-0 sm:rounded-2xl sm:px-10 max-w-2xl ">
       <h1 className="w-full text-center font-semibold text-2xl">Moderation Onboarding</h1>
@@ -49,8 +56,20 @@ const Onboarding = () => {
         </button>
       </div>
       <h2 className="w-full text-center font-semibold text-2xl mt-8">Voting Settings</h2>
-      <p>Default vote weight: </p>
+      <p>Default vote weight:</p>
       <input type="text" />
+      <div className="flex items-center mt-4">
+        <input
+          type="checkbox"
+          id="agreeToXMTP"
+          checked={agreedToXMTP}
+          onChange={handleAgreeToXMTP}
+          className="mr-2"
+        />
+        <label htmlFor="agreeToXMTP" className="text-sm">
+          I agree to receive messages on XMTP
+        </label>
+      </div>
     </div>
   );
 };

@@ -2,13 +2,14 @@ import { useState } from "react";
 import contracts from "../generated/deployedContracts";
 import { storeInIPFS } from "./ipfsUtil";
 import * as dotenv from "dotenv";
-import { Signer } from "ethers";
+import { Signer, ethers } from "ethers";
 import type { NextPage } from "next";
 import { useNetwork, useSigner, useSwitchNetwork } from "wagmi";
 //import Link from "next/link";
 import { ArrowSmallRightIcon } from "@heroicons/react/24/outline";
 import { MetaHeader } from "~~/components/MetaHeader";
 import { useScaffoldContract } from "~~/hooks/scaffold-eth";
+
 
 dotenv.config();
 
@@ -70,8 +71,8 @@ const Home: NextPage = () => {
       gateAddressTrimmed,
       [mod1.trim(), mod2.trim(), mod3.trim(), mod4.trim(), mod5.trim()],
       {
-        value: deposit,
-      },
+        value: ethers.utils.parseUnits(deposit, "ether"),
+      }
     );
     //TODO: Expand to use other parameters, create the multisig that owns the community ERC721,
     //mint the ERC721 and transfer it to the community,

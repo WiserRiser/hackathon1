@@ -46,6 +46,10 @@ const Home: NextPage = () => {
     }
     const rulesIPFSHash = await storeRulesInIPFS(rules);
     //TODO: Use the network state to decide which network to do this on.
+    let gateAddressTrimmed = gateAddress.trim();
+    if(gateAddressTrimmed.length === 0) {
+      gateAddressTrimmed = '0x0000000000000000000000000000000000000000';
+    }
     const communityCreation = await gameLogicContract.createCommunity(
       site,
       newCommunityName,
@@ -53,13 +57,13 @@ const Home: NextPage = () => {
       restrictPostingChecked,
       restrictVotingChecked,
       sponsorPosts,
-      gateAddress,
+      gateAddressTrimmed,
       [
-        mod1,
-        mod2,
-        mod3,
-        mod4,
-        mod5
+        mod1.trim(),
+        mod2.trim(),
+        mod3.trim(),
+        mod4.trim(),
+        mod5.trim()
       ],
       {
         value: deposit,

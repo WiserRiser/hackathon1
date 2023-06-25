@@ -274,7 +274,7 @@ const Home: NextPage = () => {
             /> Linea{" "}
           </p>
           <p>
-            Deposit amount (xDAI/MATIC): {" "}
+            Deposit amount (xDAI/MATIC/ETH): {" "}
             <input
               style={{ color: "black" }}
               type="number"

@@ -10,6 +10,8 @@ import "./polygon/interfaces/ICircuitValidator.sol";
 import "./polygon/verifiers/ZKPVerifier.sol";
 
 contract GameLogic is AccessControl, ZKPVerifier {
+    uint64 public constant TRANSFER_REQUEST_ID = 1;
+
     struct User {
         uint8 defaultVoteWeight;
         bool donateWinningsByDefault;

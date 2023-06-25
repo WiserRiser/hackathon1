@@ -5243,6 +5243,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/react-dom@npm:^18":
+  version: 18.2.6
+  resolution: "@types/react-dom@npm:18.2.6"
+  dependencies:
+    "@types/react": "*"
+  checksum: b56e42efab121a3a8013d2eb8c1688e6028a25ea6d33c4362d2846f0af3760b164b4d7c34846614024cfb8956cca70dd1743487f152e32ff89a00fe6fbd2be54
+  languageName: node
+  linkType: hard
+
 "@types/react@npm:*, @types/react@npm:^18.0.15, @types/react@npm:^18.0.9":
   version: 18.2.14
   resolution: "@types/react@npm:18.2.14"
@@ -16518,7 +16527,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:^15.5.10, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
+"prop-types@npm:^15.5.10, prop-types@npm:^15.5.8, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -16657,6 +16666,13 @@ __metadata:
   dependencies:
     qrcode-generator: ^1.4.3
   checksum: 30a875ad31350832d0e4b2f7d92c5b9c5baa6d256b85a28ee20c22704fbff283a221f56aa7305f6237a46c7564184076df7f1a9d252b47f7b8d7b5f06a4928d0
+  languageName: node
+  linkType: hard
+
+"qr.js@npm:0.0.0":
+  version: 0.0.0
+  resolution: "qr.js@npm:0.0.0"
+  checksum: 5ac6c393967bdeaa660e7fd3a501a25eb538c1f6008a4d30ab2b97bbe520e5c236530090773f1578aa0a523cdaa6923c866615e21143f9e7cd22abd41c789b69
   languageName: node
   linkType: hard
 
@@ -16944,6 +16960,18 @@ __metadata:
   dependencies:
     p-defer: ^3.0.0
   checksum: f10f435060551c470711ba0b3663e3d49c7701aae84ea645d66992d756b13e923fb5762b324d3583d85c1c0def4138b9cc3f686bab1c1bc10d3ad82dc7175c99
+  languageName: node
+  linkType: hard
+
+"react-qr-svg@npm:^2.4.0":
+  version: 2.4.0
+  resolution: "react-qr-svg@npm:2.4.0"
+  dependencies:
+    prop-types: ^15.5.8
+    qr.js: 0.0.0
+  peerDependencies:
+    react: ">= 0.11.2 < 18.0.0"
+  checksum: 2a467046bb5e0511ae2b8850f50f4bee7be12736c1e6676c7825532281e73bcc33b960b6ab26f6476ebb63f1372fda9a90a8ba2b8996d77f6d0f66191ff1534a
   languageName: node
   linkType: hard
 
@@ -17898,12 +17926,15 @@ __metadata:
   resolution: "se-2@workspace:."
   dependencies:
     "@fortawesome/fontawesome-free": ^6.4.0
+    "@types/react-dom": ^18
     "@xmtp/react-sdk": preview
     dotenv: ^16.3.1
     hardhat: ^2.16.0
     husky: ^8.0.1
     ipfs-http-client: ^60.0.1
     lint-staged: ^13.0.3
+    react-dom: ^18.2.0
+    react-qr-svg: ^2.4.0
   languageName: unknown
   linkType: soft
 

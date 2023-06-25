@@ -24,7 +24,7 @@ export default class App extends React.Component {
         <div style={styles.qrcode} className="flex justify-center items-center">
           <QRCode
             level="Q"
-            style={{ width: 512 }}
+            style={{ height: "750px" }}
             value={JSON.stringify(data)}
           />
         </div>

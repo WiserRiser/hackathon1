@@ -31,7 +31,6 @@ const Home: NextPage = () => {
     //Also transfer any associated value to the parent post or community- maybe only with value tokens?
     let localType = postType;
     if(localType === 'text') {
-    console.log("infura key:", process.env.INFURA_ID);
     if (localType === 'text') {
       const postCid = await storeInIPFS(postText);
       console.log('post CID: ' + postCid);

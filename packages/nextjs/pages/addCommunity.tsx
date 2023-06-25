@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Info } from "../components/icons/info";
 import { User } from "../components/icons/user";
 import contracts from "../generated/deployedContracts";
 import { storeInIPFS } from "./ipfsUtil";
@@ -81,19 +82,25 @@ const Home: NextPage = () => {
     <>
       <MetaHeader />
       <div className="flex items-center flex-col flex-grow pt-10">
-        <div className="px-5">
+        <div className="px-5 w-3/4">
           <h1 className="text-center mb-8">
             <span className="block text-2xl mb-2">WiserRiser</span>
             <span className="block text-4xl font-bold">Create A Community</span>
           </h1>
-          <p className="text-center text-lg">
-            To create a community, you will need to have a mod team of at least 5 people, each of whom have a distinct
-            Worldcoin (or in the future, Sismo Connect) proof-of-personhood.
-          </p>
-          <p className="text-center text-lg">
-            You will also need a deposit amount which is used to sponsor gas fees in the community. In the future,
-            crowdfunding functionality for that deposit can be added.
-          </p>
+          <div className="flex gap-2 items-center">
+            <Info />
+            <p className="text-md">
+              To create a community, you will need to have a mod team of at least 5 people, each of whom have a distinct
+              Worldcoin (or in the future, Sismo Connect) proof-of-personhood.
+            </p>
+          </div>
+          <div className="flex gap-2 items-center">
+            <Info />
+            <p className="text-md">
+              You will also need a deposit amount which is used to sponsor gas fees in the community. In the future,
+              crowdfunding functionality for that deposit can be added.
+            </p>
+          </div>
         </div>
         <div className="flex w-3/4 bg-slate-950 m-auto gap-8 rounded-xl">
           <div className="flex-grow bg-base-300 w-full mt-16 px-8 py-12">

@@ -10,8 +10,8 @@ const nextConfig = {
     ignoreDuringBuilds: process.env.NEXT_PUBLIC_IGNORE_BUILD_ERROR === "true",
   },
   env: {
-    NEXT_PUBLIC_APP_ID: "app_staging_c404bb426fd69bf4081ccd50441dcad8",
-    NEXT_PUBLIC_CONTRACT_ADDR: "0x719683F13Eeea7D84fCBa5d7d17Bf82e03E3d260",
+    NEXT_PUBLIC_WLD_APP_ID: "app_staging_80708403a9320affd6a0da7efef222c3",
+    NEXT_PUBLIC_WLD_ACTION_NAME: "verify_mod",
   },
 };
 

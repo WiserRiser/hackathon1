@@ -22,6 +22,7 @@ contract CommunityToken is ERC721, ERC721URIStorage, ERC721Burnable, Ownable {
 
     // The internal ID tracker
     uint256 private _currentMaxId;
+    mapping(uint => uint) balance; //community id => wei
 
     mapping(uint256 => Community) public details;
 
@@ -38,7 +39,7 @@ contract CommunityToken is ERC721, ERC721URIStorage, ERC721Burnable, Ownable {
         bool restrictVoting,
         bool sponsorPosts,
         address gateAddress
-    ) public onlyOwner {
+    ) public onlyOwner returns (uint) {
         uint256 tokenId = _tokenIdCounter.current();
         _tokenIdCounter.increment();
         details[tokenId] = Community(
@@ -52,6 +53,11 @@ contract CommunityToken is ERC721, ERC721URIStorage, ERC721Burnable, Ownable {
         );
         _safeMint(modMultiSig, tokenId);
         //_setTokenURI(tokenId, uri);
+        return tokenId;
+    }
+
+    function topUpBalance(uint256 tokenId) public payable {
+        balance[tokenId] += msg.value;
     }
 
     // The following function is an override required by Solidity for ERC721URIStorage.

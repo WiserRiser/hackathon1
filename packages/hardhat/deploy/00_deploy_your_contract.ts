@@ -1,5 +1,6 @@
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { DeployFunction } from "hardhat-deploy/types";
+import { unlock } from "hardhat";
 
 /**
  * Deploys a contract named "YourContract" using the deployer account and
@@ -101,6 +102,19 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
   // Get the deployed contract
   // const yourContract = await hre.ethers.getContract("YourContract", deployer);
   await setRequest(hre, deployedGameLogic.address);
+
+  //https://docs.unlock-protocol.com/tutorials/smart-contracts/deploying-locally
+  //has these first two but they don't appear in the Typescript typings
+  //await unlock.deployUnlock(); //deploys the Unlock contract
+  //await unlock.deployPublicLock(); //deploys the template
+  await unlock.deployProtocol(); //deploys the whole protocol, only on localhost
+  await unlock.createLock({
+    expirationDuration: 60 * 60 * 24 * 7, // 7 days
+    currencyContractAddress: null, // null for ETH or erc20 address
+    keyPrice: "1000000000000", // in wei
+    //maxNumberOfKeys: 10,
+    name: "An Example Lock",
+  });
 };
 
 const Operators = {

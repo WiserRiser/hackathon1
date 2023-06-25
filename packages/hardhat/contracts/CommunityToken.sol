@@ -60,6 +60,14 @@ contract CommunityToken is ERC721, ERC721Burnable, Ownable {
         balance[tokenId] += msg.value;
     }
 
+    function postingRestrictedTo(uint256 tokenId) public view returns (address) {
+        return (details[tokenId].restrictPosting) ? details[tokenId].gateAddress : 0x0000000000000000000000000000000000000000;
+    }
+
+    function votingRestrictedTo(uint256 tokenId) public view returns (address) {
+        return (details[tokenId].restrictVoting) ? details[tokenId].gateAddress : 0x0000000000000000000000000000000000000000;
+    }
+
     // The following function is an override required by Solidity for ERC721URIStorage.
 
     function _burn(uint256 tokenId) internal override(ERC721) {

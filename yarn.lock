@@ -18423,12 +18423,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-
-"rambda@npm:^7.1.0":
-  version: 7.5.0
-  resolution: "rambda@npm:7.5.0"
-  checksum: ad608a9a4160d0b6b0921047cea1329276bf239ff58d439135288712dcdbbf0df47c76591843ad249d89e7c5a9109ce86fe099aa54aef0dc0aa92a9b4dd1b8eb
-
 "r1csfile@npm:0.0.45":
   version: 0.0.45
   resolution: "r1csfile@npm:0.0.45"
@@ -18438,6 +18432,13 @@ __metadata:
     fastfile: 0.0.20
     ffjavascript: 0.2.57
   checksum: ae2d7ab3f2c37640aea2b4f45753d1f2258f5d904a51d7aaff67c32a931c3e90d22d257e8f10752044fa36b3ac31516f60e503f858913a625015b9b05575ba47
+  languageName: node
+  linkType: hard
+
+"rambda@npm:^7.1.0":
+  version: 7.5.0
+  resolution: "rambda@npm:7.5.0"
+  checksum: ad608a9a4160d0b6b0921047cea1329276bf239ff58d439135288712dcdbbf0df47c76591843ad249d89e7c5a9109ce86fe099aa54aef0dc0aa92a9b4dd1b8eb
   languageName: node
   linkType: hard
 
@@ -19569,6 +19570,7 @@ __metadata:
     "@fortawesome/fontawesome-free": ^6.4.0
     "@safe-global/relay-kit": ^1.0.0
     "@openzeppelin/contracts-upgradeable": ^4.9.2
+    "@sismo-core/sismo-connect-react": ^0.0.15
     "@unlock-protocol/contracts": ^0.0.22
     "@unlock-protocol/hardhat-plugin": ^0.0.18
     "@xmtp/react-sdk": preview

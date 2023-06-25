@@ -30,7 +30,6 @@
   },
   "packageManager": "yarn@3.2.3",
   "devDependencies": {
-    "@types/react-dom": "^18",
     "husky": "^8.0.1",
     "lint-staged": "^13.0.3"
   },
@@ -44,7 +43,6 @@
     "dotenv": "^16.3.1",
     "hardhat": "^2.16.0",
     "ipfs-http-client": "^60.0.1",
-    "react-dom": "^18.2.0",
     "react-qr-svg": "^2.4.0"
   }
 }

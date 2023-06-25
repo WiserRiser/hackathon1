@@ -35,10 +35,10 @@ contract GameLogic is AccessControl, ZKPVerifier {
     address public postTokenAddress;
     address public voteTokenAddress;
     // upvote post address => (user address, count)
-    mapping (address => mapping (address => int8)) public upVoteMap;
+    mapping (uint => mapping (address => int8)) public upVoteMap;
     //mapping (address => uint256) public upVoteMap;
     // downvote post address => count
-    mapping (address => mapping (address => int8)) public downVoteMap;
+    mapping (uint => mapping (address => int8)) public downVoteMap;
     // user address => nft address
     mapping (address => address) public postAddress;
     mapping (address => User) public users;
@@ -250,16 +250,16 @@ contract GameLogic is AccessControl, ZKPVerifier {
         CommunityToken(communityTokenAddress).topUpBalance{value: msg.value}(communityId);
     }
 
-    function vote(address _postAddress, int8 votes) public verificationRequired {
-        int8 currentUpVoteCount = upVoteMap[_postAddress][msg.sender];
-        int8 currentDownVoteCount = downVoteMap[_postAddress][msg.sender];
+    function vote(uint postId, int8 votes) public verificationRequired {
+        int8 currentUpVoteCount = upVoteMap[postId][msg.sender];
+        int8 currentDownVoteCount = downVoteMap[postId][msg.sender];
         int8 netCurrentVotes = currentUpVoteCount - currentDownVoteCount;
         int8 amountCurrentTxAdds = votes - netCurrentVotes;
         //TODO: Adjust balances per amountCurrentTxAdds.
         if (votes < 0) {
-            downVoteMap[_postAddress][msg.sender] = -votes;
+            downVoteMap[postId][msg.sender] = -votes;
         } else if (votes > 0) {
-            upVoteMap[_postAddress][msg.sender] = votes;
+            upVoteMap[postId][msg.sender] = votes;
         }
         VoteToken(voteTokenAddress).transfer(msg.sender, 1);
     }

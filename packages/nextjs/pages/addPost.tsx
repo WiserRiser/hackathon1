@@ -21,7 +21,7 @@ const Home: NextPage = () => {
   const [postedValue, setPostedValue] = useState("0");
   const { data: signer, /*isError,*/ isLoading } = useSigner();
   const { data: gameLogicContract} = useScaffoldContract({
-    contractName: "YourContract",
+    contractName: "GameLogic",
     signerOrProvider: signer as Signer,
   });
 
@@ -45,7 +45,15 @@ const Home: NextPage = () => {
     if(gameLogicContract === null) {
       throw new Error('gameLogicContract is unexpectedly null.');
     }
-    gameLogicContract.setGreeting(contentURI, { value: postedValue });
+    const isTopLevel = true; //const for now
+    const postCreation = await gameLogicContract.createPost(
+      isTopLevel,
+      communityId,
+      postTitle,
+      contentURI,
+      { value: ethers.utils.parseUnits(postedValue, "ether")}
+    );
+    console.log('postCreation:',postCreation)
   };
 
   return (

@@ -146,11 +146,23 @@ contract GameLogic is AccessControl {
     }
 
     function createPost(
-        string memory uri
-    ) public {
+        bool isTopLevel,
+        uint parentId,
+        string calldata title,
+        string calldata contentURI
+    ) public payable {
         // TODO capture nft address here
         //postAddress[msg.sender] =
         //PostToken.safeMint(address(this), uri);
+        PostToken(postTokenAddress).makeNew(
+            isTopLevel,
+            parentId,
+            title,
+            contentURI,
+            msg.sender
+        );
+        uint communityId = isTopLevel ? parentId : PostToken(postTokenAddress).getCommunityIdForPost(parentId);
+        CommunityToken(communityTokenAddress).topUpBalance{value: msg.value}(communityId);
     }
 
     function vote(address _postAddress, int8 votes) public {

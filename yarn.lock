@@ -2154,7 +2154,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ethereumjs/common@npm:^2.4.0, @ethereumjs/common@npm:^2.5.0, @ethereumjs/common@npm:^2.6.4":
+"@ethereumjs/common@npm:^2.5.0":
   version: 2.6.5
   resolution: "@ethereumjs/common@npm:2.6.5"
   dependencies:
@@ -2183,7 +2183,6 @@ __metadata:
   checksum: a34a7228a623b40300484d15875b9f31f0a612cfeab64a845f6866cf0bfe439519e9455ac6396149f29bc527cf0ee277ace082ae013a1075dcbf7193220a0146
   languageName: node
   linkType: hard
-
 "@ethersproject/abi@npm:5.7.0, @ethersproject/abi@npm:^5.0.0-beta.146, @ethersproject/abi@npm:^5.0.9, @ethersproject/abi@npm:^5.1.2, @ethersproject/abi@npm:^5.6.3, @ethersproject/abi@npm:^5.7.0":
   version: 5.7.0
   resolution: "@ethersproject/abi@npm:5.7.0"
@@ -2604,6 +2603,16 @@ __metadata:
   version: 1.1.3
   resolution: "@gar/promisify@npm:1.1.3"
   checksum: 4059f790e2d07bf3c3ff3e0fec0daa8144fe35c1f6e0111c9921bd32106adaa97a4ab096ad7dab1e28ee6a9060083c4d1a4ada42a7f5f3f7a96b8812e2b757c1
+  languageName: node
+  linkType: hard
+
+"@gelatonetwork/relay-sdk@npm:^3.1.0":
+  version: 3.5.0
+  resolution: "@gelatonetwork/relay-sdk@npm:3.5.0"
+  dependencies:
+    axios: 0.24.0
+    ethers: 5.7.2
+  checksum: 1826e9caeaa5b7642b113dc2e29e6304543a3f45fdd14451d1090a5959a69bfc48aee2cbe2b65ce83c4a235a73b29423271287ca8f3173f1ff78dcc3e6102808
   languageName: node
   linkType: hard
 
@@ -4319,6 +4328,35 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@safe-global/protocol-kit@npm:^1.0.0":
+  version: 1.0.1
+  resolution: "@safe-global/protocol-kit@npm:1.0.1"
+  dependencies:
+    "@ethersproject/address": ^5.7.0
+    "@ethersproject/bignumber": ^5.7.0
+    "@ethersproject/solidity": ^5.7.0
+    "@safe-global/safe-deployments": ^1.22.0
+    ethereumjs-util: ^7.1.5
+    semver: ^7.3.8
+    web3: ^1.8.1
+    web3-core: ^1.8.1
+    web3-utils: ^1.8.1
+  checksum: a4aad4b8bc159b6fd44b2070819712a61708b0f3cdedf2e306597570b72265b3b9621d15df388786a535d12da8f7c540433dce1628c70ff91f78dedc3a31eb71
+  languageName: node
+  linkType: hard
+
+"@safe-global/relay-kit@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@safe-global/relay-kit@npm:1.0.0"
+  dependencies:
+    "@gelatonetwork/relay-sdk": ^3.1.0
+    "@safe-global/protocol-kit": ^1.0.0
+    "@safe-global/safe-core-sdk-types": ^2.0.0
+    ethers: ^5.7.2
+  checksum: 36dc4018bfe10d292971cd478d0a733aecc097cb5f2a46659ff0035969f56edd1f1ec3203f230fcc09f4f683fc68d5a9e1674cc31ec63332a269c2e7296bb4bd
+  languageName: node
+  linkType: hard
+
 "@safe-global/safe-apps-provider@npm:^0.15.2":
   version: 0.15.2
   resolution: "@safe-global/safe-apps-provider@npm:0.15.2"
@@ -4346,6 +4384,28 @@ __metadata:
     "@safe-global/safe-gateway-typescript-sdk": ^3.5.3
     ethers: ^5.7.2
   checksum: 8ada9c238fa485a12f0ecac14aa0c0497635f118c03537980e4ab32da7e8bfd7f01e25cfa1aaac28842e9e27d0d12598aaca943e342d94db305d2b6b9a65df9e
+  languageName: node
+  linkType: hard
+
+"@safe-global/safe-core-sdk-types@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "@safe-global/safe-core-sdk-types@npm:2.0.0"
+  dependencies:
+    "@ethersproject/bignumber": ^5.7.0
+    "@ethersproject/contracts": ^5.7.0
+    "@safe-global/safe-deployments": ^1.22.0
+    web3-core: ^1.8.1
+    web3-utils: ^1.8.1
+  checksum: 78e5c46b05b793785803e9ffd488a9e4e780a0f11167f7dec165c0a3f06e697e0a0c1dcdf0333486d98460c490e7e80079f30ca8c31ac8562e00d275bf597217
+  languageName: node
+  linkType: hard
+
+"@safe-global/safe-deployments@npm:^1.22.0":
+  version: 1.24.0
+  resolution: "@safe-global/safe-deployments@npm:1.24.0"
+  dependencies:
+    semver: ^7.3.7
+  checksum: f060161c14d0751ba78c5f2221fbb2dbcbeafd737066ccc5b22f3c2a634f504d22ab7b60d52c412ba465b46760b50199ac1fec261ededc26a81311b04ff2c7a6
   languageName: node
   linkType: hard
 
@@ -5148,9 +5208,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/bn.js@npm:^4.11.3":
-  version: 4.11.6
-  resolution: "@types/bn.js@npm:4.11.6"
+"@types/bn.js@npm:^5.1.0, @types/bn.js@npm:^5.1.1":
+  version: 5.1.1
+  resolution: "@types/bn.js@npm:5.1.1"
   dependencies:
     "@types/node": "*"
   checksum: 7f66f2c7b7b9303b3205a57184261974b114495736b77853af5b18d857c0b33e82ce7146911e86e87a87837de8acae28986716fd381ac7c301fd6e8d8b6c811f
@@ -7579,6 +7639,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"axios@npm:0.24.0":
+  version: 0.24.0
+  resolution: "axios@npm:0.24.0"
+  dependencies:
+    follow-redirects: ^1.14.4
+  checksum: 468cf496c08a6aadfb7e699bebdac02851e3043d4e7d282350804ea8900e30d368daa6e3cd4ab83b8ddb5a3b1e17a5a21ada13fc9cebd27b74828f47a4236316
+  languageName: node
+  linkType: hard
+
 "axios@npm:1.4.0, axios@npm:^1.4.0":
   version: 1.4.0
   resolution: "axios@npm:1.4.0"
@@ -7755,7 +7824,7 @@ __metadata:
   checksum: c4eab705fb3293170f248f13f38a06d24591710864632f78b1637d361feaf07ce782cc6ea23c6984c8ddb030ad1883b813a251448527d55650b403e6f2cc7e67
   languageName: node
   linkType: hard
-
+  
 "bignumber.js@npm:^9.0.0":
   version: 9.1.1
   resolution: "bignumber.js@npm:9.1.1"
@@ -11235,7 +11304,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eth-query@npm:^2.1.0, eth-query@npm:^2.1.2":
+"eth-query@npm:^2.1.2":
   version: 2.1.2
   resolution: "eth-query@npm:2.1.2"
   dependencies:
@@ -12094,7 +12163,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"follow-redirects@npm:^1.12.1, follow-redirects@npm:^1.14.0, follow-redirects@npm:^1.15.0":
+"follow-redirects@npm:^1.12.1, follow-redirects@npm:^1.14.0, follow-redirects@npm:^1.14.4, follow-redirects@npm:^1.15.0":
   version: 1.15.2
   resolution: "follow-redirects@npm:1.15.2"
   peerDependenciesMeta:
@@ -16592,7 +16661,7 @@ __metadata:
   checksum: b1d366f9524405f3337192d32dda6ac0b02374e4d0550c9aad33480caf2eb3c84c06f18f41f4c5404c14f6fc1ae6b84692b4375166dcb9f2d04a2ea9b9bccba0
   languageName: node
   linkType: hard
-
+  
 "nanoid@npm:3.3.3":
   version: 3.3.3
   resolution: "nanoid@npm:3.3.3"
@@ -19498,6 +19567,7 @@ __metadata:
   resolution: "se-2@workspace:."
   dependencies:
     "@fortawesome/fontawesome-free": ^6.4.0
+    "@safe-global/relay-kit": ^1.0.0
     "@openzeppelin/contracts-upgradeable": ^4.9.2
     "@unlock-protocol/contracts": ^0.0.22
     "@unlock-protocol/hardhat-plugin": ^0.0.18
@@ -22191,7 +22261,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"web3-core@npm:1.10.0":
+"web3-core@npm:1.10.0, web3-core@npm:^1.8.1":
   version: 1.10.0
   resolution: "web3-core@npm:1.10.0"
   dependencies:
@@ -22350,7 +22420,7 @@ __metadata:
   checksum: 31549e1afee0a2bc67425349535b733d4d7fe00caf08686a6f892ed68c4cf5aded3a995769d8a642dfa116a404a6d1261f0c6769836cd49509f8ec771e68fe65
   languageName: node
   linkType: hard
-
+  
 "web3-providers-http@npm:1.10.0":
   version: 1.10.0
   resolution: "web3-providers-http@npm:1.10.0"
@@ -22396,6 +22466,7 @@ __metadata:
   languageName: node
   linkType: hard
 
+"web3-utils@npm:1.10.0, web3-utils@npm:^1.3.6, web3-utils@npm:^1.8.1":
 "web3-utils@npm:1.10.0, web3-utils@npm:^1.3.6":
   version: 1.10.0
   resolution: "web3-utils@npm:1.10.0"
@@ -22673,15 +22744,6 @@ __metadata:
     safe-buffer: ~5.1.0
     ultron: ~1.1.0
   checksum: 20b7bf34bb88715b9e2d435b76088d770e063641e7ee697b07543815fabdb752335261c507a973955e823229d0af8549f39cc669825e5c8404aa0422615c81d9
-  languageName: node
-  linkType: hard
-
-"ws@npm:^5.1.1":
-  version: 5.2.3
-  resolution: "ws@npm:5.2.3"
-  dependencies:
-    async-limiter: ~1.0.0
-  checksum: bdb2223a40c2c68cf91b25a6c9b8c67d5275378ec6187f343314d3df7530e55b77cb9fe79fb1c6a9758389ac5aefc569d24236924b5c65c5dbbaff409ef739fc
   languageName: node
   linkType: hard
 

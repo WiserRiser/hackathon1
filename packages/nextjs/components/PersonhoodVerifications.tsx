@@ -1,4 +1,5 @@
 import Image from "next/image";
+import SismoValidation from "./SismoValidation";
 import { CredentialType, IDKitWidget, ISuccessResult } from "@worldcoin/idkit";
 import { useAccount, useContractWrite, usePrepareContractWrite } from "wagmi";
 import { gameLogic } from "~~/abi/GameLogic";
@@ -96,7 +97,7 @@ const PersonhoodVerifications = () => {
       >
         {({ open }) => (
           <button className="hover:bg-slate-700" onClick={open}>
-            <div className="flex flex-row justify-center items-center border-b-[1px] border-b-indigo-200/10 ">
+            <div className="flex flex-row justify-start ml-4 items-center border-b-[1px] border-b-indigo-200/10 ">
               <Image
                 src={"/assets/worldcoin_icon.png"}
                 alt="Badge"
@@ -105,18 +106,19 @@ const PersonhoodVerifications = () => {
                 height={40}
                 priority
               />
-              <p className="font-semibold">Worldcoin</p>
+              <p className="font-semibold">Sign in Worldcoin</p>
             </div>
           </button>
         )}
       </IDKitWidget>
       {/* Sismo */}
-      <button className="hover:bg-slate-700" onClick={() => console.log("clicked")}>
+      {/* <button className="hover:bg-slate-700" onClick={() => console.log("clicked")}>
         <div className="flex flex-row justify-center space-x-2 items-center">
           <Image src={"/assets/sismo_icon.png"} alt="Badge" className="" width={30} height={30} priority />
           <p className="font-semibold">Sismo</p>
         </div>
-      </button>
+      </button> */}
+      <SismoValidation />
     </div>
   );
 };

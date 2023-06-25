@@ -20,6 +20,8 @@
     "@gelatonetwork/relay-sdk": "^4.0.0",
     "@heroicons/react": "^2.0.11",
     "@rainbow-me/rainbowkit": "^0.11.0",
+    "@sismo-core/sismo-connect-react": "^0.0.15",
+    "@sismo-core/sismo-connect-server": "^0.0.13",
     "@uniswap/sdk": "^3.0.3",
     "@worldcoin/idkit": "^0.5.1",
     "daisyui": "^2.31.0",

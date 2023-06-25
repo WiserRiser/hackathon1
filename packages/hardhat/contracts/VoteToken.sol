@@ -8,7 +8,7 @@ contract VoteToken is ERC20, Ownable {
 
     // uint256 public totalSupply;
     mapping(address => uint256) public balances;
-    
+
     constructor(uint256 _totalSupply) ERC20("VoteToken", "VOTE") {
         balances[msg.sender] = _totalSupply;
     }

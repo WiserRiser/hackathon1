@@ -164,4 +164,8 @@ contract GameLogic is AccessControl {
         }
         VoteToken(voteTokenAddress).transfer(msg.sender, 1);
     }
+
+    function moderate() public {
+        
+    }
 }

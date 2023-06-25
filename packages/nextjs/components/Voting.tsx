@@ -4,6 +4,7 @@ import { Signer, ethers } from "ethers";
 import { AiOutlineArrowDown, AiOutlineArrowUp } from "react-icons/ai";
 import { useAccount, useSigner } from "wagmi";
 import { useScaffoldContract } from "~~/hooks/scaffold-eth";
+import Image from "next/image";
 
 interface IVoting {
   alignment?: "row" | "col";
@@ -89,7 +90,12 @@ const Voting: React.FC<IVoting> = ({ alignment = "col", children }) => {
           >
             <div className="relative flex flex-row items-center">
               <button className={`${isUpHovered ? "hover:scale-[1.15]" : ""}`} onClick={handleUpvote}>
-                <AiOutlineArrowUp size={20} />
+                <Image
+                  src="/assets/head-fir.svg"
+                  alt="up arrow which looks like a fir tree head from the Nouns DAO"
+                  width={25}
+                  height={25}
+                />
               </button>
               <div className={`text-xs absolute left-6 ${upvoteClicked && !isUpHovered ? "" : "hidden"}`}>
                 {upvoteBets}
@@ -130,7 +136,12 @@ const Voting: React.FC<IVoting> = ({ alignment = "col", children }) => {
           >
             <div className="relative flex flex-row items-center">
               <button className={`${isDownHovered ? "hover:scale-[1.15]" : ""}`} onClick={handleDownvote}>
-                <AiOutlineArrowDown size={20} />
+              <Image
+                  src="/assets/head-fir-down.svg"
+                  alt="down arrow which looks like a fir tree head from the Nouns DAO"
+                  width={25}
+                  height={25}
+                />
               </button>
               <div className={`text-xs absolute left-6 ${downvoteClicked && !isDownHovered ? "" : "hidden"}`}>
                 {downvoteBets}

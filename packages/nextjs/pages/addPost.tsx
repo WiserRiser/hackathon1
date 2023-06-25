@@ -25,20 +25,27 @@ const Home: NextPage = () => {
     signerOrProvider: signer as Signer,
   });
 
+  const getContentURI = async function() {
+    if (postType === "text") {
+      const postCid = await storeInIPFS(postText);
+      console.log("post CID: " + postCid);
+      return 'ipfs://' + postCid;
+    } else if(postType === "ipfs") {
+      return 'ipfs://' + postIPFS;
+    } else if(postType === "uri") {
+      return postURI;
+    }
+  };
+
   const submitForm = async function () {
     //TODO: Expand to use other parameters, have the game logic contract mint the ERC721 for the post,
     //and have it transfer that to the parent post or community.
     //Also transfer any associated value to the parent post or community- maybe only with value tokens?
-    let localType = postType;
-    if (localType === "text") {
-      const postCid = await storeInIPFS(postText);
-      console.log("post CID: " + postCid);
-      localType = "ipfs";
-    }
+    const contentURI = getContentURI();
     if(gameLogicContract === null) {
       throw new Error('gameLogicContract is unexpectedly null.');
     }
-    gameLogicContract.setGreeting(postURI, { value: postedValue });
+    gameLogicContract.setGreeting(contentURI, { value: postedValue });
   };
 
   return (

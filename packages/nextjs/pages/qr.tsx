@@ -20,7 +20,6 @@ export default class App extends React.Component {
   render() {
     return (
       <div style={styles.root}>
-        <h1 style={styles.h1}>QRCode with JSON</h1>
         <div style={styles.qrcode} className="flex justify-center items-center">
           <QRCode
             level="Q"
@@ -28,6 +27,7 @@ export default class App extends React.Component {
             value={JSON.stringify(data)}
           />
         </div>
+        <h1 style={styles.h1}>Scan this with your Polygon ID Mobile App</h1>
       </div>
     );
   }

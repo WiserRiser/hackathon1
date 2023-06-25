@@ -1,7 +1,7 @@
 export * from "./useAccountBalance";
 export * from "./useAnimationConfig";
 export * from "./useAutoConnect";
-// export * from "./useBurnerWallet";
+export * from "./useBurnerWallet";
 export * from "./useDeployedContractInfo";
 export * from "./useNativeCurrencyPrice";
 export * from "./useNetworkColor";

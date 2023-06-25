@@ -22,6 +22,7 @@ contract GameLogic is AccessControl {
     event VerificationCompletedSismo(address user);
     event VerificationCompletedPolygon13(address user);
     event VerificationCompletedPolygon18(address user);
+    event ReceivedInitialAirdrop(address user);
     event DefaultVoteWeightChanged(address user, uint8 defaultVoteWeight);
     event DonationDefaultSet(address user, bool donatesByDefaultNow);
 
@@ -80,8 +81,12 @@ contract GameLogic is AccessControl {
     ) public {
         //requrire(tx comes from user)
         //require(Worldcoin claims personhood via orb)
+        bool eligibleForTokens = !hasVerifiedPersonhood(user) && hasVerifiedAge(user);
         users[user].hasVerifiedOrb = true;
         emit VerificationCompletedOrb(user);
+        if(eligibleForTokens) {
+            airdropInitialTokens(user);
+        }
     }
     //Could combine immediately preceding & following functions
     //if Worldcoin gives one verification function that returns an
@@ -91,8 +96,12 @@ contract GameLogic is AccessControl {
     ) public {
         //requrire(tx comes from user)
         //require(Worldcoin claims personhood via phone)
+        bool eligibleForTokens = !hasVerifiedPersonhood(user) && hasVerifiedAge(user);
         users[user].hasVerifiedPhone = true;
         emit VerificationCompletedPhone(user);
+        if(eligibleForTokens) {
+            airdropInitialTokens(user);
+        }
     }
 
     function verifyUserSismo(
@@ -100,8 +109,33 @@ contract GameLogic is AccessControl {
     ) public {
         //requrire(tx comes from user)
         //require(Sismo claims personhood)
+        bool eligibleForTokens = !hasVerifiedPersonhood(user) && hasVerifiedAge(user);
         users[user].hasVerifiedSismo = true;
         emit VerificationCompletedSismo(user);
+        if(eligibleForTokens) {
+            airdropInitialTokens(user);
+        }
+    }
+
+    function hasVerifiedPersonhood(
+        address user
+    ) public view returns (bool) {
+        User storage userStruct = users[user];
+        return userStruct.hasVerifiedOrb || userStruct.hasVerifiedPhone || userStruct.hasVerifiedSismo;
+    }
+
+    function hasVerifiedAge(
+        address user
+    ) public view returns (bool) {
+        User storage userStruct = users[user];
+        return userStruct.hasVerifiedPolygon13 || userStruct.hasVerifiedPolygon18;
+    }
+
+    function airdropInitialTokens(
+        address user
+    ) private {
+        VoteToken(voteTokenAddress).mint(user, 2000);
+        emit ReceivedInitialAirdrop(user);
     }
 
     function verifyUserPolygon(
@@ -112,12 +146,16 @@ contract GameLogic is AccessControl {
         //require(Polygon claims user has over minimum age)
         //TODO: Call Polygon ID on-chain verification for the specified minimum age.
         //Revert/don't reach the below code if that fails.
+        bool eligibleForTokens = hasVerifiedPersonhood(user) && !hasVerifiedAge(user);
         if(minAge >= 18) {
             users[user].hasVerifiedPolygon18 = true;
             emit VerificationCompletedPolygon18(user);
         } else if (minAge >= 13) {
             users[user].hasVerifiedPolygon13 = true;
             emit VerificationCompletedPolygon13(user);
+        }
+        if(eligibleForTokens) {
+            airdropInitialTokens(user);
         }
     }
 

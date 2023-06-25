@@ -1,4 +1,4 @@
-{
+export const data = {
     "id": "7f38a193-0918-4a48-9fac-36adfdb8b542",
     "typ": "application/iden3comm-plain-json",
     "type": "https://iden3-communication.io/proofs/1.0/contract-invoke-request",
@@ -30,4 +30,4 @@
             }
         ]
     }
-}
+} as const;

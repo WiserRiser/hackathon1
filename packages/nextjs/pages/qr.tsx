@@ -2,6 +2,7 @@
 import React from "react";
 import { render } from "react-dom";
 import { QRCode } from "react-qr-svg";
+import { data } from "../components/qrValueProofRequestExample";
 
 const styles = {
   root: {
@@ -23,12 +24,8 @@ export default class App extends React.Component {
         <div style={styles.qrcode}>
           <QRCode
             level="Q"
-            style={{ width: 256 }}
-            value={JSON.stringify({
-              id: 928328,
-              name: "Jane Doe",
-              insider: true
-            })}
+            style={{ width: 512 }}
+            value={JSON.stringify(data)}
           />
         </div>
       </div>

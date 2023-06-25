@@ -56,7 +56,7 @@ contract GameLogic is AccessControl {
         bool sponsorPosts,
         address gateAddress,
         address[] calldata mods
-    ) public {
+    ) public payable {
         require(mods.length >= 5, 'Not enough mods!');
         for(uint i = 0; i < mods.length-1; i++) {
             for(uint j = i+1; j < mods.length; j++) {
@@ -65,7 +65,7 @@ contract GameLogic is AccessControl {
         }
         //TODO: Create the multisig shared among the mods.
         address multiSig = mods[0]; //TODO: don't use this, use the multisig address
-        CommunityToken(communityTokenAddress).makeNew(
+        uint tokenId = CommunityToken(communityTokenAddress).makeNew(
             multiSig,
             site,
             name,
@@ -75,6 +75,7 @@ contract GameLogic is AccessControl {
             sponsorPosts,
             gateAddress
         );
+        CommunityToken(communityTokenAddress).topUpBalance{value: msg.value}(tokenId);
     }
 
     function verifyUserWorldcoinOrb(

@@ -76,7 +76,7 @@ const Home: NextPage = () => {
               name="communityId"
               value={communityId}
               onChange={e => setCommunityId(e.target.value)}
-            />{" (In the future, this will be easier to select.)"}
+            />{" (In the future, this will be more selected by browsing or provided by API.)"}
           </p>
           <p>
             Post title:{" "}

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import PersonhoodVerifications from "~~/components/PersonhoodVerifications";
+import PolygonIDVerifier from "~~/components/PolygonIDVerifier";
 
 const Onboarding = () => {
   return (
@@ -7,22 +8,28 @@ const Onboarding = () => {
       <h1 className="w-full text-center font-semibold text-2xl">Moderation Onboarding</h1>
       {/* Unique Person */}
       <h2 className="text-lg">Prove you&apos;re a unique person.</h2>
-      <p className="opacity-20 pb-6 border-b-4 border-indigo-500 text-sm">
-        We only want real humans to vote, this step helps create an equitable market! If you don&apos;t have an account, you
-        can select a provider and create one now.
+      <p className="opacity-40 pb-6 border-b-4 border-indigo-500 text-sm">
+        We only want real humans to vote, this step helps create an equitable market! If you don&apos;t have an account,
+        you can select a provider and create one now.
       </p>
       <div className="flex w-full justify-center">
         <PersonhoodVerifications />
       </div>
       {/* Prove your Age */}
       <h2 className="text-lg mt-8">Prove your age.</h2>
-      <p className="opacity-20 pb-6 border-b-4 border-indigo-500 text-sm">
+      <p className="opacity-40 pb-6 border-b-4 border-indigo-500 text-sm">
         We want to ensure you only moderate posts that fit your age demographic! As an over 18 verified user you will be
         consenting to moderating adult content.
       </p>
       <div className="flex flex-row w-full justify-around">
         <button onClick={() => console.log("clicked")}>
           <div className="relative -mx-5 mt-8 flex flex-col bg-slate-700/25 ring-1 ring-slate-700/50 sm:mx-0 sm:rounded-2xl h-32 w-32 justify-center items-center hover:bg-slate-700">
+            {/* <PolygonIDVerifier publicServerURL={
+                    process.env.REACT_APP_VERIFICATION_SERVER_PUBLIC_URL
+                  }
+                  localServerURL={
+                    process.env.REACT_APP_VERIFICATION_SERVER_LOCAL_HOST_URL
+                  }/> */}
             <Image
               src={"/assets/youngest_noun.svg"}
               alt="Badge"

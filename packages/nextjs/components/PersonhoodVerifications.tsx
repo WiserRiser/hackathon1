@@ -2,6 +2,8 @@ import { SetStateAction, useCallback, useContext, useEffect, useState } from "re
 import Image from "next/image";
 import { StoreContext } from "./Store";
 import { CredentialType, IDKitWidget, ISuccessResult } from "@worldcoin/idkit";
+import { useAccount, useContractWrite, usePrepareContractWrite } from "wagmi";
+import { gameLogic } from "~~/abi/GameLogic";
 
 // import { BigNumber } from "ethers";
 // import { useAccount, useContractWrite, usePrepareContractWrite } from "wagmi";
@@ -41,10 +43,6 @@ const PersonhoodVerifications = () => {
 
   // const { write } = useContractWrite(config);
 
-  const onSuccess = (result: ISuccessResult) => {
-    // This is where you should perform frontend actions once a user has been verified, such as redirecting to a new page
-  };
-
   const handleProof = async (result: ISuccessResult) => {
     const reqBody = {
       merkle_root: result.merkle_root,
@@ -69,12 +67,31 @@ const PersonhoodVerifications = () => {
     });
   };
 
+  const { address } = useAccount();
+
+  const { config, error } = usePrepareContractWrite({
+    address: "0x05C98985118AA4B28ad2852cbA1dab283e445446",
+    abi: gameLogic,
+    functionName: "verifyUserWorldcoinOrb",
+    args: [address],
+  });
+
+  const { write } = useContractWrite(config);
+
+  const onSuccess = (result: ISuccessResult, write: any) => {
+    // performing a write function here due to time constraints
+    console.log(address);
+    write?.();
+  };
+
   return (
     <div className="relative -mx-5 mt-8 flex flex-col bg-slate-700/25 ring-1 ring-slate-700/50 sm:mx-0 sm:rounded-2xl overflow-hidden w-full">
       {/* World Id */}
       <IDKitWidget
         action={process.env.NEXT_PUBLIC_WLD_ACTION_NAME!}
-        onSuccess={onSuccess}
+        onSuccess={(result: ISuccessResult) => {
+          onSuccess(result, write);
+        }}
         handleVerify={handleProof}
         app_id={process.env.NEXT_PUBLIC_WLD_APP_ID!}
         credential_types={[CredentialType.Orb]}
@@ -82,7 +99,14 @@ const PersonhoodVerifications = () => {
         {({ open }) => (
           <button className="hover:bg-slate-700" onClick={open}>
             <div className="flex flex-row justify-center items-center border-b-[1px] border-b-indigo-200/10 ">
-              <Image src={"/assets/worldcoin_icon.png"} alt="Badge" className="" width={40} height={40} priority />
+              <Image
+                src={"/assets/worldcoin_icon.png"}
+                alt="Badge"
+                className="invert"
+                width={40}
+                height={40}
+                priority
+              />
               <p className="font-semibold">Worldcoin</p>
             </div>
           </button>

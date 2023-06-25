@@ -1,5 +1,6 @@
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { DeployFunction } from "hardhat-deploy/types";
+import { unlock } from "hardhat";
 
 /**
  * Deploys a contract named "YourContract" using the deployer account and
@@ -66,16 +67,27 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
     // automatically mining the contract deployment transaction. There is no effect on live networks.
     autoMine: true,
   });
-
-  const deployedGameLogic = await deploy("GameLogic", {
+  console.log('Deployed tokens. About to deploy Users.');
+  const deployedUsers = await deploy("Users", {
     from: deployer,
     // Contract constructor arguments
-    args: [deployedCommunityToken.address, deployedVoteToken.address, deployedPostToken.address],
+    args: [deployedVoteToken.address],
     log: true,
     // autoMine: can be passed to the deploy function to make the deployment process faster on local networks by
     // automatically mining the contract deployment transaction. There is no effect on live networks.
     autoMine: true,
   });
+  console.log('Deployed Users. About to deploy GameLogic.');
+  const deployedGameLogic = await deploy("GameLogic", {
+    from: deployer,
+    // Contract constructor arguments
+    args: [deployedCommunityToken.address, deployedVoteToken.address, deployedPostToken.address, deployedUsers.address],
+    log: true,
+    // autoMine: can be passed to the deploy function to make the deployment process faster on local networks by
+    // automatically mining the contract deployment transaction. There is no effect on live networks.
+    autoMine: true,
+  });
+  console.log('Deployed GameLogic.');
   const communityToken = await hre.ethers.getContractAt(
     deployedCommunityToken.abi,
     deployedCommunityToken.address,
@@ -86,9 +98,23 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
   await voteToken.transferOwnership(deployedGameLogic.address);
   const postToken = await hre.ethers.getContractAt(deployedPostToken.abi, deployedPostToken.address, deployer);
   await postToken.transferOwnership(deployedGameLogic.address);
+  console.log('Transferred ownership of token contracts.');
   // Get the deployed contract
   // const yourContract = await hre.ethers.getContract("YourContract", deployer);
   await setRequest(hre, deployedGameLogic.address);
+
+  //https://docs.unlock-protocol.com/tutorials/smart-contracts/deploying-locally
+  //has these first two but they don't appear in the Typescript typings
+  //await unlock.deployUnlock(); //deploys the Unlock contract
+  //await unlock.deployPublicLock(); //deploys the template
+  await unlock.deployProtocol(); //deploys the whole protocol, only on localhost
+  await unlock.createLock({
+    expirationDuration: 60 * 60 * 24 * 7, // 7 days
+    currencyContractAddress: null, // null for ETH or erc20 address
+    keyPrice: "1000000000000", // in wei
+    //maxNumberOfKeys: 10,
+    name: "An Example Lock",
+  });
 };
 
 const Operators = {

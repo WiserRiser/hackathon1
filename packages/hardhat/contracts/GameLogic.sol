@@ -145,7 +145,9 @@ contract GameLogic is AccessControl {
         users[user].donateWinningsByDefault = donateWinningsByDefault;
     }
 
-    function createPost(string memory uri) public {
+    function createPost(
+        string memory uri
+    ) public {
         // TODO capture nft address here
         //postAddress[msg.sender] =
         //PostToken.safeMint(address(this), uri);

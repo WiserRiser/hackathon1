@@ -25,6 +25,7 @@ async function main() {
       const network = availableNetworks[networkName];
       if (!("url" in network)) continue;
       const provider = new ethers.providers.JsonRpcProvider(network.url);
+      console.log("network.url", network.url);
       const balance = await provider.getBalance(address);
       console.log("--", networkName, "-- 📡");
       console.log("   balance:", +ethers.utils.formatEther(balance));

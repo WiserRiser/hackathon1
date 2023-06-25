@@ -82,7 +82,7 @@ const config: HardhatUserConfig = {
     },
     polygonMumbai: {
       url: `https://polygon-mumbai.g.alchemy.com/v2/${providerApiKey}`,
-      accounts: [deployerPrivateKey],
+      accounts: [`${deployerPrivateKey}`],
     },
     zkSyncTestnet: {
       url: "https://testnet.era.zksync.dev",

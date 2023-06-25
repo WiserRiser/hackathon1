@@ -19,8 +19,8 @@ function PostCard({ title, text, upvotes, downvotes, author, communityId }: Post
       <div className="py-3 text-medium">{text}</div>
 
       <div className="flex gap-3">
-        <div className="bg-green-500 p-1 flex items-center text-sm"> {upvotes} Up Vote </div>
-        <div className="bg-red-500 p-1 flex items-center text-sm"> {downvotes} Down Vote </div>
+        <div className="bg-green-500 p-1 rounded-md flex items-center text-sm">Up Vote: {upvotes} </div>
+        <div className="bg-red-500 p-1 rounded-md flex items-center text-sm"> Down Vote: {downvotes} </div>
       </div>
     </div>
   );

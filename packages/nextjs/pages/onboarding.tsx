@@ -1,13 +1,19 @@
 import { useState } from "react";
 import Image from "next/image";
-import { useAccount, useContractWrite, usePrepareContractWrite } from "wagmi";
-import { gameLogic } from "~~/abi/GameLogic";
+import { Signer } from "ethers";
+import { useAccount, useContractWrite, usePrepareContractWrite, useSigner } from "wagmi";
 import PersonhoodVerifications from "~~/components/PersonhoodVerifications";
+import { useScaffoldContract } from "~~/hooks/scaffold-eth";
 
 const Onboarding = () => {
   const [agreedToXMTP, setAgreedToXMTP] = useState(false);
   const [agreedToDonation, setAgreedToDonation] = useState(false);
   const [votingWeight, setVotingWeight] = useState(5);
+  const { data: signer, /*isError,*/ isLoading } = useSigner();
+  const { data: gameLogicContract } = useScaffoldContract({
+    contractName: "GameLogic",
+    signerOrProvider: signer as Signer,
+  });
 
   const handleVotingChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = parseInt(event.target.value);
@@ -31,27 +37,16 @@ const Onboarding = () => {
 
   const { address } = useAccount();
 
-  const { configWeights, weightError } = usePrepareContractWrite({
-    address: "0x05C98985118AA4B28ad2852cbA1dab283e445446",
-    abi: gameLogic,
-    functionName: "setUserDefaultVoteWeight",
-    args: [address, votingWeight],
-  });
+  const handleSubmission = async () => {
+    if (gameLogicContract === null) {
+      throw new Error("gameLogicContract is unexpectedly null.");
+    }
 
-  const { configDonations, donationError } = usePrepareContractWrite({
-    address: "0x05C98985118AA4B28ad2852cbA1dab283e445446",
-    abi: gameLogic,
-    functionName: "setUserDefaultDonate",
-    args: [address, agreedToDonation],
-  });
+    const defaultVoting = await gameLogicContract.setUserDefaultVoteWeight(address, votingWeight);
+    console.log("defaultVoting:", defaultVoting);
 
-  const { writeWeights } = useContractWrite(configWeights);
-  const { writeDonations } = useContractWrite(configDonations);
-
-  const handleSubmission = () => {
-    console.log(address);
-    writeWeights?.();
-    writeDonations?.();
+    const defaultDonate = await gameLogicContract.setUserDefaultDonate(address, agreedToDonation);
+    console.log("defaultDonate:", defaultDonate);
   };
 
   return (

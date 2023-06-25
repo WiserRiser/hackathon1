@@ -6,6 +6,18 @@ This could be used in social media settings (similar to Reddit), in screening pr
 
 ⚙️ This was built using Scaffold-ETH 2 at [ETHGlobal Waterloo 2023](https://ethglobal.com/events/waterloo2023).
 
+- Home Page
+<img width="1511" alt="Screenshot 2023-06-25 at 4 01 33 AM" src="https://github.com/WiserRiser/hackathon1/assets/20705520/b1bb0a06-a523-48dc-a73d-2e4f57daf081">
+
+- Onboarding users with WorldCoinID / Polygon ID
+<img width="1505" alt="Screenshot 2023-06-25 at 4 03 14 AM" src="https://github.com/WiserRiser/hackathon1/assets/20705520/688c53b7-6100-4515-9161-d6bd52299d5c">
+
+- Login via WorldcoinId
+<img width="1502" alt="Screenshot 2023-06-25 at 4 03 39 AM" src="https://github.com/WiserRiser/hackathon1/assets/20705520/ae55314f-609f-4e98-b431-48206ea4180e">
+
+Add Community and mod members
+<img width="1503" alt="Screenshot 2023-06-25 at 4 04 25 AM" src="https://github.com/WiserRiser/hackathon1/assets/20705520/3007f58a-258c-4c94-9879-23c72deed2ef">
+
 ## How To Run
 
 Before you begin, you need to install the following tools:

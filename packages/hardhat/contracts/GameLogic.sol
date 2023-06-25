@@ -5,8 +5,13 @@ import "@openzeppelin/contracts/access/AccessControl.sol";
 import "./CommunityToken.sol";
 import "./VoteToken.sol";
 import "./PostToken.sol";
+import "./polygon/lib/GenesisUtils.sol";
+import "./polygon/interfaces/ICircuitValidator.sol";
+import "./polygon/verifiers/ZKPVerifier.sol";
 
-contract GameLogic is AccessControl {
+contract GameLogic is AccessControl, ZKPVerifier {
+    uint64 public constant TRANSFER_REQUEST_ID = 1;
+
     struct User {
         uint8 defaultVoteWeight;
         bool donateWinningsByDefault;
@@ -30,19 +35,31 @@ contract GameLogic is AccessControl {
     address public postTokenAddress;
     address public voteTokenAddress;
     // upvote post address => (user address, count)
-    mapping (address => mapping (address => int8)) public upVoteMap;
+    mapping (uint => mapping (address => int8)) public upVoteMap;
     //mapping (address => uint256) public upVoteMap;
     // downvote post address => count
-    mapping (address => mapping (address => int8)) public downVoteMap;
+    mapping (uint => mapping (address => int8)) public downVoteMap;
     // user address => nft address
     mapping (address => address) public postAddress;
     mapping (address => User) public users;
 
+    //For Polygon id
+    mapping(uint256 => address) public idToAddress;
+    mapping(address => uint256) public addressToId;
+
     constructor(address _CommunityToken, address _VoteToken, address _PostToken) {
-        _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
+        _setupRole(DEFAULT_ADMIN_ROLE, _msgSender());
         communityTokenAddress = _CommunityToken;
         postTokenAddress = _PostToken;
         voteTokenAddress = _VoteToken;
+    }
+
+    modifier verificationRequired() {
+        require(
+            proofs[msg.sender][TRANSFER_REQUEST_ID] == true && hasVerifiedPersonhood(_msgSender()),
+            "only identities who provided proof are allowed to take this action"
+        );
+        _;
     }
 
     function createCommunity(
@@ -54,7 +71,7 @@ contract GameLogic is AccessControl {
         bool sponsorPosts,
         address gateAddress,
         address[] calldata mods
-    ) public payable {
+    ) public verificationRequired payable {
         require(mods.length >= 5, 'Not enough mods!');
         for(uint i = 0; i < mods.length-1; i++) {
             for(uint j = i+1; j < mods.length; j++) {
@@ -138,11 +155,47 @@ contract GameLogic is AccessControl {
         emit ReceivedInitialAirdrop(user);
     }
 
+    //Based on https://0xpolygonid.github.io/tutorials/verifier/on-chain-verification/overview/#user-demo-claim-the-airdrop
+    function _beforePolygonProofSubmit(
+        uint64, /* requestId */
+        uint256[] memory inputs,
+        ICircuitValidator validator
+    ) internal view {
+        // check that the challenge input of the proof is equal to the msg.sender
+        address addr = GenesisUtils.int256ToAddress(
+            inputs[validator.getChallengeInputIndex()]
+        );
+        require(
+            _msgSender() == addr,
+            "address in the proof is not a sender address"
+        );
+    }
+
+    function _afterPolygonProofSubmit(
+        uint64 requestId,
+        uint256[] memory inputs,
+        ICircuitValidator validator
+    ) internal {
+        require(
+            requestId == TRANSFER_REQUEST_ID && addressToId[_msgSender()] == 0,
+            "proof can not be submitted more than once"
+        );
+
+        uint256 id = inputs[validator.getChallengeInputIndex()];
+        // execute the airdrop
+        if (idToAddress[id] == address(0)) {
+            addressToId[_msgSender()] = id;
+            idToAddress[id] = _msgSender();
+        }
+    }
+
     function verifyUserPolygon(
         address user,
         uint8 minAge //should be 13 or 18
     ) public {
         //requrire(tx comes from user)
+
+
         //require(Polygon claims user has over minimum age)
         //TODO: Call Polygon ID on-chain verification for the specified minimum age.
         //Revert/don't reach the below code if that fails.
@@ -197,16 +250,16 @@ contract GameLogic is AccessControl {
         CommunityToken(communityTokenAddress).topUpBalance{value: msg.value}(communityId);
     }
 
-    function vote(address _postAddress, int8 votes) public {
-        int8 currentUpVoteCount = upVoteMap[_postAddress][msg.sender];
-        int8 currentDownVoteCount = downVoteMap[_postAddress][msg.sender];
+    function vote(uint postId, int8 votes) public verificationRequired {
+        int8 currentUpVoteCount = upVoteMap[postId][msg.sender];
+        int8 currentDownVoteCount = downVoteMap[postId][msg.sender];
         int8 netCurrentVotes = currentUpVoteCount - currentDownVoteCount;
         int8 amountCurrentTxAdds = votes - netCurrentVotes;
         //TODO: Adjust balances per amountCurrentTxAdds.
         if (votes < 0) {
-            downVoteMap[_postAddress][msg.sender] = -votes;
+            downVoteMap[postId][msg.sender] = -votes;
         } else if (votes > 0) {
-            upVoteMap[_postAddress][msg.sender] = votes;
+            upVoteMap[postId][msg.sender] = votes;
         }
         VoteToken(voteTokenAddress).transfer(msg.sender, 1);
     }

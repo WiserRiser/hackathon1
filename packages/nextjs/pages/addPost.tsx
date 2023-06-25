@@ -74,6 +74,7 @@ const Home: NextPage = () => {
               type="number"
               id="communityId"
               name="communityId"
+              min={1}
               value={communityId}
               onChange={e => setCommunityId(e.target.value)}
             />{" (In the future, this will be more selected by browsing or provided by API.)"}

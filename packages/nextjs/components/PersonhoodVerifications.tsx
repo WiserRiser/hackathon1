@@ -1,6 +1,4 @@
-import { SetStateAction, useCallback, useContext, useEffect, useState } from "react";
 import Image from "next/image";
-import { StoreContext } from "./Store";
 import { CredentialType, IDKitWidget, ISuccessResult } from "@worldcoin/idkit";
 import { useAccount, useContractWrite, usePrepareContractWrite } from "wagmi";
 import { gameLogic } from "~~/abi/GameLogic";
@@ -112,11 +110,11 @@ const PersonhoodVerifications = () => {
           </button>
         )}
       </IDKitWidget>
-      {/* Sigmo */}
+      {/* Sismo */}
       <button className="hover:bg-slate-700" onClick={() => console.log("clicked")}>
         <div className="flex flex-row justify-center space-x-2 items-center">
           <Image src={"/assets/sismo_icon.png"} alt="Badge" className="" width={30} height={30} priority />
-          <p className="font-semibold">Sigmo</p>
+          <p className="font-semibold">Sismo</p>
         </div>
       </button>
     </div>

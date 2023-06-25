@@ -1,11 +1,11 @@
 const contracts = {
-  31337: [
+  80001: [
     {
-      chainId: "31337",
-      name: "localhost",
+      chainId: "80001",
+      name: "polygonMumbai",
       contracts: {
         CommunityToken: {
-          address: "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+          address: "0x19A0F93081f0b351F0B82e7BE53f3f5D60328b15",
           abi: [
             {
               inputs: [],
@@ -507,7 +507,7 @@ const contracts = {
           ],
         },
         GameLogic: {
-          address: "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
+          address: "0x05C98985118AA4B28ad2852cbA1dab283e445446",
           abi: [
             {
               inputs: [
@@ -1101,7 +1101,7 @@ const contracts = {
           ],
         },
         PostToken: {
-          address: "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+          address: "0x3748c765F1E526AE104478e01C4B980516a90a5b",
           abi: [
             {
               inputs: [],
@@ -1524,7 +1524,7 @@ const contracts = {
           ],
         },
         VoteToken: {
-          address: "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+          address: "0x19523AdC1581cBB5B81b3b589342fC5eC8D35d46",
           abi: [
             {
               inputs: [
@@ -1899,7 +1899,7 @@ const contracts = {
           ],
         },
         YourContract: {
-          address: "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+          address: "0x99BD827eD6cb2e74282FF53022f39cb253275321",
           abi: [
             {
               inputs: [

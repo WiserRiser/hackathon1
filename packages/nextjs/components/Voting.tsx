@@ -1,7 +1,9 @@
 import { ReactNode, useContext, useState } from "react";
 import { StoreContext } from "./Store";
 import { AiOutlineArrowDown, AiOutlineArrowUp } from "react-icons/ai";
-
+import { useScaffoldContract } from "~~/hooks/scaffold-eth";
+import { useAccount, useSigner } from "wagmi";
+import { Signer, ethers } from "ethers";
 interface IVoting {
   alignment?: "row" | "col";
   children: ReactNode;
@@ -13,8 +15,10 @@ interface IVoting {
 //   { component: <AiOutlineArrowDown />, handleFunction: "handleDownvote", value: "value" },
 // ];
 
+
 const Voting: React.FC<IVoting> = ({ alignment = "col", children }) => {
   const { store } = useContext(StoreContext);
+  const {address} = useAccount()
   const STANDARD_BET = 5;
 
   const [upvoteBets, setUpvoteBets] = useState(0);
@@ -25,26 +29,47 @@ const Voting: React.FC<IVoting> = ({ alignment = "col", children }) => {
   const [downvoteProgress, setDownvoteProgress] = useState(STANDARD_BET);
   const [isUpHovered, setIsUpHovered] = useState(false);
   const [isDownHovered, setIsDownHovered] = useState(false);
+  const { data: signer, /*isError,*/ isLoading } = useSigner();
 
-  const handleUpvote = () => {
+  const { data: gameLogicContract} = useScaffoldContract({
+    contractName: "GameLogic",
+    signerOrProvider: signer as Signer,
+  });
+  
+
+  const handleUpvote = async () => {
     upvoteProgress == 0 ? setUpvotesClicked(false) : setUpvotesClicked(true);
 
     if (downvoteBets + upvoteProgress <= 10) {
       setUpvoteBets(upvoteProgress);
+          //TODO: add upvote endpoint call here
+      if(gameLogicContract === null) {
+        throw new Error('gameLogicContract is unexpectedly null.');
+      }
+      const upVote = await gameLogicContract.vote(
+        address,
+        upvoteProgress
+      );
+      console.log('upVote:',upVote)
     }
 
-    //TODO: add upvote endpoint call here
   };
 
-  const handleDownvote = () => {
+  const handleDownvote = async () => {
     downvoteProgress == 0 ? setDownvotesClicked(false) : setDownvotesClicked(true);
 
     if (upvoteBets + downvoteProgress <= 10) {
       setDownvoteBets(downvoteProgress);
     }
-
-    //TODO: add downvote endpoint call here
-  };
+    if(gameLogicContract === null) {
+      throw new Error('gameLogicContract is unexpectedly null.');
+    }
+    const downVote = await gameLogicContract.vote(
+      address,
+      downvoteProgress
+    );
+    console.log('downVote:',downVote)
+  }
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = parseInt(event.target.value);

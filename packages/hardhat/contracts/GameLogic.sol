@@ -48,15 +48,15 @@ contract GameLogic is AccessControl, ZKPVerifier {
     mapping(address => uint256) public addressToId;
 
     constructor(address _CommunityToken, address _VoteToken, address _PostToken) {
-        _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
+        _setupRole(DEFAULT_ADMIN_ROLE, _msgSender());
         communityTokenAddress = _CommunityToken;
         postTokenAddress = _PostToken;
         voteTokenAddress = _VoteToken;
     }
 
-    modifier verificationRequired() internal view {
+    modifier verificationRequired() {
         require(
-            proofs[msg.sender][TRANSFER_REQUEST_ID] == true && hasVerifiedPersonhood(user),
+            proofs[msg.sender][TRANSFER_REQUEST_ID] == true && hasVerifiedPersonhood(_msgSender()),
             "only identities who provided proof are allowed to take this action"
         );
         _;
@@ -155,12 +155,12 @@ contract GameLogic is AccessControl, ZKPVerifier {
         emit ReceivedInitialAirdrop(user);
     }
 
-
+    //Based on https://0xpolygonid.github.io/tutorials/verifier/on-chain-verification/overview/#user-demo-claim-the-airdrop
     function _beforePolygonProofSubmit(
         uint64, /* requestId */
         uint256[] memory inputs,
         ICircuitValidator validator
-    ) internal view override {
+    ) internal view {
         // check that the challenge input of the proof is equal to the msg.sender
         address addr = GenesisUtils.int256ToAddress(
             inputs[validator.getChallengeInputIndex()]
@@ -175,7 +175,7 @@ contract GameLogic is AccessControl, ZKPVerifier {
         uint64 requestId,
         uint256[] memory inputs,
         ICircuitValidator validator
-    ) internal override {
+    ) internal {
         require(
             requestId == TRANSFER_REQUEST_ID && addressToId[_msgSender()] == 0,
             "proof can not be submitted more than once"
@@ -184,7 +184,6 @@ contract GameLogic is AccessControl, ZKPVerifier {
         uint256 id = inputs[validator.getChallengeInputIndex()];
         // execute the airdrop
         if (idToAddress[id] == address(0)) {
-            super._mint(_msgSender(), TOKEN_AMOUNT_FOR_AIRDROP_PER_ID);
             addressToId[_msgSender()] = id;
             idToAddress[id] = _msgSender();
         }

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { User } from "../components/icons/user";
 import contracts from "../generated/deployedContracts";
 import { storeInIPFS } from "./ipfsUtil";
 import * as dotenv from "dotenv";
@@ -73,9 +74,6 @@ const Home: NextPage = () => {
         value: ethers.utils.parseUnits(deposit, "ether"),
       },
     );
-    //TODO: Expand to use other parameters, create the multisig that owns the community ERC721,
-    //mint the ERC721 and transfer it to the community,
-    //ideally in one atomic transaction in our master contract.
     console.log("CommunityCreation:", communityCreation);
   };
 
@@ -149,8 +147,9 @@ const Home: NextPage = () => {
                 onChange={e => setNewCommunityName(e.target.value)}
               />
             </div>
-            <p>
-              Mod team member 1:{" "}
+            <p className="flex items-center gap-2">
+              <User />
+              Mod member 1:
               <input
                 className="rounded-md h-10 w-[450px] bg-slate-950 px-2 outline-0"
                 type="text"
@@ -160,8 +159,9 @@ const Home: NextPage = () => {
                 onChange={e => setMod1(e.target.value)}
               />
             </p>
-            <p>
-              Mod team member 2:{" "}
+            <p className="flex items-center gap-2">
+              <User />
+              Mod member 2:
               <input
                 className="rounded-md h-10 w-[450px] bg-slate-950 px-2 outline-0"
                 type="text"
@@ -171,8 +171,9 @@ const Home: NextPage = () => {
                 onChange={e => setMod2(e.target.value)}
               />
             </p>
-            <p>
-              Mod team member 3:{" "}
+            <p className="flex items-center gap-2">
+              <User />
+              Mod member 3:
               <input
                 className="rounded-md h-10 w-[450px] bg-slate-950 px-2 outline-0"
                 type="text"
@@ -182,8 +183,9 @@ const Home: NextPage = () => {
                 onChange={e => setMod3(e.target.value)}
               />
             </p>
-            <p>
-              Mod team member 4:{" "}
+            <p className="flex items-center gap-2">
+              <User />
+              Mod member 4:
               <input
                 className="rounded-md h-10 w-[450px] bg-slate-950 px-2 outline-0"
                 type="text"
@@ -193,8 +195,9 @@ const Home: NextPage = () => {
                 onChange={e => setMod4(e.target.value)}
               />
             </p>
-            <p>
-              Mod team member 5:{" "}
+            <p className="flex items-center gap-2">
+              <User />
+              Mod member 5:
               <input
                 className="rounded-md h-10 w-[450px] bg-slate-950 px-2 outline-0"
                 type="text"
@@ -206,6 +209,7 @@ const Home: NextPage = () => {
             </p>
             <p>
               Community rules (markdown likely to be supported):
+              <br />
               <br />
               <textarea
                 className="rounded-md w-[450px] bg-slate-950 px-2 outline-0"
@@ -236,7 +240,7 @@ const Home: NextPage = () => {
               />
               {" voting to holders of tokens in this contract:  "}
               <input
-                style={{ width: "30em" }}
+                style={{ width: "30em", marginTop: "10px" }}
                 type="text"
                 id="gateAddress"
                 name="gateAddress"
@@ -304,7 +308,7 @@ const Home: NextPage = () => {
               />
             </p>
             <button
-              className={`btn btn-primary rounded-full capitalize font-normal font-white w-30 flex items-center gap-1 hover:gap-2 transition-all tracking-widest ${
+              className={`btn btn-primary bg-black rounded-full capitalize font-normal font-white w-30 flex items-center gap-1 hover:gap-2 transition-all tracking-widest ${
                 isLoading ? "loading" : ""
               }`}
               onClick={submitForm}

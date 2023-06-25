@@ -5,6 +5,7 @@ import "./Users.sol";
 import "./CommunityToken.sol";
 import "./VoteToken.sol";
 import "./PostToken.sol";
+import '@unlock-protocol/contracts/dist/PublicLock/IPublicLockV12.sol';
 
 contract GameLogic is Ownable {
     address public communityTokenAddress;
@@ -120,6 +121,10 @@ contract GameLogic is Ownable {
         // TODO capture nft address here
         //postAddress[msg.sender] =
         //PostToken.safeMint(address(this), uri);
+        address lock = CommunityToken(communityTokenAddress).postingRestrictedTo(parentId);
+        if(lock != 0x0000000000000000000000000000000000000000) {
+            require(IPublicLockV12(lock).balanceOf(msg.sender) > 0, 'Posting in this community is restricted.');
+        }
         PostToken(postTokenAddress).makeNew(
             isTopLevel,
             parentId,
@@ -132,6 +137,11 @@ contract GameLogic is Ownable {
     }
 
     function vote(uint postId, int8 votes) public verificationRequired {
+        uint communityId = PostToken(postTokenAddress).getCommunityIdForPost(postId);
+        address lock = CommunityToken(communityTokenAddress).votingRestrictedTo(communityId);
+        if(lock != 0x0000000000000000000000000000000000000000) {
+            require(IPublicLockV12(lock).balanceOf(msg.sender) > 0, 'Voting in this community is restricted.');
+        }
         int8 currentUpVoteCount = upVoteMap[postId][msg.sender];
         int8 currentDownVoteCount = downVoteMap[postId][msg.sender];
         int8 netCurrentVotes = currentUpVoteCount - currentDownVoteCount;

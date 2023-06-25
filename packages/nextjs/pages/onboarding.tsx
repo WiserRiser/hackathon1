@@ -1,12 +1,57 @@
 import { useState } from "react";
 import Image from "next/image";
+import { useAccount, useContractWrite, usePrepareContractWrite } from "wagmi";
+import { gameLogic } from "~~/abi/GameLogic";
 import PersonhoodVerifications from "~~/components/PersonhoodVerifications";
 
 const Onboarding = () => {
   const [agreedToXMTP, setAgreedToXMTP] = useState(false);
+  const [agreedToDonation, setAgreedToDonation] = useState(false);
+  const [votingWeight, setVotingWeight] = useState(5);
+
+  const handleVotingChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = parseInt(event.target.value);
+
+    if (isNaN(newValue)) {
+      if (newValue >= 0 && newValue <= 10) {
+        setVotingWeight(newValue);
+      }
+    }
+  };
 
   const handleAgreeToXMTP = () => {
     setAgreedToXMTP(!agreedToXMTP);
+  };
+
+  const handleAgreeToDonation = () => {
+    setAgreedToDonation(!agreedToDonation);
+  };
+
+  // Interact with game logic contracts
+
+  const { address } = useAccount();
+
+  const { configWeights, weightError } = usePrepareContractWrite({
+    address: "0x05C98985118AA4B28ad2852cbA1dab283e445446",
+    abi: gameLogic,
+    functionName: "setUserDefaultVoteWeight",
+    args: [address, votingWeight],
+  });
+
+  const { configDonations, donationError } = usePrepareContractWrite({
+    address: "0x05C98985118AA4B28ad2852cbA1dab283e445446",
+    abi: gameLogic,
+    functionName: "setUserDefaultDonate",
+    args: [address, agreedToDonation],
+  });
+
+  const { writeWeights } = useContractWrite(configWeights);
+  const { writeDonations } = useContractWrite(configDonations);
+
+  const handleSubmission = () => {
+    console.log(address);
+    writeWeights?.();
+    writeDonations?.();
   };
 
   return (
@@ -62,20 +107,51 @@ const Onboarding = () => {
             </div>
           </button>
         </div>
-        <h2 className="w-full text-center font-semibold text-2xl mt-8">Voting Settings</h2>
-        <p>Default vote weight:</p>
-        <input type="text" />
-        <div className="flex items-center mt-4">
-          <input
-            type="checkbox"
-            id="agreeToXMTP"
-            checked={agreedToXMTP}
-            onChange={handleAgreeToXMTP}
-            className="mr-2"
-          />
-          <label htmlFor="agreeToXMTP" className="text-sm">
-            I agree to receive messages on XMTP
-          </label>
+        <h2 className="text-lg mt-8">Additional perferences.</h2>
+        <div className="flex flex-row items-end w-full justify-between">
+          <div className="flex flex-col">
+            <div className="flex flow-row items-center">
+              <p className="text-md opacity-60 mr-4">Default vote weight:</p>
+              <input
+                className="h-8 relative flex flex-col bg-slate-700/25 ring-1 ring-slate-700/50 sm:mx-0 rounded-lg w-8 justify-center items-center text-center"
+                type="text"
+                placeholder="5"
+                onChange={handleVotingChange}
+              />
+            </div>
+            <div className="flex items-center mb-0">
+              <input
+                type="checkbox"
+                id="agreeToDonations"
+                checked={agreedToDonation}
+                onChange={handleAgreeToDonation}
+                className="mr-2"
+              />
+              <label htmlFor="agreeToDonations" className="text-sm">
+                <p className="opacity-60">Donate my winnings by default</p>
+              </label>
+            </div>
+            <div className="flex items-center mt-0">
+              <input
+                type="checkbox"
+                id="agreeToXMTP"
+                checked={agreedToXMTP}
+                onChange={handleAgreeToXMTP}
+                className="mr-2"
+              />
+              <label htmlFor="agreeToXMTP" className="text-sm">
+                <p className="opacity-60">I agree to receive messages on XMTP</p>
+              </label>
+            </div>
+          </div>
+          <div className="h-full flex justify-start">
+            <button
+              className="bg-indigo-500 hover:bg-indigo-400 text-white font-bold py-2 px-4 border-b-4 border-indigo-700 hover:border-indigo-500 rounded"
+              onClick={handleSubmission}
+            >
+              Submit!
+            </button>
+          </div>
         </div>
       </div>
     </div>

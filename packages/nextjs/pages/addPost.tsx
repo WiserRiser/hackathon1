@@ -6,13 +6,13 @@ import type { NextPage } from "next";
 import { ArrowSmallRightIcon } from "@heroicons/react/24/outline";
 import { MetaHeader } from "~~/components/MetaHeader";
 import { useScaffoldContract } from "~~/hooks/scaffold-eth";
-import { Signer } from "ethers";
+import { Signer, ethers } from "ethers";
 import { useSigner } from "wagmi";
 import { storeInIPFS } from "./ipfsUtil";
 
 type POST_TYPE = 'uri' | 'ipfs' | 'text';
 const Home: NextPage = () => {
-  const [communityName, setCommunityName] = useState("");
+  const [communityId, setCommunityId] = useState("");
   const [postTitle, setPostTitle] = useState("");
   const [postType, setPostType] = useState<POST_TYPE>("ipfs");
   const [postURI, setPostURI] = useState("");
@@ -21,30 +21,39 @@ const Home: NextPage = () => {
   const [postedValue, setPostedValue] = useState("0");
   const { data: signer, /*isError,*/ isLoading } = useSigner();
   const { data: gameLogicContract} = useScaffoldContract({
-    contractName: "YourContract",
+    contractName: "GameLogic",
     signerOrProvider: signer as Signer,
   });
+
+  const getContentURI = async function() {
+    if (postType === "text") {
+      const postCid = await storeInIPFS(postText);
+      console.log("post CID: " + postCid);
+      return 'ipfs://' + postCid;
+    } else if(postType === "ipfs") {
+      return 'ipfs://' + postIPFS;
+    } else if(postType === "uri") {
+      return postURI;
+    }
+  };
 
   const submitForm = async function () {
     //TODO: Expand to use other parameters, have the game logic contract mint the ERC721 for the post,
     //and have it transfer that to the parent post or community.
     //Also transfer any associated value to the parent post or community- maybe only with value tokens?
-    let localType = postType;
-    if(localType === 'text') {
-      //TODO: Post to ipfs & get IPFS identifier
-    //const ipfs = ipfsClient({ host: 'ipfs.infura.io', port: '5001', protocol: 'https' });
-
-    console.log("infura key:", process.env.INFURA_ID);
-    if (localType === 'text') {
-      const postCid = await storeInIPFS(postText);
-      console.log('post CID: ' + postCid);
-      localType = 'ipfs';
-    }
-    }
+    const contentURI = getContentURI();
     if(gameLogicContract === null) {
       throw new Error('gameLogicContract is unexpectedly null.');
     }
-    gameLogicContract.setGreeting(postURI, { value: postedValue });
+    const isTopLevel = true; //const for now
+    const postCreation = await gameLogicContract.createPost(
+      isTopLevel,
+      communityId,
+      postTitle,
+      contentURI,
+      { value: ethers.utils.parseUnits(postedValue, "ether")}
+    );
+    console.log('postCreation:',postCreation)
   };
 
   return (
@@ -67,15 +76,16 @@ const Home: NextPage = () => {
         </div>
         <div className="flex-grow bg-base-300 w-full mt-16 px-8 py-12">
           <p>
-            Community name:{" "}
+            Community Id:{" "}
             <input
               style={{ color: "black" }}
-              type="text"
-              id="communityName"
-              name="communityName"
-              value={communityName}
-              onChange={e => setCommunityName(e.target.value)}
-            />
+              type="number"
+              id="communityId"
+              name="communityId"
+              min={1}
+              value={communityId}
+              onChange={e => setCommunityId(e.target.value)}
+            />{" (In the future, this will be more selected by browsing or provided by API.)"}
           </p>
           <p>
             Post title:{" "}

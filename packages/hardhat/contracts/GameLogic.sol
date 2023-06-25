@@ -8,12 +8,20 @@ import "./PostToken.sol";
 
 contract GameLogic is AccessControl {
     struct User {
-        uint256 verifications;
         uint8 defaultVoteWeight;
         bool donateWinningsByDefault;
+        bool hasVerifiedOrb;
+        bool hasVerifiedPhone;
+        bool hasVerifiedSismo;
+        bool hasVerifiedPolygon13;
+        bool hasVerifiedPolygon18;
     }
 
-    event VerificationCompleted(address user, uint8 bit);
+    event VerificationCompletedOrb(address user);
+    event VerificationCompletedPhone(address user);
+    event VerificationCompletedSismo(address user);
+    event VerificationCompletedPolygon13(address user);
+    event VerificationCompletedPolygon18(address user);
     event DefaultVoteWeightChanged(address user, uint8 defaultVoteWeight);
     event DonationDefaultSet(address user, bool donatesByDefaultNow);
 
@@ -27,17 +35,6 @@ contract GameLogic is AccessControl {
     mapping (address => mapping (address => int8)) public downVoteMap;
     // user address => nft address
     mapping (address => address) public postAddress;
-    // user address => 8 bits about verification:
-    //0: orb w/Worldcoin
-    //1: phone number w/Worldcoin
-    //2: Sismo
-    //3, 4, 5: currently unused
-    //6: Polygon ID > 13
-    //7: Polygon ID > 18
-    //Ideally would use a smaller data type,
-    //but the bitshifting operation produces uint256 in the Solidity compiler
-    //so using uint256 at least for now to satisify typechecking,
-    //which also gives plenty of room for expansion around how much verification info we store.
     mapping (address => User) public users;
 
     constructor(address _CommunityToken, address _VoteToken, address _PostToken) {
@@ -83,7 +80,8 @@ contract GameLogic is AccessControl {
     ) public {
         //requrire(tx comes from user)
         //require(Worldcoin claims personhood via orb)
-        _setUserVerification(user, 0);
+        users[user].hasVerifiedOrb = true;
+        emit VerificationCompletedOrb(user);
     }
     //Could combine immediately preceding & following functions
     //if Worldcoin gives one verification function that returns an
@@ -93,7 +91,8 @@ contract GameLogic is AccessControl {
     ) public {
         //requrire(tx comes from user)
         //require(Worldcoin claims personhood via phone)
-        _setUserVerification(user, 1);
+        users[user].hasVerifiedPhone = true;
+        emit VerificationCompletedPhone(user);
     }
 
     function verifyUserSismo(
@@ -101,7 +100,8 @@ contract GameLogic is AccessControl {
     ) public {
         //requrire(tx comes from user)
         //require(Sismo claims personhood)
-        _setUserVerification(user, 2);
+        users[user].hasVerifiedSismo = true;
+        emit VerificationCompletedSismo(user);
     }
 
     function verifyUserPolygon(
@@ -113,18 +113,12 @@ contract GameLogic is AccessControl {
         //TODO: Call Polygon ID on-chain verification for the specified minimum age.
         //Revert/don't reach the below code if that fails.
         if(minAge >= 18) {
-            _setUserVerification(user, 7);
+            users[user].hasVerifiedPolygon18 = true;
+            emit VerificationCompletedPolygon18(user);
         } else if (minAge >= 13) {
-            _setUserVerification(user, 6);
+            users[user].hasVerifiedPolygon13 = true;
+            emit VerificationCompletedPolygon13(user);
         }
-    }
-
-    function _setUserVerification(
-        address user,
-        uint8 bit
-    ) private {
-        emit VerificationCompleted(user, bit);
-        users[user].verifications |= (1 << bit);
     }
 
     function setUserDefaultVoteWeight(

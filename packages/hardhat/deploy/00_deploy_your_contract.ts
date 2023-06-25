@@ -126,6 +126,7 @@ async function setRequest(
   // const validatorAddress = "0x3DcAe4c8d94359D31e4C89D7F2b944859408C618"; // mtp validator
 
   try {
+    console.log("Setting request for age verification");
     await erc20Verifier.setZKPRequest(
         requestId,
         validatorAddress,

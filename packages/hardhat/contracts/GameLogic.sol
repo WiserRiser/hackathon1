@@ -7,6 +7,11 @@ import "./VoteToken.sol";
 import "./PostToken.sol";
 import '@unlock-protocol/contracts/dist/PublicLock/IPublicLockV12.sol';
 
+//Ref for lock: https://docs.unlock-protocol.com/tutorials/smart-contracts/using-unlock-in-other-contracts
+//Using bare IPublicLock as documented/demoed doesn't compile; version # required.
+//Casting close to use time allows much more flexibility with the protocol, and
+//better compatibility with Solidity's limits around passing simple types around.
+
 contract GameLogic is Ownable {
     address public communityTokenAddress;
     address public postTokenAddress;

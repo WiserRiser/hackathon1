@@ -66,6 +66,7 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
     // automatically mining the contract deployment transaction. There is no effect on live networks.
     autoMine: true,
   });
+  console.log('Deployed tokens. About to deploy Users.');
   const deployedUsers = await deploy("Users", {
     from: deployer,
     // Contract constructor arguments
@@ -75,6 +76,7 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
     // automatically mining the contract deployment transaction. There is no effect on live networks.
     autoMine: true,
   });
+  console.log('Deployed Users. About to deploy GameLogic.');
   const deployedGameLogic = await deploy("GameLogic", {
     from: deployer,
     // Contract constructor arguments
@@ -84,6 +86,7 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
     // automatically mining the contract deployment transaction. There is no effect on live networks.
     autoMine: true,
   });
+  console.log('Deployed GameLogic.');
   const communityToken = await hre.ethers.getContractAt(
     deployedCommunityToken.abi,
     deployedCommunityToken.address,
@@ -94,6 +97,7 @@ const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEn
   await voteToken.transferOwnership(deployedGameLogic.address);
   const postToken = await hre.ethers.getContractAt(deployedPostToken.abi, deployedPostToken.address, deployer);
   await postToken.transferOwnership(deployedGameLogic.address);
+  console.log('Transferred ownership of token contracts.');
   // Get the deployed contract
   // const yourContract = await hre.ethers.getContract("YourContract", deployer);
   await setRequest(hre, deployedGameLogic.address);

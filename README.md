@@ -27,6 +27,7 @@ Before you begin, you need to install the following tools:
 - [Git](https://git-scm.com/downloads)
 
 `cd` to the directory containing this file, then run `yarn install`.
+If this fails with `Type Error: Cannot read properties of null (reading 'resolution')`, delete the *contents of* yarn.lock and try again.
 
 Then open three terminal windows in this directory.
 

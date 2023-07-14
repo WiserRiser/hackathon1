@@ -26,7 +26,7 @@ Before you begin, you need to install the following tools:
 - Yarn ([v1](https://classic.yarnpkg.com/en/docs/install/) or [v2+](https://yarnpkg.com/getting-started/install))
 - [Git](https://git-scm.com/downloads)
 
-In this directory, then run `yarn install`.
+`cd` to the directory containing this file, then run `yarn install`.
 
 Then open three terminal windows in this directory.
 
